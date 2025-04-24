@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --font-montserrat: var(--font-montserrat);
+  --font-roboto: var(--font-roboto);
+  --color-eerie-black: #161616;
+  --color-scarlet-red: #f52828;
+  --color-light-gray: #fafafa;
+  --color-medium-light-gray: #b1b1b1;
+}
