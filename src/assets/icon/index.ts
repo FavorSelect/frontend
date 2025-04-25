@@ -12,3 +12,5 @@ export { default as Tag } from "@/assets/icon/Tag";
 export { default as Gift } from "@/assets/icon/Gift";
 export { default as LeftArrow } from "@/assets/icon/LeftArrow";
 export { default as RightArrow } from "@/assets/icon/RightArrow";
+export { default as Heart } from "@/assets/icon/Heart";
+export { default as Fire } from "@/assets/icon/Fire";

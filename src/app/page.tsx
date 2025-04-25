@@ -1,11 +1,11 @@
-import HeaderWrapper from "@/components/organisms/header/HeaderWrapper";
-import HeroWrapper from "@/components/organisms/hero/HeroWrapper";
+import CosyEveningsProductGrid from "@/components/organisms/home/CosyEveningsProductGrid";
+import HeroWrapper from "@/components/organisms/home/HeroWrapper";
 
 export default function Home() {
   return (
-    <>
-      <HeaderWrapper />
+    <div className="space-y-4">
       <HeroWrapper />
-    </>
+      <CosyEveningsProductGrid />
+    </div>
   );
 }
