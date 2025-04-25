@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Roboto } from "next/font/google";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 import "./globals.css";
+import HeaderWrapper from "@/components/organisms/header/HeaderWrapper";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -30,7 +31,10 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray`}
       >
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <HeaderWrapper />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -9,7 +9,7 @@ const MainHeader = () => {
       {/* Logo */}
       <Logo />
       {/* Search Bar */}
-      <MainHeaderSearchBar className="" />
+      <MainHeaderSearchBar />
       {/* Main Nav */}
       <MainHeaderNavbar className="justify-center" />
     </div>

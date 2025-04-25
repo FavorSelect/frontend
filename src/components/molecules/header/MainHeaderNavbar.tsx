@@ -18,23 +18,23 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
       )}
       style={style}
     >
-      <Link href="/notifications" className="flex flex-col items-center group">
-        <Notification className="w-6 h-6 group-hover:scale-110 transition-transform" />
+      <Link href="/notifications" className="flex flex-col items-center">
+        <Notification className="w-6 h-6" />
         <Span className="mt-1">Notifications</Span>
       </Link>
 
       <Link href="/profile" className="flex flex-col items-center group">
-        <Profile className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <Profile className="w-6 h-6" />
         <Span className="mt-1">Profile</Span>
       </Link>
 
       <Link href="/orders" className="flex flex-col items-center group">
-        <Order className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <Order className="w-6 h-6" />
         <Span className="mt-1">My Orders</Span>
       </Link>
 
       <Link href="/cart" className="flex flex-col items-center group">
-        <div className="relative group-hover:scale-110 transition-transform">
+        <div className="relative">
           <Span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 flex justify-center items-center rounded-full leading-none">
             20
           </Span>

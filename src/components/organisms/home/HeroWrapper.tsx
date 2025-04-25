@@ -1,7 +1,7 @@
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
-import HeroCarousel from "@/components/molecules/hero/HeroCarousel";
+import HeroCarousel from "@/components/molecules/home/HeroCarousel";
 import React from "react";
 
 const HeroWrapper = () => {
