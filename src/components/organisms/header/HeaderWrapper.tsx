@@ -7,7 +7,7 @@ import CategoryList from "@/components/molecules/header/CategoryList";
 
 const HeaderWrapper = () => {
   return (
-    <header className="py-2 space-y-2">
+    <header className="space-y-2">
       <MaxWidthWrapper>
         <ContainerBox className="space-y-3 py-1.5">
           {/* Top Header*/}

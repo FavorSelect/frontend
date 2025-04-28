@@ -12,14 +12,23 @@ import {
   REGISTER,
 } from "redux-persist";
 
+import signupReducer from "@/store/slices/signupSlice";
+import loginReducer from "@/store/slices/loginSlice";
+import resetPasswordReducer from "@/store/slices/resetPasswordSlice";
+import setPasswordReducer from "@/store/slices/setPasswordSlice";
+
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: ["signup", "login", "resetPassword"],
 };
 
 const rootReducer = {
   [apiSlice.reducerPath]: apiSlice.reducer,
+  signup: signupReducer,
+  login: loginReducer,
+  resetPassword: resetPasswordReducer,
+  setPassword: setPasswordReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);
