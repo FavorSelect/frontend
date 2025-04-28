@@ -1,8 +1,7 @@
 "use client";
 import React, { useCallback, useRef, useState, useEffect } from "react";
-import { Globe } from "@/assets/icon";
 import Span from "@/components/atoms/Span";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Globe } from "lucide-react";
 import useClickOutside from "@/hooks/useClickOutside";
 import { cn } from "@/utils/cn";
 import { Button } from "@/components/atoms/Button";
@@ -80,7 +79,7 @@ const LanguageSelector = () => {
       className="relative inline-flex items-center gap-x-0.5"
       ref={dropdownRef}
     >
-      <Globe className="w-4 h-4 text-gray-600" />
+      <Globe />
       <Button
         ref={buttonRef}
         id="language-selector-button"

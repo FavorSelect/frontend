@@ -1,11 +1,11 @@
 import React from "react";
-import { Category, Tag, Gift } from "@/assets/icon";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
+import { GiftIcon, Tag } from "lucide-react";
 
 const featuredLinks = [
   {
-    icon: <Category />,
+    icon: <Tag />,
     label: "Categories",
     bold: true,
   },
@@ -15,7 +15,7 @@ const featuredLinks = [
     color: "text-red-600",
   },
   {
-    icon: <Gift className="w-5 h-5 text-red-600" />,
+    icon: <GiftIcon className="w-5 h-5 text-red-600" />,
     label: "Free gifts with purchase",
     color: "text-red-600",
   },

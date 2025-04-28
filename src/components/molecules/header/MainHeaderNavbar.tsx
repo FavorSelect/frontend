@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import Link from "next/link";
-import { Notification, Profile, Order, Cart } from "@/assets/icon";
 import Span from "@/components/atoms/Span";
 import { cn } from "@/utils/cn";
+import { Bell, ShoppingBag, ShoppingCart, User } from "lucide-react";
 
 interface MainHeaderNavbarProps {
   className?: string;
@@ -19,17 +19,17 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
       style={style}
     >
       <Link href="/notifications" className="flex flex-col items-center">
-        <Notification className="w-6 h-6" />
+        <Bell className="w-6 h-6" />
         <Span className="mt-1">Notifications</Span>
       </Link>
 
       <Link href="/profile" className="flex flex-col items-center group">
-        <Profile className="w-6 h-6" />
+        <User className="w-6 h-6" />
         <Span className="mt-1">Profile</Span>
       </Link>
 
       <Link href="/orders" className="flex flex-col items-center group">
-        <Order className="w-6 h-6" />
+        <ShoppingBag className="w-6 h-6" />
         <Span className="mt-1">My Orders</Span>
       </Link>
 
@@ -38,7 +38,7 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
           <Span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 flex justify-center items-center rounded-full leading-none">
             20
           </Span>
-          <Cart className="w-6 h-6" />
+          <ShoppingCart className="w-6 h-6" />
         </div>
         <Span className="mt-1">Shopping Cart</Span>
       </Link>

@@ -3,6 +3,8 @@ import { Montserrat, Roboto } from "next/font/google";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 import "./globals.css";
 import HeaderWrapper from "@/components/organisms/header/HeaderWrapper";
+import FooterWrapper from "@/components/organisms/footer/FooterWrapper";
+import { Toaster } from "react-hot-toast";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -29,11 +31,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray`}
+        className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray overflow-x-hidden`}
       >
         <ReduxProvider>
           <HeaderWrapper />
           {children}
+          <Toaster position="bottom-center" reverseOrder={false} />
+          <FooterWrapper />
         </ReduxProvider>
       </body>
     </html>
