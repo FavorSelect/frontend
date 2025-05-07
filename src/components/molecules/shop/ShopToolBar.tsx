@@ -9,7 +9,7 @@ import { setProductViewMode } from "@/store/slices/product-view/productViewSlice
 import { Grid2x2, List } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
 
-const ShopToolbar = () => {
+const ShopToolBar = () => {
   const [sortBy, setSortBy] = useState("latest");
   const [itemsPerPage, setItemsPerPage] = useState("16");
 
@@ -78,4 +78,4 @@ const ShopToolbar = () => {
   );
 };
 
-export default ShopToolbar;
+export default ShopToolBar;

@@ -12,7 +12,7 @@ import ColorFilter from "@/components/molecules/shop/ColorFilter";
 import ProductCategoryFilter from "@/components/molecules/shop/ProductCategoryFilter";
 import ProductPriceRangeFilter from "@/components/molecules/shop/ProductPriceRangeFilter";
 import ProductStatusFilter from "@/components/molecules/shop/ProductStatusFilter";
-import ShopToolbar from "@/components/molecules/shop/ShopToolBar";
+import ShopToolBar from "@/components/molecules/shop/ShopToolBar";
 import { PAGINATED_PRODUCT_PER_PAGE } from "@/config/constants";
 import { useInfiniteProducts } from "@/hooks/useInfiniteProducts";
 import { RootState } from "@/store/store";
@@ -87,7 +87,7 @@ const ShopPageWrapper = ({ initialProducts }: ShopPageProductListProps) => {
               <ProductStatusFilter />
             </div>
             <div className="w-3/4 space-y-5">
-              <ShopToolbar />
+              <ShopToolBar />
               <div
                 className={
                   productViewMode === "grid"
