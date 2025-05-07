@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setResetPasswordData } from "@/store/slices/resetPasswordSlice"; // updated slice import
+import { setResetPasswordData } from "@/store/slices/auth/resetPasswordSlice"; // updated slice import
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";

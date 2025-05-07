@@ -1,0 +1,58 @@
+export const reviews = [
+  {
+    id: 1,
+    name: "Grand ****",
+    date: "17 March 2025",
+    rating: 5,
+    comment:
+      "I got a gift, my friend liked it so much I'm going to buy myself a quality product.",
+    images: ["/bag-1.jpg", "/bag-2.jpg", "/bag-4.jpg"],
+    likes: 3,
+  },
+  {
+    id: 2,
+    name: "Z**N**A**",
+    date: "19 February 2025",
+    rating: 5,
+    comment:
+      "Very stylish. Saw this bag in-store, but found it cheaper here. Carefully packed, nice note. Thank you!",
+    images: [],
+    likes: 7,
+  },
+  {
+    id: 3,
+    name: "S** A*",
+    date: "01 May 2025",
+    rating: 3,
+    comment: "Price Performance",
+    images: ["/bag-2.jpg", "/bag-4.jpg", "/bag-1.jpg"],
+    likes: 2,
+  },
+  {
+    id: 4,
+    name: "S** A*",
+    date: "01 May 2025",
+    rating: 2,
+    comment: "Price Performance",
+    images: ["/bag-2.jpg", "/bag-4.jpg"],
+    likes: 2,
+  },
+  {
+    id: 5,
+    name: "S** A*",
+    date: "01 May 2025",
+    rating: 3,
+    comment: "Price Performance",
+    images: [],
+    likes: 2,
+  },
+  {
+    id: 6,
+    name: "S** A*",
+    date: "01 May 2025",
+    rating: 5,
+    comment: "Price Performance",
+    images: ["/bag-4.jpg", "/bag-1.jpg"],
+    likes: 2,
+  },
+];

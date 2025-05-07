@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setLoginData } from "@/store/slices/loginSlice";
+import { setLoginData } from "@/store/slices/auth/loginSlice";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";
@@ -24,6 +24,7 @@ export default function LoginForm() {
       setLoginData({
         email: data.email,
         password: data.password,
+        isLoggedIn: true,
       })
     );
 

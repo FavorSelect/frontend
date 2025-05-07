@@ -4,3 +4,6 @@ export { default as Twitter } from "@/assets/icon/X";
 export { default as Youtube } from "@/assets/icon/Youtube";
 export { default as X } from "@/assets/icon/X";
 export { default as Google } from "@/assets/icon/Google";
+export { default as Mastercard } from "@/assets/icon/Mastercard";
+export { default as Visa } from "@/assets/icon/Visa";
+export { default as Paypal } from "@/assets/icon/Paypal";

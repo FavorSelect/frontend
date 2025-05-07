@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import Paragraph from "@/components/atoms/Paragraph";
 import { cn } from "@/utils/cn";
-import Subtitle from "@/components/atoms/SubTitle";
+import Subtitle from "@/components/atoms/Subtitles";
 
 interface BrandInfoProps {
   className?: string;

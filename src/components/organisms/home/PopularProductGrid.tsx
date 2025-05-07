@@ -5,74 +5,15 @@ import Heading from "@/components/atoms/Heading";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import ProductDisplayCard from "@/components/molecules/product/ProductDisplayCard";
-import productImage from "@/assets/images/yacht-dress-suit-pleasing-luxury.png";
-import productImage2 from "@/assets/images/yacht-dress-suit-pleasing-luxury-2.png";
-import productImage3 from "@/assets/images/yacht-dress-suit-pleasing-luxury-3.png";
 import trendingBanner from "@/assets/images/trending-banner.png";
 import Image from "next/image";
+import { Product } from "@/types/Product";
 
-const dummyProducts = [
-  {
-    imageSrc: productImage.src,
-    title: "Leather Mens Slipper",
-    price: 239.44,
-    originalPrice: 225.66,
-    discount: "10%",
-    rating: 4.5,
-    badges: ["Sale 11 days", "Best Seller"],
-    isWishlisted: true,
-  },
-  {
-    imageSrc: productImage2.src,
-    title: "Leather Mens Slipper",
-    price: 239.44,
-    originalPrice: 225.66,
+type TopProductListProps = {
+  products: Product[];
+};
 
-    rating: 4.5,
-    badges: ["Sale 11 days", "Best Seller"],
-    isWishlisted: false,
-  },
-  {
-    imageSrc: productImage.src,
-    title: "Leather Mens Slipper",
-    price: 239.44,
-    originalPrice: 225.66,
-    discount: "10%",
-    rating: 4.5,
-    badges: ["Sale 11 days", "Best Seller"],
-    isWishlisted: true,
-  },
-  {
-    imageSrc: productImage3.src,
-    title: "Leather Mens Slipper",
-    price: 239.44,
-    originalPrice: 225.66,
-    discount: "10%",
-    rating: 4.5,
-    badges: ["Sale 11 days", "Best Seller"],
-    isWishlisted: true,
-  },
-  {
-    imageSrc: productImage.src,
-    title: "Leather Mens Slipper",
-    price: 239.44,
-    originalPrice: 225.66,
-    rating: 4.5,
-    badges: ["Sale 11 days", "Best Seller"],
-    isWishlisted: true,
-  },
-  {
-    imageSrc: productImage.src,
-    title: "Leather Mens Slipper",
-    price: 239.44,
-    originalPrice: 225.66,
-    rating: 4.5,
-    badges: ["Sale 11 days", "Best Seller"],
-    isWishlisted: true,
-  },
-];
-
-const PopularProductGrid = () => {
+const PopularProductGrid = ({ products }: TopProductListProps) => {
   return (
     <Section>
       <MaxWidthWrapper>
@@ -92,12 +33,10 @@ const PopularProductGrid = () => {
                 className="w-full h-full object-cover rounded-2xl"
               />
             </div>
-            <div
-              className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6
-           "
-            >
-              {dummyProducts.map((product, index) => (
-                <ProductDisplayCard key={index} {...product} />
+
+            <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+              {products.map((product) => (
+                <ProductDisplayCard key={product.id} {...product} />
               ))}
             </div>
           </div>

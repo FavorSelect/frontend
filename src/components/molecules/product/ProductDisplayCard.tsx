@@ -1,89 +1,124 @@
 import { Button } from "@/components/atoms/Button";
 import Span from "@/components/atoms/Span";
-import { Flame, Heart, ShoppingCart, Star } from "lucide-react";
+import { Flame, Heart, ShoppingCart, Star, View } from "lucide-react";
 import Image from "next/image";
 import { FC } from "react";
+import { Product } from "@/types/Product";
+import Link from "next/link";
 
-interface ProductCardProps {
-  imageSrc: string;
-  title: string;
-  price: number;
-  originalPrice?: number;
-  discount?: string;
-  rating: number;
-  badges?: string[];
-  isWishlisted?: boolean;
+interface ProductDisplayCardProps extends Product {
+  viewMode?: "grid" | "list";
 }
 
-const ProductDisplayCard: FC<ProductCardProps> = ({
-  imageSrc,
+const ProductDisplayCard: FC<ProductDisplayCardProps> = ({
+  id,
   title,
   price,
-  originalPrice,
-  discount,
+  discountPercentage,
   rating,
-  badges = [],
+  stock,
+  thumbnail: imageSrc,
+  tags,
+  viewMode = "grid",
 }) => {
+  // Calculate the original price and discount
+  const originalPrice =
+    discountPercentage > 0 ? price / (1 - discountPercentage / 100) : undefined;
+  const discount =
+    discountPercentage > 0 ? `-${discountPercentage}%` : undefined;
+
+  // Only adjust the layout for the list view
+  const isListView = viewMode === "list";
+
   return (
-    <div className="space-y-2 font-montserrat">
-      <div className="flex justify-center items-center relative overflow-hidden rounded-lg">
+    <div
+      className={`${
+        isListView
+          ? "flex items-center gap-6 p-4 rounded-lg bg-white shadow-sm"
+          : "flex flex-col justify-between h-full space-y-2 font-montserrat"
+      }`}
+    >
+      {/* Image + Wishlist + Discount */}
+      <div
+        className={`relative overflow-hidden rounded-lg border border-[#fee1e1] bg-white ${
+          isListView
+            ? "w-36 h-36 flex-shrink-0"
+            : "h-48 flex justify-center items-center"
+        }`}
+      >
         {discount && (
-          <Span className="absolute top-2.5 left-2 bg-red-500 text-white text-base px-2.5 py-1 rounded">
-            -{discount}
+          <Span className="absolute top-2.5 left-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded">
+            {discount}
           </Span>
         )}
-        <Button className="absolute h-9 w-9 rounded-full top-2.5 right-2 bg-white">
-          <Heart />
+        <Button className="absolute h-8 w-8 p-1 rounded-full top-2.5 right-2 bg-white shadow">
+          <Heart className="w-4 h-4" />
         </Button>
         <Image
           src={imageSrc}
           alt={title}
           width={160}
           height={160}
-          className="w-full h-auto"
+          className="object-contain max-h-full"
         />
       </div>
-      <div className="flex items-center justify-between">
-        <div className="space-x-0.5">
-          <Span className="text-scarlet-red font-semibold text-xl">
-            ${price.toFixed(2)}
-          </Span>
-          {originalPrice && (
-            <Span className="line-through text-[#2E2C2C82] text-xs font-semibold">
-              ${originalPrice.toFixed(2)}
-            </Span>
-          )}
-        </div>
-        <div
-          className="flex gap-x-1
-         items-center text-[#2E2C2C] text-sm"
-        >
-          <Star className="w-4 h-4" />
-          <Span>{rating.toFixed(1)}/</Span>
-          <Span className="text-xs font-medium text-gray-400">1000</Span>
-        </div>
-      </div>
-      <div>
-        <h3 className="text-lg font-semibold text-[#2E2C2C]">{title}</h3>
-      </div>
-      <div className="flex flex-wrap gap-x-2.5">
-        {badges.map((badge, idx) => (
-          <div
-            key={idx}
-            className="flex gap-x-1 bg-[#FF7D7D36] items-center rounded-full px-2 py-0.5"
-          >
-            {badge === "Best Seller" && (
-              <Flame className="text-[#FE8800] w-4 h-4" />
-            )}
-            <Span className="text-sm text-gray-700">{badge}</Span>
-          </div>
-        ))}
-      </div>
 
-      <div className="space-y-1.5">
-        <Button className="w-full mt-4 py-1.5 flex justify-center items-center gap-x-2 bg-scarlet-red text-white rounded text-sm font-medium">
-          <ShoppingCart /> Add to Cart
-        </Button>
+      {/* Product Info */}
+      <div className={isListView ? "flex-1" : ""}>
+        {/* Title */}
+        <h3 className="text-base font-semibold text-[#2E2C2C] mb-1 line-clamp-2">
+          {title}
+        </h3>
+
+        {/* Price + Rating */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="space-x-1">
+            <Span className="text-scarlet-red font-semibold text-base">
+              ${price.toFixed(2)}
+            </Span>
+            {originalPrice && (
+              <Span className="line-through text-gray-400 text-xs font-medium">
+                ${originalPrice.toFixed(2)}
+              </Span>
+            )}
+          </div>
+          <div className="flex items-center gap-x-1 text-gray-700 text-sm">
+            <Star className="w-4 h-4 text-scarlet-red" />
+            <Span>{rating.toFixed(1)}</Span>
+            <Span className="text-xs text-gray-400">/ 1000</Span>
+          </div>
+        </div>
+
+        {/* Badges */}
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {tags.map((tag, idx) => (
+            <div
+              key={idx}
+              className="flex gap-x-1 items-center bg-[#FF7D7D36] rounded-full px-2 py-0.5"
+            >
+              {tag === "Best Seller" && (
+                <Flame className="text-[#FE8800] w-3.5 h-3.5" />
+              )}
+              <Span className="text-xs text-gray-700">{tag}</Span>
+            </div>
+          ))}
+          <Span className="text-xs text-gray-500">Stock: {stock}</Span>
+        </div>
+
+        <div className="space-y-2">
+          {/* Add to Cart Button */}
+          <Button className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-scarlet-red text-white text-sm font-medium rounded">
+            <ShoppingCart className="w-4 h-4" />
+            Add to Cart
+          </Button>
+          <Link
+            href={`/shop/${id}`}
+            className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-black text-white text-sm font-medium rounded"
+          >
+            <View className="w-4 h-4" />
+            View Product
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import Subtitle from "@/components/atoms/SubTitle";
+import Subtitle from "@/components/atoms/Subtitles";
 import { cn } from "@/utils/cn";
 
 interface FooterColumnProps {

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";
-import { setPassword } from "@/store/slices/setPasswordSlice";
+import { setPassword } from "@/store/slices/auth/setPasswordSlice";
 import toast from "react-hot-toast";
 
 type FormValues = {

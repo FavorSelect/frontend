@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
 import { cn } from "@/utils/cn";
-import Subtitle from "@/components/atoms/SubTitle";
+import Subtitle from "@/components/atoms/Subtitles";
 import { Facebook, Instagram, X, Youtube } from "@/assets/icon";
 
 interface DownloadAppProps {

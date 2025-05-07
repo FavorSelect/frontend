@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setSignupData } from "@/store/slices/signupSlice";
+import { setSignupData } from "@/store/slices/auth/signupSlice";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";

@@ -12,15 +12,31 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import signupReducer from "@/store/slices/signupSlice";
-import loginReducer from "@/store/slices/loginSlice";
-import resetPasswordReducer from "@/store/slices/resetPasswordSlice";
-import setPasswordReducer from "@/store/slices/setPasswordSlice";
+import signupReducer from "@/store/slices/auth/signupSlice";
+import loginReducer from "@/store/slices/auth/loginSlice";
+import resetPasswordReducer from "@/store/slices/auth/resetPasswordSlice";
+import setPasswordReducer from "@/store/slices/auth/setPasswordSlice";
+import productColorSelectorReducer from "@/store/slices/product-details/productColorSelectorSlice";
+import productSizeSelectorReducer from "@/store/slices/product-details/productSizeSelectorSlice";
+import productQuantityReducer from "@/store/slices/product-details/productQuantitySlice";
+import productReviewReducer from "@/store/slices/product-details/productReviewSlice";
+import cartReducer from "@/store/slices/cart/cartSlices";
+import productViewReducer from "@/store/slices/product-view/productViewSlice";
+import checkoutReducer from "@/store/slices/checkout/checkoutSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["signup", "login", "resetPassword"],
+  whitelist: [
+    "signup",
+    "login",
+    "resetPassword",
+    "productColorSelector",
+    "productSizeSelector",
+    "productQuantity",
+    "productReview",
+    "productView",
+  ],
 };
 
 const rootReducer = {
@@ -29,6 +45,13 @@ const rootReducer = {
   login: loginReducer,
   resetPassword: resetPasswordReducer,
   setPassword: setPasswordReducer,
+  productColorSelector: productColorSelectorReducer,
+  productSizeSelector: productSizeSelectorReducer,
+  productQuantity: productQuantityReducer,
+  productReview: productReviewReducer,
+  cartR: cartReducer,
+  productView: productViewReducer,
+  checkout: checkoutReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);

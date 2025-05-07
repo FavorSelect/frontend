@@ -2,7 +2,8 @@ import React, { FC } from "react";
 import Link from "next/link";
 import Span from "@/components/atoms/Span";
 import { cn } from "@/utils/cn";
-import { Bell, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import { Bell, ShoppingBag, ShoppingCart } from "lucide-react";
+import AuthPagesDropdown from "./AuthPagesDropdown";
 
 interface MainHeaderNavbarProps {
   className?: string;
@@ -23,14 +24,11 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
         <Span className="mt-1">Notifications</Span>
       </Link>
 
-      <Link href="/profile" className="flex flex-col items-center group">
-        <User className="w-6 h-6" />
-        <Span className="mt-1">Profile</Span>
-      </Link>
+      <AuthPagesDropdown />
 
-      <Link href="/orders" className="flex flex-col items-center group">
+      <Link href="/shop" className="flex flex-col items-center group">
         <ShoppingBag className="w-6 h-6" />
-        <Span className="mt-1">My Orders</Span>
+        <Span className="mt-1">Shop</Span>
       </Link>
 
       <Link href="/cart" className="flex flex-col items-center group">
