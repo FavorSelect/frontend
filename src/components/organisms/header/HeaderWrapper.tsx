@@ -16,7 +16,7 @@ const HeaderWrapper = () => {
           <MainHeader />
         </ContainerBox>
       </MaxWidthWrapper>
-      <div className="border border-t border-b border-[#F9060659]">
+      <div className="border-t-2 border-t-scarlet-red shadow-sm border-b-gray-50 z-[-0]">
         <MaxWidthWrapper>
           <ContainerBox className="py-4">
             <CategoryList />

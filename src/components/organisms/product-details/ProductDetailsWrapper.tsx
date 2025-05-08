@@ -23,7 +23,7 @@ const ProductDetailsWrapper = () => {
   ];
 
   return (
-    <Section>
+    <Section className="py-7">
       <MaxWidthWrapper>
         <ContainerBox className="py-8 px-5 font-montserrat bg-white shadow-sm rounded-md">
           <div className="flex flex-col md:flex-row gap-4">

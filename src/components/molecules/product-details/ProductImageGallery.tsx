@@ -18,7 +18,7 @@ const ProductImageGallery: React.FC<EmblaCarouselProps> = ({ slides }) => {
   } = useProductDetailsCarouselController(slides);
 
   return (
-    <div className="flex flex-row items-center gap-2 max-w-5xl mx-auto h-auto md:h-[600px] overflow-hidden">
+    <div className="flex flex-row items-start gap-2 max-w-5xl mx-auto h-auto md:h-[600px] overflow-hidden">
       {/* Thumbnails */}
       <div className="min-w-[80px] h-[80%] hidden md:block">
         <div className="relative h-full overflow-hidden" ref={thumbViewportRef}>

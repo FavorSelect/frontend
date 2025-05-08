@@ -23,14 +23,13 @@ const ProductTitlePrice = ({ title, price, originalPrice, reviews }: Props) => {
         </div>
       </div>
       <h2 className="text-2xl font-semibold">{title}</h2>
-      <div className="flex items-center gap-x-1 text-sm text-[#27AE60]">
-        <CheckSquare className="w-4 h-4 text-[#27AE60]" />
-        <span>Recommended by 96%, 137 purchases</span>
+      <div className="flex items-center gap-x-1 text-sm text-scarlet-red font-semibold">
+        <CheckSquare className="w-4 h-4" />
+        <Span className="">Recommended by 96%, 137 purchases</Span>
       </div>
 
       <div className="text-yellow-500 font-semibold text-sm mt-1">
-        {"★".repeat(5)}{" "}
-        <Span className="text-[#1540ad]">{reviews} REVIEWS</Span>
+        {"★".repeat(5)} <Span>{reviews}</Span>
       </div>
       <div className="flex items-center space-x-2 mt-2">
         <Span className="line-through text-gray-500 font-semibold">

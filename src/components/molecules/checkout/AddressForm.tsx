@@ -8,6 +8,7 @@ import Paragraph from "@/components/atoms/Paragraph";
 import { useEffect } from "react";
 import { Button } from "@/components/atoms/Button";
 import Link from "next/link";
+import Span from "@/components/atoms/Span";
 
 interface AddressFormValues {
   email: string;
@@ -59,9 +60,12 @@ export default function AddressForm() {
           <label className="block text-gray-700 text-sm font-medium">
             Email
           </label>
-          <Link href="/login" className="text-red-500 text-sm font-semibold">
-            Already have an account? Log in
-          </Link>
+          <Span className="flex gap-x-1.5 items-center font-semibold">
+            Already have an account?
+            <Link href="/login" className="text-red-500 text-sm font-semibold">
+              Log in
+            </Link>
+          </Span>
         </div>
         <div>
           <Input

@@ -16,9 +16,7 @@ export const useInfiniteProducts = ({
   const [offset, setOffset] = useState(limit);
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [hasMoreData, setHasMoreData] = useState(true);
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-  });
+  const { ref, inView } = useInView();
 
   const loadMore = useCallback(async () => {
     if (!hasMoreData) return;

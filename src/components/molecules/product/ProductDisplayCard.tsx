@@ -16,7 +16,6 @@ const ProductDisplayCard: FC<ProductDisplayCardProps> = ({
   price,
   discountPercentage,
   rating,
-  stock,
   thumbnail: imageSrc,
   tags,
   viewMode = "grid",
@@ -102,7 +101,6 @@ const ProductDisplayCard: FC<ProductDisplayCardProps> = ({
               <Span className="text-xs text-gray-700">{tag}</Span>
             </div>
           ))}
-          <Span className="text-xs text-gray-500">Stock: {stock}</Span>
         </div>
 
         <div className="space-y-2">
