@@ -5,7 +5,7 @@ import MainHeaderSearchBar from "@/components/molecules/header/MainHeaderSearchB
 
 const MainHeader = () => {
   return (
-    <div className="flex items-center justify-between sticky top-0">
+    <div className="flex items-center justify-between">
       {/* Logo */}
       <Logo />
       {/* Search Bar */}
