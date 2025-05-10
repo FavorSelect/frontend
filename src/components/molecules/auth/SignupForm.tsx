@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { setSignupData } from "@/store/slices/auth/signupSlice";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
-import Paragraph from "@/components/atoms/Paragraph";
+import { useRouter } from "next/navigation";
+import ErrorMessage from "../global/ErrorMessage";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import { useSignupMutation } from "@/store/api/authApi";
 
-type FormValues = {
+export type FormValues = {
   firstName: string;
   lastName: string;
   email: string;
@@ -20,43 +22,42 @@ export default function SignupForm() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
-  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
+  const [signup] = useSignupMutation();
 
-  const onSubmit = (data: FormValues) => {
-    dispatch(
-      setSignupData({
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: data.password,
-      })
-    );
-
-    // Here you can handle the form submission, e.g., send data to an API
-    console.log("Form Data Submitted:", data);
+  // form submitting
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const response = await signup(data).unwrap();
+      toast.success(response.message || "Account created successfully!");
+      router.push("/signup/otp-verification");
+    } catch (error: unknown) {
+      console.error("Signup failed:", error);
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const apiError = error as { data: { message?: string } };
+        toast.error(
+          apiError.data.message || "Failed to create account. Please try again."
+        );
+      } else {
+        toast.error("Failed to create account. Please try again.");
+      }
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="flex flex-col md:flex-row gap-4">
-        <div
-          className="space-y-1
-        "
-        >
+        <div className="space-y-1">
           <Input
             type="text"
             {...register("firstName", { required: "First name is required" })}
             placeholder="First name"
             className="py-2 px-2 border border-gray-300 font-medium"
           />
-          {errors.firstName && (
-            <Paragraph className="text-red-500 text-sm">
-              {errors.firstName.message}
-            </Paragraph>
-          )}
+          <ErrorMessage error={errors.firstName} />
         </div>
 
         <div className="space-y-1">
@@ -66,13 +67,10 @@ export default function SignupForm() {
             placeholder="Last name"
             className="py-2 px-2 border border-gray-300 font-medium"
           />
-          {errors.lastName && (
-            <Paragraph className="text-red-500 text-sm">
-              {errors.lastName.message}
-            </Paragraph>
-          )}
+          <ErrorMessage error={errors.lastName} />
         </div>
       </div>
+
       <div className="space-y-1">
         <Input
           type="email"
@@ -86,41 +84,41 @@ export default function SignupForm() {
           placeholder="Enter your email address"
           className="py-2 px-2 border border-gray-300 font-medium"
         />
-        {errors.email && (
-          <Paragraph className="text-red-500 text-sm">
-            {errors.email.message}
-          </Paragraph>
-        )}
+        <ErrorMessage error={errors.email} />
       </div>
+
       <div className="space-y-1">
         <Input
           type="password"
-          {...register("password", { required: "Password is required" })}
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 10,
+              message: "Must be at least 10 characters",
+            },
+          })}
           placeholder="Enter a password"
           className="py-2 px-2 border border-gray-300 font-medium"
         />
-        {errors.password && (
-          <Paragraph className="text-red-500 text-sm">
-            {errors.password.message}
-          </Paragraph>
-        )}
+        <ErrorMessage error={errors.password} />
       </div>
+
       <div className="space-y-1">
         <Input
           type="password"
           {...register("confirmPassword", {
             required: "Please confirm your password",
+            minLength: {
+              value: 10,
+              message: "Must be at least 10 characters",
+            },
             validate: (value) =>
               value === watch("password") || "Passwords do not match",
           })}
           placeholder="Re-enter password"
           className="py-2 px-2 border border-gray-300 font-medium"
         />
-        {errors.confirmPassword && (
-          <Paragraph className="text-red-500 text-sm">
-            {errors.confirmPassword.message}
-          </Paragraph>
-        )}
+        <ErrorMessage error={errors.confirmPassword} />
       </div>
 
       <div className="flex items-start mb-6">
@@ -152,24 +150,25 @@ export default function SignupForm() {
 
         <p className="text-sm text-gray-600">
           By creating an account, you agree to our
-          <a href="#" className="text-gray-800 underline">
+          <Link href="#" className="text-gray-800 underline">
             {" "}
             Terms of use{" "}
-          </a>
+          </Link>
           and
-          <a href="#" className="text-gray-800 underline">
+          <Link href="#" className="text-gray-800 underline">
             {" "}
             Privacy Policy
-          </a>
+          </Link>
           .
         </p>
       </div>
 
       <Button
+        disabled={isSubmitting}
         type="submit"
         className="w-full bg-scarlet-red text-white py-2 rounded-md hover:bg-scarlet-red-600 transition duration-200 font-semibold"
       >
-        Create Account
+        {isSubmitting ? "Creating Account..." : "Create Account"}
       </Button>
     </form>
   );

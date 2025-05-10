@@ -3,9 +3,6 @@ import { Star, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import Paragraph from "@/components/atoms/Paragraph";
 import { Button } from "@/components/atoms/Button";
-import { RootState } from "@/store/store";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 
 type ReviewProps = {
   name: string;
@@ -24,16 +21,6 @@ const ReviewCard: React.FC<ReviewProps> = ({
   images,
   likes,
 }) => {
-  const router = useRouter();
-  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-
-  const handleLike = () => {
-    if (!isLoggedIn) {
-      router.push("/login");
-      return;
-    }
-  };
-
   return (
     <div className="border-b border-gray-200 pb-6 mb-6">
       <div className="space-y-3">
@@ -81,10 +68,7 @@ const ReviewCard: React.FC<ReviewProps> = ({
 
           {/* Like/Dislike */}
           <div className="pt-2 text-sm text-gray-500">
-            <Button
-              onClick={handleLike}
-              className="flex items-center gap-1 hover:text-scarlet-red"
-            >
+            <Button className="flex items-center gap-1 hover:text-scarlet-red">
               <ThumbsUp className="w-4 h-4" />
               <span>({likes})</span>
             </Button>

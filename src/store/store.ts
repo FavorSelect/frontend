@@ -12,8 +12,6 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import signupReducer from "@/store/slices/auth/signupSlice";
-import loginReducer from "@/store/slices/auth/loginSlice";
 import resetPasswordReducer from "@/store/slices/auth/resetPasswordSlice";
 import setPasswordReducer from "@/store/slices/auth/setPasswordSlice";
 import productColorSelectorReducer from "@/store/slices/product-details/productColorSelectorSlice";
@@ -41,8 +39,6 @@ const persistConfig = {
 
 const rootReducer = {
   [apiSlice.reducerPath]: apiSlice.reducer,
-  signup: signupReducer,
-  login: loginReducer,
   resetPassword: resetPasswordReducer,
   setPassword: setPasswordReducer,
   productColorSelector: productColorSelectorReducer,
