@@ -5,6 +5,9 @@ import { setLoginData } from "@/store/slices/auth/loginSlice";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 type FormValues = {
   email: string;
@@ -18,8 +21,9 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm<FormValues>();
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async(data: FormValues) => {
     dispatch(
       setLoginData({
         email: data.email,
@@ -28,8 +32,21 @@ export default function LoginForm() {
       })
     );
 
-    // Here you can handle the form submission, e.g., send data to an API
-    console.log("Login Form Data Submitted:", data);
+    try {
+      const response = await axios.post("http://localhost:8000/api/auth/signin", {
+        email: data.email,
+        password: data.password,
+      });
+
+      const token = response.data;
+      localStorage.setItem("authToken", token);
+  
+      console.log("Signup successful:", response.data);
+
+      router.push("/");
+    } catch (error: any) {
+      console.error("Signin failed:", error.response?.data || error.message);
+    }
   };
 
   return (

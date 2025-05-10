@@ -6,6 +6,9 @@ import { setSignupData } from "@/store/slices/auth/signupSlice";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 type FormValues = {
   firstName: string;
@@ -24,8 +27,9 @@ export default function SignupForm() {
   } = useForm<FormValues>();
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async(data: FormValues) => {
     dispatch(
       setSignupData({
         firstName: data.firstName,
@@ -35,9 +39,24 @@ export default function SignupForm() {
       })
     );
 
-    // Here you can handle the form submission, e.g., send data to an API
-    console.log("Form Data Submitted:", data);
+    try {
+      const response = await axios.post("http://localhost:8000/api/auth/signup", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+      });
+
+      console.log("Signup successful:", response.data);
+
+    
+      router.push("/otp"); 
+    } catch (error: any) {
+      console.error("Signup failed:", error.response?.data || error.message);
+    }
   };
+
+  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
