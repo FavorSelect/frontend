@@ -32,18 +32,24 @@ const NewUserOtpVerificationForm = () => {
 
   const onSubmit = async (data: OtpFormValues) => {
     try {
-      const otp = Object.values(data).join("");
 
-      if (otp.length !== 6) {
+       // Debugging: log the OTP data
+      console.log("OTP Data Received:", data);
+      const verificationCode = Object.values(data).join("");
+
+      console.log("Verification Code:", verificationCode);
+      if (verificationCode.length !== 6) {
         toast.error("Please enter a 6-digit OTP.");
         return;
       }
 
-      const response = await verifyOtp(otp).unwrap();
+   const response = await verifyOtp({ verificationCode }).unwrap();
 
+      console.log("OTP Verification Response:", response);
       toast.success(response.message || "OTP verified successfully!");
       router.push("/login");
     } catch (error: unknown) {
+      
       console.error("OTP verification failed:", error);
 
       if (typeof error === "object" && error !== null && "data" in error) {

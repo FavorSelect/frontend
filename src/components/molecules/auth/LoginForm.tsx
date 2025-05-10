@@ -25,10 +25,11 @@ export default function LoginForm() {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      console.log("Logging in...");
       const response = await login(data).unwrap();
-      toast.success(response.message || "Login successful!");
+      localStorage.setItem("token", response.token);
 
-      // Redirect to dashboard or home page
+      toast.success(response.message || "Login successful!");
       router.push("/");
     } catch (error: unknown) {
       console.error("Login failed:", error);
