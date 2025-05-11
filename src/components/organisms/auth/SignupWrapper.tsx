@@ -14,7 +14,12 @@ const router = useRouter();
     console.log("Google login clicked"); 
     window.location.href = "http://localhost:8000/api/auth/google";
   };
-  
+    const handleFacebookLogin = () => {
+    window.location.href = 'http://localhost:8000/api/auth/facebook';
+  };
+   const handletwitterLogin = () => {
+    window.location.href = 'http://localhost:8000/api/auth/twitter';
+  };
     useEffect(() => {
     console.log("Current URL:", window.location.href);
     const queryParams = new URLSearchParams(window.location.search);
@@ -57,12 +62,16 @@ const router = useRouter();
           <Google /> Google
         </Button>
         <Button
+          type="button"
+        onClick={handleFacebookLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-1.5 text-base
         "
         >
           <Facebook className="text-[#087aea]" /> Facebook
         </Button>
         <Button
+         type="button"
+         onClick={handletwitterLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-1.5 text-base
         "
         >
