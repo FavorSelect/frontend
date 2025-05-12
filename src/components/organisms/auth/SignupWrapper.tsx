@@ -8,26 +8,25 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const SignupWrapper = () => {
-
-const router = useRouter();
+  const router = useRouter();
   const handleGoogleLogin = () => {
-    console.log("Google login clicked"); 
+    console.log("Google login clicked");
     window.location.href = "http://localhost:8000/api/auth/google";
   };
-    const handleFacebookLogin = () => {
-    window.location.href = 'http://localhost:8000/api/auth/facebook';
+  const handleFacebookLogin = () => {
+    window.location.href = "http://localhost:8000/api/auth/facebook";
   };
-   const handletwitterLogin = () => {
-    window.location.href = 'http://localhost:8000/api/auth/twitter';
+  const handletwitterLogin = () => {
+    window.location.href = "http://localhost:8000/api/auth/twitter";
   };
-    useEffect(() => {
+  useEffect(() => {
     console.log("Current URL:", window.location.href);
     const queryParams = new URLSearchParams(window.location.search);
     const token = queryParams.get("token");
 
     if (token) {
       localStorage.setItem("token", token);
-      router.push("/"); 
+      router.push("/");
     }
   }, [router]);
 
@@ -54,8 +53,8 @@ const router = useRouter();
 
       <div className="flex flex-col md:flex-row gap-4">
         <Button
-         type="button"
-         onClick={handleGoogleLogin}
+          type="button"
+          onClick={handleGoogleLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-1.5 text-base
         "
         >
@@ -63,15 +62,15 @@ const router = useRouter();
         </Button>
         <Button
           type="button"
-        onClick={handleFacebookLogin}
+          onClick={handleFacebookLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-1.5 text-base
         "
         >
           <Facebook className="text-[#087aea]" /> Facebook
         </Button>
         <Button
-         type="button"
-         onClick={handletwitterLogin}
+          type="button"
+          onClick={handletwitterLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-1.5 text-base
         "
         >

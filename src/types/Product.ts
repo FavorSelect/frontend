@@ -1,6 +1,14 @@
+export interface Review {
+  reviewerName: string;
+  date: string;
+  rating: number;
+  comment: string;
+}
+
 export interface Product {
   id: number;
   title: string;
+  description: string;
   category: string;
   price: number;
   discountPercentage: number;
@@ -9,4 +17,6 @@ export interface Product {
   thumbnail: string;
   tags: string[];
   brand: string;
+  images: string[];
+  reviews: Review[];
 }
