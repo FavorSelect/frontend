@@ -7,9 +7,16 @@ interface Props {
   price: number;
   originalPrice: number;
   reviews: number;
+  description: string;
 }
 
-const ProductTitlePrice = ({ title, price, originalPrice, reviews }: Props) => {
+const ProductTitlePrice = ({
+  title,
+  price,
+  originalPrice,
+  reviews,
+  description,
+}: Props) => {
   return (
     <div className="space-y-2">
       <div className="flex gap-x-2">
@@ -40,10 +47,7 @@ const ProductTitlePrice = ({ title, price, originalPrice, reviews }: Props) => {
         </Span>
       </div>
       <div>
-        <Span>
-          Premium quality leather boots with unique hand-stitching. Comfortable
-          and stylish for daily wear.
-        </Span>
+        <Span>{description}</Span>
       </div>
     </div>
   );

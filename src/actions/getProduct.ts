@@ -1,6 +1,10 @@
 "use server";
 import { Product } from "@/types/Product";
-import { getPaginatedApiUrl, getProductApiUrl } from "@/utils/getApirUrl";
+import {
+  getPaginatedApiUrl,
+  getIdApiUrl,
+  getProductApiUrl,
+} from "@/utils/getApirUrl";
 import { handleError } from "@/utils/handleResponseError";
 
 interface ApiResponse {
@@ -43,6 +47,25 @@ export const getPaginatedProduct = async (
 
     const responseData = (await response.json()) as ApiResponse;
     return responseData.products;
+  } catch (error: unknown) {
+    console.error(error);
+    throw new Error(`An error occurred: ${error}`);
+  }
+};
+
+// get product by id
+export const getProductById = async (id: string): Promise<Product> => {
+  const url = getIdApiUrl(id);
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw await handleError(response);
+    }
+
+    const responseData = (await response.json()) as Product;
+    return responseData;
   } catch (error: unknown) {
     console.error(error);
     throw new Error(`An error occurred: ${error}`);

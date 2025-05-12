@@ -17,16 +17,16 @@ export const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-   verifyOtp: builder.mutation<
-  { message: string; user?: any },
-  { verificationCode: string }
->({
-  query: (data) => ({
-    url: "/auth/verify-email",
-    method: "POST",
-    body: data,
-  }),
-}),
+    verifyOtp: builder.mutation<
+      { message: string; user?: any },
+      { verificationCode: string }
+    >({
+      query: (data) => ({
+        url: "/auth/verify-email",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
