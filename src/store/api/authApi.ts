@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiSlice } from "./api";
 import { FormValues } from "@/components/molecules/auth/SignupForm";
 
