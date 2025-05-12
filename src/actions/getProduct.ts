@@ -15,7 +15,6 @@ export const getProduct = async (limit: number): Promise<Product[]> => {
 
   try {
     const response = await fetch(url);
-
     if (!response.ok) {
       throw await handleError(response);
     }
