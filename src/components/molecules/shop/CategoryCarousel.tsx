@@ -4,6 +4,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "@/components/atoms/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Autoplay from "embla-carousel-autoplay";
 
 type Category = {
   icon: string;
@@ -12,7 +13,13 @@ type Category = {
 };
 
 const CategoryCarousel: React.FC<{ category: Category[] }> = ({ category }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+    },
+    [Autoplay({ delay: 3000, stopOnInteraction: true })]
+  );
+
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -27,6 +34,7 @@ const CategoryCarousel: React.FC<{ category: Category[] }> = ({ category }) => {
 
   useEffect(() => {
     if (!emblaApi) return;
+
     onSelect();
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);

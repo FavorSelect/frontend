@@ -4,6 +4,8 @@ import Image from "next/image";
 import Paragraph from "@/components/atoms/Paragraph";
 import { Button } from "@/components/atoms/Button";
 
+const image = ["/bag-1.jpg", "/bag-2.jpg", "/bag-4.jpg"];
+
 type ReviewProps = {
   name: string;
   date: string;
@@ -18,7 +20,6 @@ const ReviewCard: React.FC<ReviewProps> = ({
   date,
   rating,
   comment,
-  images,
   likes,
 }) => {
   return (
@@ -47,9 +48,9 @@ const ReviewCard: React.FC<ReviewProps> = ({
           <div className="text-sm text-gray-500">{date}</div>
         </div>
 
-        {(images ?? []).length > 0 && (
+        {(image ?? []).length > 0 && (
           <div className="flex gap-2 mb-2">
-            {(images ?? []).map((img, idx) => (
+            {(image ?? []).map((img, idx) => (
               <Image
                 key={idx}
                 src={img}

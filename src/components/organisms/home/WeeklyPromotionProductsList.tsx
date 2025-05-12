@@ -66,7 +66,7 @@ const WeeklyPromotionProductsList = () => {
         <ContainerBox className="py-8 px-5 bg-white shadow-sm rounded-md space-y-4">
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading className="text-xl">Weekly promotion</Heading>
-            <Link href="#" className="flex items-center">
+            <Link href="/shop" className="flex items-center">
               All Products <ChevronRight />
             </Link>
           </div>
