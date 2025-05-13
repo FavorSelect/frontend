@@ -11,13 +11,13 @@ const SignupWrapper = () => {
   const router = useRouter();
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
-    window.location.href = "http://localhost:8000/api/auth/google";
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
   };
   const handleFacebookLogin = () => {
-    window.location.href = "http://localhost:8000/api/auth/facebook";
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/facebook`;
   };
   const handletwitterLogin = () => {
-    window.location.href = "http://localhost:8000/api/auth/twitter";
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/twitter`;
   };
   useEffect(() => {
     console.log("Current URL:", window.location.href);
