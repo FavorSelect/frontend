@@ -1,4 +1,3 @@
-// src/atomics/Checkbox.tsx
 "use client";
 
 import React from "react";

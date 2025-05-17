@@ -4,7 +4,6 @@ export async function handleError(response: Response): Promise<Error> {
 
   const errorMessages: { [key: number]: string } = {
     400: `Bad request.`,
-    // Add more status codes as needed
     401: "Unauthorized.",
     403: "Forbidden.",
     500: "Internal Server Error.",
