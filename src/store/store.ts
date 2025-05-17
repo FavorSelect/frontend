@@ -21,6 +21,8 @@ import productReviewReducer from "@/store/slices/product-details/productReviewSl
 import cartReducer from "@/store/slices/cart/cartSlices";
 import productViewReducer from "@/store/slices/product-view/productViewSlice";
 import checkoutReducer from "@/store/slices/checkout/checkoutSlice";
+import orderFilterReducer from "@/store/slices/dashboard/orderFilterSlice";
+import reviewFilterReducer from "@/store/slices/dashboard/reviewFilterSlice";
 
 const persistConfig = {
   key: "root",
@@ -34,6 +36,8 @@ const persistConfig = {
     "productQuantity",
     "productReview",
     "productView",
+    "orderFilter",
+    "reviewFilter",
   ],
 };
 
@@ -48,6 +52,8 @@ const rootReducer = {
   cartR: cartReducer,
   productView: productViewReducer,
   checkout: checkoutReducer,
+  orderFilter: orderFilterReducer,
+  reviewFilter: reviewFilterReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);

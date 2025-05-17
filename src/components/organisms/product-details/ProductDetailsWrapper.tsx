@@ -13,7 +13,7 @@ import { Product } from "@/types/Product";
 import PhotoReviewSlider from "@/components/molecules/product-details/PhotoReviewSlider";
 import { Button } from "@/components/atoms/Button";
 import ReviewCard from "@/components/molecules/product-details/ProductReviewCard";
-import Pagination from "@/components/molecules/product-details/Pagination";
+import Pagination from "@/components/molecules/global/Pagination";
 import ProductDescription from "@/components/molecules/product-details/ProductDescription";
 
 const photoReviewImages = Array(20).fill("/bag-1.jpg");
