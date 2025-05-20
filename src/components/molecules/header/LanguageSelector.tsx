@@ -79,7 +79,7 @@ const LanguageSelector = () => {
       className="relative inline-flex items-center gap-x-0.5"
       ref={dropdownRef}
     >
-      <Globe />
+      <Globe className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700" />
       <Button
         ref={buttonRef}
         id="language-selector-button"
@@ -101,7 +101,7 @@ const LanguageSelector = () => {
         role="listbox"
         aria-labelledby="language-selector-button"
         className={cn(
-          "absolute z-10 top-full bg-white border border-[#F9060659] w-36 transition-all duration-300 transform ring-offset",
+          "absolute z-10 top-full -left-11 xl:left-0 bg-white shadow-sm  w-32 xl:w-36 transition-all duration-300 transform ring-offset",
           isOpen
             ? "opacity-100 translate-y-3"
             : "opacity-0 translate-y-0 pointer-events-none"

@@ -9,7 +9,7 @@ export default async function Shop() {
     PAGINATED_PRODUCT_SHOP_PER_PAGE
   );
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 xl:space-y-8">
       <ShopPageWrapper initialProducts={initialProduct} />
     </div>
   );

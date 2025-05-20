@@ -1,5 +1,4 @@
 import { Button } from "@/components/atoms/Button";
-import Span from "@/components/atoms/Span";
 import { setQuantity } from "@/store/slices/product-details/productQuantitySlice";
 import { RootState } from "@/store/store";
 import { Minus, Plus } from "lucide-react";
@@ -31,28 +30,35 @@ const QuantitySelector: React.FC<IncrementDecrementProps> = ({
   };
 
   return (
-    <div className="flex items-center border border-black rounded-sm overflow-hidden w-24">
-      {/* Decrement Button */}
+    <div
+      className="flex items-center border border-gray-400 rounded-md overflow-hidden w-28 sm:w-24 h-9"
+      role="group"
+      aria-label="Quantity Selector"
+    >
+      {/* Decrement */}
       <Button
-        className="w-1/3 h-7 flex items-center justify-center text-sm font-semibold border-r border-gray-300 transition disabled:opacity-50"
-        aria-label="Decrement"
+        aria-label="Decrease quantity"
         onClick={handleDecrement}
         disabled={quantity <= 1}
+        className="w-1/3 h-full flex items-center justify-center border-r border-gray-300 text-sm font-semibold transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50"
       >
         <Minus className="w-4 h-4" />
       </Button>
 
-      {/* Value */}
-      <Span className="w-1/3 h-7 flex items-center justify-center text-sm font-semibold border-x border-gray-300 select-none">
+      {/* Quantity Display */}
+      <span
+        className="w-1/3 h-full flex items-center justify-center text-sm font-semibold select-none"
+        aria-live="polite"
+      >
         {quantity}
-      </Span>
+      </span>
 
-      {/* Increment Button */}
+      {/* Increment */}
       <Button
-        className="w-1/3 h-7 flex items-center justify-center text-sm font-semibold text-black transition disabled:opacity-50"
-        aria-label="Increment"
+        aria-label="Increase quantity"
         onClick={handleIncrement}
         disabled={quantity >= 10}
+        className="w-1/3 h-full flex items-center justify-center border-l border-gray-300 text-sm font-semibold transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50"
       >
         <Plus className="w-4 h-4" />
       </Button>

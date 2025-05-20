@@ -8,7 +8,16 @@ const Heading = ({
   className?: string;
   children: ReactNode;
 }) => {
-  return <h2 className={cn("text-2xl", className)}>{children}</h2>;
+  return (
+    <h2
+      className={cn(
+        "text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold !leading-snug",
+        className
+      )}
+    >
+      {children}
+    </h2>
+  );
 };
 
 export default Heading;

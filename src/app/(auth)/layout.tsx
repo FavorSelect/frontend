@@ -8,9 +8,9 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Section className="py-8">
+    <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="min-h-auto py-13 flex flex-col items-center justify-center bg-gray-50">
+        <ContainerBox className="min-h-auto px-0 py-0 flex flex-col items-center justify-center bg-gray-50">
           {children}
         </ContainerBox>
       </MaxWidthWrapper>

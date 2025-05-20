@@ -10,8 +10,9 @@ import { Product } from "@/types/Product";
 import { getPaginatedProduct } from "@/actions/getProduct";
 import { PAGINATED_PRODUCT_PER_PAGE } from "@/config/constants";
 import Paragraph from "@/components/atoms/Paragraph";
-import { Button } from "@/components/atoms/Button";
 import { useInfiniteProducts } from "@/hooks/useInfiniteProducts";
+import Span from "@/components/atoms/Span";
+import SkeletonProductCard from "@/components/molecules/product/SkeletonProductCard";
 
 type TopProductListProps = {
   initialProducts: Product[];
@@ -27,29 +28,34 @@ const TopPickProductGrid = ({ initialProducts }: TopProductListProps) => {
   return (
     <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="py-8 px-5 bg-white shadow-sm rounded-md space-y-4">
+        <ContainerBox hasBackground={true} className="space-y-4">
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading className="text-xl">Our top picks just for you</Heading>
-            <Link href="/shop" className="flex items-center">
-              All Products <ChevronRight />
+            <Link
+              href="/shop"
+              className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
+            >
+              <Span>All Products</Span>
+              <ChevronRight className="w-4 h-4 xl:w-6 xl:h-6" />
             </Link>
           </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
             {products.map((product) => (
               <ProductDisplayCard key={product.id} {...product} />
             ))}
           </div>
-          <div className="text-center mt-5">
+          <div className="mt-5">
             {(hasMoreData && (
               <div ref={scrollRef}>
-                <Button className="bg-scarlet-red px-3 py-2 rounded-lg text-white">
-                  Loading...
-                </Button>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <SkeletonProductCard key={index} />
+                  ))}
+                </div>
               </div>
             )) || (
-              <Paragraph className="text-slate-400">
-                No more posts to load
+              <Paragraph className="text-slate-400 text-center">
+                No more products to load
               </Paragraph>
             )}
           </div>

@@ -11,7 +11,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-
+import hamburgerReducer from "@/store/slices/humburger/hamburgerSlice";
 import resetPasswordReducer from "@/store/slices/auth/resetPasswordSlice";
 import setPasswordReducer from "@/store/slices/auth/setPasswordSlice";
 import productColorSelectorReducer from "@/store/slices/product-details/productColorSelectorSlice";
@@ -28,6 +28,7 @@ const persistConfig = {
   key: "root",
   storage,
   whitelist: [
+    "hamburger",
     "signup",
     "login",
     "resetPassword",
@@ -54,6 +55,7 @@ const rootReducer = {
   checkout: checkoutReducer,
   orderFilter: orderFilterReducer,
   reviewFilter: reviewFilterReducer,
+  hamburger: hamburgerReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);

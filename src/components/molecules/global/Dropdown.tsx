@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/atoms/Button";
 import { cn } from "@/utils/cn";
 import { ChevronDown } from "lucide-react";
@@ -29,13 +30,19 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLUListElement>(null);
 
   const selectedOption = options.find((opt) => opt.value === value);
 
   // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target as Node) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         setHighlightedIndex(null);
       }
@@ -70,8 +77,11 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
+  // Get button dimensions for portal positioning
+  const buttonRect = ref.current?.getBoundingClientRect();
+
   return (
-    <div className={`relative w-54 text-sm ${className}`} ref={ref}>
+    <div className={`relative w-fit md:w-56 text-sm ${className}`} ref={ref}>
       <Button
         type="button"
         onClick={() => {
@@ -90,36 +100,51 @@ const Dropdown: React.FC<DropdownProps> = ({
         />
       </Button>
 
-      <ul
-        role="listbox"
-        aria-labelledby="universal-dropdown"
-        className={cn(
-          "absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto transition-all duration-300 transform",
-          isOpen
-            ? "opacity-100 translate-y-3 pointer-events-auto"
-            : "opacity-0 translate-y-0 pointer-events-none"
-        )}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-      >
-        {options.map((opt, index) => (
-          <li
-            key={opt.value}
-            onClick={() => {
-              onChange(opt.value);
-              setIsOpen(false);
-              setHighlightedIndex(null);
-            }}
+      {isOpen &&
+        buttonRect &&
+        createPortal(
+          <ul
+            ref={dropdownRef}
+            role="listbox"
+            aria-labelledby="universal-dropdown"
             className={cn(
-              "cursor-pointer px-4 py-2 hover:bg-gray-100",
-              value === opt.value ? "bg-gray-100 font-medium" : "",
-              highlightedIndex === index ? "bg-gray-200" : ""
+              "bg-white border mt-1 border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto no-scrollbar transition-all duration-300 transform font-montserrat"
             )}
+            style={{
+              position: "absolute",
+              top: buttonRect.bottom + window.scrollY,
+              left: buttonRect.left + window.scrollX,
+              width: buttonRect.width,
+            }}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
           >
-            {optionRenderer ? optionRenderer(opt) : <Span>{opt.label}</Span>}
-          </li>
-        ))}
-      </ul>
+            {options.map((opt, index) => (
+              <li
+                key={opt.value}
+                onClick={() => {
+                  onChange(opt.value);
+                  setIsOpen(false);
+                  setHighlightedIndex(null);
+                }}
+                className={cn(
+                  "cursor-pointer px-3 py-2 hover:bg-gray-100 hover:text-black text-sm",
+                  value === opt.value
+                    ? "bg-scarlet-red hover:bg-scarlet-red font-medium text-white hover:text-white"
+                    : "",
+                  highlightedIndex === index ? "bg-gray-200" : ""
+                )}
+              >
+                {optionRenderer ? (
+                  optionRenderer(opt)
+                ) : (
+                  <Span className="text-sm">{opt.label}</Span>
+                )}
+              </li>
+            ))}
+          </ul>,
+          document.body
+        )}
     </div>
   );
 };

@@ -151,7 +151,7 @@ const categories = [
   },
 ];
 
-const CategoryList = () => {
+const CategoryList = ({ className }: { className?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -172,7 +172,10 @@ const CategoryList = () => {
   return (
     <div
       ref={ref}
-      className="relative w-full font-montserrat font-normal flex items-center space-x-2 md:space-x-3 md:py-0 py-2.5"
+      className={cn(
+        "relative w-full font-montserrat font-normal flex items-center space-x-2 md:space-x-3 md:py-0 py-2.5",
+        className
+      )}
     >
       <Button
         className="flex items-center gap-x-2 text-sm font-semibold text-eerie-black"

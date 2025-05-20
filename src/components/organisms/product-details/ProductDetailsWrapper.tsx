@@ -35,14 +35,14 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
   };
 
   return (
-    <Section className="py-7">
+    <Section>
       <MaxWidthWrapper className="space-y-6">
-        <ContainerBox className="py-8 px-5 font-montserrat bg-white shadow-sm rounded-md">
+        <ContainerBox hasBackground={true}>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="basis-3/5">
               <ProductImageGallery slides={product.images} />
             </div>
-            <div className="basis-2/5 flex flex-col space-y-6 rounded-lg px-4">
+            <div className="basis-2/5 flex flex-col space-y-4 md:space-y-6 rounded-lg px-4">
               <ProductTitlePrice
                 title={product.title}
                 price={product.price}
@@ -63,18 +63,15 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
         <ContainerBox className="py-8 px-5 font-montserrat bg-white shadow-sm rounded-md">
           <ProductDescription description={product.description} />
         </ContainerBox>
-        <ContainerBox className="py-8 px-5 font-montserrat bg-white shadow-sm rounded-md space-y-4">
+        <ContainerBox hasBackground={true} className="space-y-3">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg font-semibold">All Reviews</h2>
-          </div>
-          <div className="space-y-2">
-            <h2 className="text-base font-normal">Photos Reviews</h2>
-            <PhotoReviewSlider images={photoReviewImages} />
-          </div>
-          <div>
+            <h2 className="text-lg md:text-xl font-semibold">All Reviews</h2>
             <Button className="bg-scarlet-red text-white px-2 py-1 rounded-lg text-sm">
               Show All Reviews
             </Button>
+          </div>
+          <div className="space-y-2">
+            <PhotoReviewSlider images={photoReviewImages} />
           </div>
           {product.reviews.map((review, index) => (
             <ReviewCard
@@ -93,6 +90,7 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            className="justify-end"
           />
         </ContainerBox>
       </MaxWidthWrapper>

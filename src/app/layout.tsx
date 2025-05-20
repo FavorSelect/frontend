@@ -5,6 +5,7 @@ import "./globals.css";
 import HeaderWrapper from "@/components/organisms/header/HeaderWrapper";
 import FooterWrapper from "@/components/organisms/footer/FooterWrapper";
 import { Toaster } from "react-hot-toast";
+import BackToTop from "@/components/molecules/global/BackToTop";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -29,15 +30,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <body
-        className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray overflow-x-hidden`}
+        className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray overflow-x-hidden font-montserrat`}
       >
         <ReduxProvider>
           <HeaderWrapper />
+
           {children}
           <Toaster position="top-right" reverseOrder={false} />
           <FooterWrapper />
+          <BackToTop />
         </ReduxProvider>
       </body>
     </html>

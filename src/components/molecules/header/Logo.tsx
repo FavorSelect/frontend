@@ -17,7 +17,7 @@ const Logo: FC<LogoProps> = ({ className, style }) => {
           alt="logo"
           width={202}
           height={31}
-          className="w-auto"
+          className="w-[150px] object-cover xl:w-auto"
         />
       </Link>
     </div>

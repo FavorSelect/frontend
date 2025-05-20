@@ -17,7 +17,7 @@ const FooterLogo: FC<FooterLogoProps> = ({ className, style }) => {
           alt="logo"
           width={198}
           height={118}
-          className="border"
+          className="w-[150px] object-cover xl:w-auto"
         />
       </Link>
     </div>

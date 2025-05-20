@@ -43,7 +43,7 @@ export default function ResetPasswordForm() {
             },
           })}
           placeholder="Enter your email address"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         {errors.email && (
           <Paragraph className="text-red-500 text-sm">
@@ -52,10 +52,7 @@ export default function ResetPasswordForm() {
         )}
       </div>
 
-      <Button
-        type="submit"
-        className="w-full max-w-full bg-scarlet-red text-white py-2 rounded-md hover:bg-scarlet-red-600 transition duration-200 font-semibold"
-      >
+      <Button type="submit" variant="authBtn">
         Submit
       </Button>
     </form>

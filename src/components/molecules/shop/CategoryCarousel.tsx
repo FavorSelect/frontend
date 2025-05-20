@@ -55,6 +55,7 @@ const CategoryCarousel: React.FC<{ category: Category[] }> = ({ category }) => {
                   alt={category.name}
                   width={50}
                   height={50}
+                  className="aspect-square w-8 sm:w-12 md:w-14 object-contain"
                 />
                 <p className="text-sm font-semibold">{category.name}</p>
                 <p className="text-xs text-gray-500">

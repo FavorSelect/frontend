@@ -10,7 +10,7 @@ const Banner = () => {
   return (
     <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="py-8">
+        <ContainerBox className="px-0 py-0">
           <Link href="#">
             <Image
               src={banner}

@@ -12,7 +12,7 @@ const BrandInfo: FC<BrandInfoProps> = ({ className, style }) => {
   return (
     <div className={cn("font-montserrat space-y-4", className)} style={style}>
       <Subtitle title="Support" />
-      <div className="text-base space-y-2 text-[#C2C2C2] font-normal">
+      <div className="text-sm sm:text-base space-y-2 text-[#C2C2C2] font-normal">
         <Paragraph>Address</Paragraph>
         <Paragraph>Dellas, United States</Paragraph>
         <Paragraph>support@favorselect.com</Paragraph>

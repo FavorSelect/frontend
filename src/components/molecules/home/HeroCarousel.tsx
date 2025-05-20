@@ -55,29 +55,29 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
   return (
     <div className="relative w-full max-w-full mx-auto">
       {/* Navigation Buttons */}
-      <div className="absolute inset-y-0 left-4 z-10 flex items-center">
+      <div className="absolute inset-y-0 left-1 lg:left-2 xl:left-4 z-10 flex items-center">
         <Button
-          className="rounded-full bg-white w-10 h-10 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
+          className="rounded-full bg-white text-eerie-black shadow-md w-9 h-9 cursor-pointer"
           onClick={scrollPrev}
           aria-label="Previous Slide"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft />
         </Button>
       </div>
 
-      <div className="absolute inset-y-0 right-4 z-10 flex items-center">
+      <div className="absolute inset-y-0 right-1 lg:right-2 xl:right-4 z-10 flex items-center">
         <Button
-          className="rounded-full bg-white w-10 h-10 shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
+          className="rounded-full bg-white text-eerie-black shadow-md w-9 h-9 cursor-pointer"
           onClick={scrollNext}
           aria-label="Next Slide"
         >
-          <ChevronRight size={24} />
+          <ChevronRight />
         </Button>
       </div>
 
       {/* Main Carousel */}
       <div
-        className="relative h-full overflow-hidden rounded-xl"
+        className="relative overflow-hidden rounded-xl h-[200px] sm:h-full"
         ref={emblaRef}
       >
         <div className="flex h-full select-none">
@@ -91,7 +91,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
                 alt={`Slide ${index}`}
                 width={1150}
                 height={445}
-                className="w-full h-full object-cover"
+                className="w-full h-full"
                 priority={index === 0}
               />
             </div>
@@ -100,14 +100,12 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
       </div>
 
       {/* Dots */}
-      <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5 sm:gap-2 z-10">
         {images.map((_, index) => (
           <Button
             key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === selectedIndex
-                ? "bg-scarlet-red scale-125 shadow-md"
-                : "bg-gray-300"
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+              index === selectedIndex ? "bg-scarlet-red scale-125" : "bg-white"
             }`}
             onClick={() => emblaApi?.scrollTo(index)}
           />

@@ -9,11 +9,11 @@ import Copyright from "@/components/molecules/footer/Copyright";
 
 const FooterWrapper = () => {
   return (
-    <footer className="bg-[#161616]">
+    <footer className="bg-[#161616] mt-4 xl:mt-8">
       <div className="border h-auto py-4 md:py-0 md:h-[340px] flex items-center">
         <MaxWidthWrapper>
           <ContainerBox>
-            <div className="flex flex-col md:flex-row justify-center gap-y-3 md:gap-x-4">
+            <div className="flex flex-col md:flex-row justify-center gap-y-2 sm:gap-y-3 md:gap-x-4">
               <FooterLogo className="flex-1 pr-3 pt-3" />
               <BrandInfo className="flex-1 py-3" />
               <FooterColumn
@@ -41,7 +41,7 @@ const FooterWrapper = () => {
           </ContainerBox>
         </MaxWidthWrapper>
       </div>
-      <div className="border-t border-gray-600 flex items-center justify-center py-5">
+      <div className="border-t border-gray-600 flex items-center justify-center py-5 px-4 sm:px-0">
         <Copyright />
       </div>
     </footer>

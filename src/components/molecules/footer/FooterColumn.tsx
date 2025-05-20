@@ -1,5 +1,6 @@
 import Subtitle from "@/components/atoms/Subtitles";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
 
 interface FooterColumnProps {
   title: string;
@@ -19,7 +20,9 @@ const FooterColumn = ({
     <ul className="text-base space-y-2 text-[#C2C2C2] font-normal">
       {links.map((link) => (
         <li key={link.name}>
-          <a href={link.href}>{link.name}</a>
+          <Link className="text-sm sm:text-base" href={link.href}>
+            {link.name}
+          </Link>
         </li>
       ))}
     </ul>
