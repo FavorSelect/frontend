@@ -15,7 +15,7 @@ const ProductCarouselCard: React.FC<ProductCarouselCardProps> = ({
 }) => {
   return (
     <div
-      className="font-montserrat relative h-[280px] rounded-2xl overflow-hidden flex-shrink-0 select-none"
+      className="font-montserrat relative h-[280px] rounded-lg overflow-hidden flex-shrink-0 select-none"
       style={{
         backgroundImage: `url(${image})`,
         backgroundSize: "cover",
@@ -24,9 +24,9 @@ const ProductCarouselCard: React.FC<ProductCarouselCardProps> = ({
       }}
     >
       <div
-        className={`absolute top-4 inset-0 flex flex-col items-center ${textColorClass}`}
+        className={`absolute top-4 inset-0 flex flex-col items-center space-y-2 ${textColorClass}`}
       >
-        <h3 className="text-2xl font-light">{title}</h3>
+        <h3 className="text-xl font-light">{title}</h3>
         {subtitle && <p className="text-sm font-normal">{subtitle}</p>}
       </div>
     </div>

@@ -14,17 +14,20 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
   return (
     <div
       className={cn(
-        "flex items-center gap-x-6 text-eerie-black font-montserrat font-semibold text-sm",
+        "flex items-center gap-x-3 xl:gap-x-6 text-eerie-black font-montserrat font-semibold text-sm",
         className
       )}
       style={style}
     >
-      <Link href="/notifications" className="flex flex-col items-center">
+      <Link
+        href="/notifications"
+        className="hidden xl:flex flex-col items-center"
+      >
         <Bell className="w-6 h-6" />
         <Span className="mt-1">Notifications</Span>
       </Link>
 
-      <Link href="/shop" className="flex flex-col items-center group">
+      <Link href="/shop" className="hidden xl:flex flex-col items-center group">
         <ShoppingBag className="w-6 h-6" />
         <Span className="mt-1">Shop</Span>
       </Link>
@@ -36,7 +39,7 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
           </Span>
           <ShoppingCart className="w-6 h-6" />
         </div>
-        <Span className="mt-1">Shopping Cart</Span>
+        <Span className="mt-1 hidden xl:block">Shopping Cart</Span>
       </Link>
     </div>
   );

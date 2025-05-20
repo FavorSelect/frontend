@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -6,6 +7,7 @@ import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";
 import { setPassword } from "@/store/slices/auth/setPasswordSlice";
 import toast from "react-hot-toast";
+import ErrorMessage from "../global/ErrorMessage";
 
 type FormValues = {
   password: string;
@@ -48,13 +50,9 @@ export default function SetPasswordForm() {
           type="password"
           {...register("password", { required: "Password is required" })}
           placeholder="Enter new password"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
-        {errors.password && (
-          <Paragraph className="text-red-500 text-sm">
-            {errors.password.message}
-          </Paragraph>
-        )}
+        <ErrorMessage error={errors.password} />
       </div>
 
       <div className="space-y-1">
@@ -66,24 +64,12 @@ export default function SetPasswordForm() {
               value === watch("password") || "Passwords do not match",
           })}
           placeholder="Confirm new password"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
-        {errors.confirmPassword && (
-          <Paragraph className="text-red-500 text-sm">
-            {errors.confirmPassword.message}
-          </Paragraph>
-        )}
+        <ErrorMessage error={errors.confirmPassword} />
       </div>
 
-      <Button
-        type="submit"
-        disabled={isSubmitDisabled}
-        className={`w-full max-w-full py-2 rounded-md transition duration-200 font-semibold ${
-          isSubmitDisabled
-            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-            : "bg-scarlet-red text-white hover:bg-scarlet-red-600"
-        }`}
-      >
+      <Button type="submit" variant="authBtn">
         Set Password
       </Button>
     </form>

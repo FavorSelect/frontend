@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "@/components/atoms/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useProductDetailsCarouselController } from "@/hooks/useProductDetailsCarouselController";
+import { cn } from "@/utils/cn";
 
 type EmblaCarouselProps = {
   slides: string[];
@@ -54,35 +55,54 @@ const ProductImageGallery: React.FC<EmblaCarouselProps> = ({ slides }) => {
       </div>
 
       {/* Main carousel */}
-      <div className="pl-2 flex-grow relative">
-        <div className="absolute inset-y-0 left-2 z-10 flex items-center">
-          <Button
-            className="rounded-full bg-white w-9 h-9"
-            onClick={() => embla?.scrollPrev()}
-            aria-label="Previous Slide"
-          >
-            <ChevronLeft />
-          </Button>
-        </div>
-        <div className="absolute inset-y-0 right-0 z-10 flex items-center">
-          <Button
-            className="rounded-full bg-white w-9 h-9"
-            onClick={() => embla?.scrollNext()}
-            aria-label="Next Slide"
-          >
-            <ChevronRight />
-          </Button>
-        </div>
+      <div className="pl-0 md:pl-2 flex-grow relative">
+        {Array.isArray(slides) && slides.length > 1 && (
+          <>
+            <div className="absolute inset-y-0 left-0 z-10 flex items-center">
+              <Button
+                className={cn(
+                  "rounded-full bg-white text-eerie-black shadow-md w-9 h-9 cursor-pointer",
+                  !embla?.canScrollPrev()
+                    ? "hidden"
+                    : "flex items-center justify-center"
+                )}
+                onClick={() => embla?.scrollPrev()}
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft />
+              </Button>
+            </div>
+
+            <div className="absolute inset-y-0 right-0 z-10 flex items-center">
+              <Button
+                className={cn(
+                  "rounded-full bg-white text-eerie-black shadow-md w-9 h-9 cursor-pointer",
+                  !embla?.canScrollNext()
+                    ? "hidden"
+                    : "flex items-center justify-center"
+                )}
+                onClick={() => embla?.scrollNext()}
+                aria-label="Next Slide"
+              >
+                <ChevronRight />
+              </Button>
+            </div>
+          </>
+        )}
+
         <div className="relative h-full overflow-hidden" ref={mainViewportRef}>
           <div className="flex h-full select-none">
             {slides.map((source, index) => (
-              <div className="relative flex-[0_0_100%]" key={index}>
+              <div
+                className="relative flex-[0_0_100%] h-[200px] sm:h-[300px] md:h-auto"
+                key={index}
+              >
                 <Image
                   src={source}
                   alt={`Slide ${index}`}
                   width={400}
                   height={300}
-                  className="w-auto h-auto object-cover"
+                  className="w-full object-contain md:w-auto h-full mx-auto md:h-auto md:object-cover"
                   priority={true}
                 />
               </div>

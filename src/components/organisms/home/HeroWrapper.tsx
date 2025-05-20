@@ -31,7 +31,7 @@ const HeroWrapper = () => {
   return (
     <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="py-6">
+        <ContainerBox className="py-0 px-0 xl:py-0 xl:px-0">
           <HeroCarousel images={images} />
         </ContainerBox>
       </MaxWidthWrapper>

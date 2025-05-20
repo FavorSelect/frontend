@@ -5,9 +5,11 @@
   --font-roboto: var(--font-roboto);
   --color-eerie-black: #161616;
   --color-scarlet-red: #f52828;
+  --color-scarlet-red-rgb: 245, 40, 40;
   --color-light-gray: #fafafa;
   --color-medium-light-gray: #b1b1b1;
   --color-amber-light: #ffdcdc4d;
+  --breakpoint-xs: 480px;
 }
 
 @layer utilities {
@@ -24,5 +26,52 @@
 
   .animate-fade-in {
     animation: fadeIn 0.3s ease-out both;
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.3s infinite;
+    animation-timing-function: ease-in-out;
+    filter: blur(4px);
+    transform: skewX(-10deg);
+  }
+
+  @keyframes shimmer {
+    0% {
+      left: -150%;
+    }
+    50% {
+      left: 100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

@@ -17,7 +17,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange }) => {
         className="hidden"
       />
       <span
-        className={`w-4 h-4 flex items-center justify-center border rounded mr-2
+        className={`w-4 h-4 flex items-center justify-center border rounded mr-1
           ${checked ? "bg-red-500 border-red-500" : "border-gray-400"}
           transition-all duration-200`}
       >

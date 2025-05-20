@@ -55,7 +55,7 @@ export default function SignupForm() {
             type="text"
             {...register("firstName", { required: "First name is required" })}
             placeholder="First name"
-            className="py-2 px-2 border border-gray-300 font-medium"
+            className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
           />
           <ErrorMessage error={errors.firstName} />
         </div>
@@ -65,7 +65,7 @@ export default function SignupForm() {
             type="text"
             {...register("lastName", { required: "Last name is required" })}
             placeholder="Last name"
-            className="py-2 px-2 border border-gray-300 font-medium"
+            className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
           />
           <ErrorMessage error={errors.lastName} />
         </div>
@@ -82,7 +82,7 @@ export default function SignupForm() {
             },
           })}
           placeholder="Enter your email address"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.email} />
       </div>
@@ -98,7 +98,7 @@ export default function SignupForm() {
             },
           })}
           placeholder="Enter a password"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.password} />
       </div>
@@ -116,7 +116,7 @@ export default function SignupForm() {
               value === watch("password") || "Passwords do not match",
           })}
           placeholder="Re-enter password"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.confirmPassword} />
       </div>
@@ -148,7 +148,7 @@ export default function SignupForm() {
           </span>
         </label>
 
-        <p className="text-sm text-gray-600">
+        <p className="text-xs lg:text-sm text-gray-600 leading-snug">
           By creating an account, you agree to our
           <Link href="#" className="text-gray-800 underline">
             {" "}
@@ -163,11 +163,7 @@ export default function SignupForm() {
         </p>
       </div>
 
-      <Button
-        disabled={isSubmitting}
-        type="submit"
-        className="w-full bg-scarlet-red text-white py-2 rounded-md hover:bg-scarlet-red-600 transition duration-200 font-semibold"
-      >
+      <Button disabled={isSubmitting} type="submit" variant="authBtn">
         {isSubmitting ? "Creating Account..." : "Create Account"}
       </Button>
     </form>

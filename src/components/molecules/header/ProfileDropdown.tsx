@@ -32,7 +32,7 @@ const ProfileDropdown: React.FC = () => {
         className="flex flex-col items-center group"
       >
         <User className="w-6 h-6" />
-        <Span className="mt-1">Profile</Span>
+        <Span className="mt-1 hidden xl:block">Profile</Span>
       </div>
 
       {/* Dropdown Menu */}
@@ -40,7 +40,7 @@ const ProfileDropdown: React.FC = () => {
         role="listbox"
         aria-labelledby="auth-pages-dropdown"
         className={cn(
-          "absolute top-full left-0 mt-2 w-40 z-100 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 transform",
+          "absolute top-full -left-12 sm:-left-10 xl:left-0 mt-2 w-40 z-100 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 transform",
           isOpen
             ? "opacity-100 translate-y-1 pointer-events-auto"
             : "opacity-0 translate-y-0 pointer-events-none"
@@ -61,7 +61,7 @@ const ProfileDropdown: React.FC = () => {
             href="/login"
             className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
           >
-            <LogIn className="mr-2 w-5 h-5" />
+            <LogIn className="mr-2 w-5 h-5 xl:w-5 xl:h-5" />
             Login
           </Link>
         </li>

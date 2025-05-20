@@ -18,27 +18,40 @@ const ProductSizeSelector = ({ sizes }: Props) => {
   const handleSizeClick = (size: string) => {
     dispatch(setSelectedSize(size));
   };
+
   return (
-    <div>
-      <label className="font-medium text-sm block mb-1">
-        Size: {selectedSize}
+    <div className="w-full md:max-w-md mx-auto px-0 sm:px-0">
+      <label className="font-medium text-sm block mb-2" htmlFor="product-size">
+        Size:{" "}
+        <span className="font-semibold">{selectedSize || "Not selected"}</span>
       </label>
-      <div className="flex flex-wrap gap-2">
+
+      <div
+        id="product-size"
+        role="radiogroup"
+        className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2"
+      >
         {sizes.map((size) => (
           <Button
             key={size}
+            role="radio"
+            aria-checked={selectedSize === size}
             onClick={() => handleSizeClick(size)}
-            className={`px-4 py-1.5 rounded border text-sm ${
+            className={`w-full sm:w-auto text-center px-2 py-1 sm:px-4 sm:py-2 rounded border text-sm transition-all duration-150 ease-in-out focus:outline-none ${
               selectedSize === size
-                ? "border-[#1540ad] font-semibold"
-                : "border-gray-300"
+                ? "border-scarlet-red font-semibold ring-1 ring-scarlet-red"
+                : "border-gray-300 hover:border-gray-500"
             }`}
           >
             {size}
           </Button>
         ))}
       </div>
-      <Link href="#" className="text-blue-600 text-xs mt-1 inline-block">
+
+      <Link
+        href="#"
+        className="text-scarlet-red text-xs mt-3 inline-block underline hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
         Find Your Size
       </Link>
     </div>

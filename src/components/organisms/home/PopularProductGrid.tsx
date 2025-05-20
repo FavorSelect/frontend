@@ -8,6 +8,7 @@ import ProductDisplayCard from "@/components/molecules/product/ProductDisplayCar
 import trendingBanner from "@/assets/images/trending-banner.png";
 import Image from "next/image";
 import { Product } from "@/types/Product";
+import Span from "@/components/atoms/Span";
 
 type TopProductListProps = {
   products: Product[];
@@ -17,16 +18,20 @@ const PopularProductGrid = ({ products }: TopProductListProps) => {
   return (
     <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="py-8 px-5 bg-white shadow-sm rounded-md space-y-4">
+        <ContainerBox hasBackground={true} className="space-y-4">
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading className="text-xl">The populars</Heading>
-            <Link href="/shop" className="flex items-center">
-              All Products <ChevronRight />
+            <Link
+              href="/shop"
+              className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
+            >
+              <Span>All Products</Span>
+              <ChevronRight className="w-4 h-4 xl:w-6 xl:h-6" />
             </Link>
           </div>
 
           <div className="flex gap-x-3">
-            <div>
+            <div className="hidden xl:block">
               <Image
                 src={trendingBanner}
                 alt="Trending-banner"
@@ -34,7 +39,7 @@ const PopularProductGrid = ({ products }: TopProductListProps) => {
               />
             </div>
 
-            <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
               {products.map((product) => (
                 <ProductDisplayCard key={product.id} {...product} />
               ))}

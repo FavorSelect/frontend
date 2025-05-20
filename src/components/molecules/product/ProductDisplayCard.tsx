@@ -58,15 +58,16 @@ const ProductDisplayCard: FC<ProductDisplayCardProps> = ({
           alt={title}
           width={160}
           height={160}
-          className="object-contain max-h-full"
+          className="object-contain max-h-full select-none"
+          loading="lazy"
         />
       </div>
 
       {/* Product Info */}
       <div className={isListView ? "flex-1" : ""}>
         {/* Title */}
-        <h3 className="text-base font-semibold text-[#2E2C2C] mb-1 line-clamp-2">
-          {title}
+        <h3 className="text-base font-semibold text-gray-900 mb-1 line-clamp-2">
+          {title.slice(0, 18)}
         </h3>
 
         {/* Price + Rating */}
@@ -103,15 +104,15 @@ const ProductDisplayCard: FC<ProductDisplayCardProps> = ({
           ))}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {/* Add to Cart Button */}
-          <Button className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-scarlet-red text-white text-sm font-medium rounded">
+          <Button className="w-full py-1.5 flex justify-center items-center gap-x-2 transition-colors bg-scarlet-red hover:bg-red-600/100 text-white text-sm font-medium rounded">
             <ShoppingCart className="w-4 h-4" />
             Add to Cart
           </Button>
           <Link
             href={`/shop/${id}`}
-            className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-black text-white text-sm font-medium rounded"
+            className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-gray-900 transition-colors hover:bg-gray-800 text-white text-sm font-medium rounded"
           >
             <View className="w-4 h-4" />
             View Product

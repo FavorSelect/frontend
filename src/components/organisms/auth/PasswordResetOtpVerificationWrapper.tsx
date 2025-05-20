@@ -1,8 +1,8 @@
 import React from "react";
-import OtpVerificationForm from "@/components/molecules/auth/PasswordResetOtpVerificationForm";
+import PasswordResetOtpVerificationForm from "@/components/molecules/auth/PasswordResetOtpVerificationForm";
 
-const OtpVerificationWrapper = () => {
-  return <OtpVerificationForm />;
+const PasswordResetOtpVerificationWrapper = () => {
+  return <PasswordResetOtpVerificationForm />;
 };
 
-export default OtpVerificationWrapper;
+export default PasswordResetOtpVerificationWrapper;

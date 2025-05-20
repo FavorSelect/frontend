@@ -3,11 +3,13 @@ import React, { FC, useEffect, useState } from "react";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import { cn } from "@/utils/cn";
-import { Camera } from "lucide-react";
+import { Camera, Search } from "lucide-react";
+import Span from "@/components/atoms/Span";
 
 interface MainHeaderSearchBarProps {
   className?: string;
   style?: React.CSSProperties;
+  mode?: string;
 }
 
 const placeholderTexts = [
@@ -21,6 +23,7 @@ const placeholderTexts = [
 const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
   className,
   style,
+  mode = "desktop",
 }) => {
   const [placeholder, setPlaceholder] = useState("");
   const [textIndex, setTextIndex] = useState(0);
@@ -51,19 +54,31 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center w-full max-w-lg bg-[#fff1f1] font-roboto rounded-xl border border-[#F5282814] overflow-hidden",
+        "flex items-center bg-[#fff1f1] font-roboto rounded-xl border border-[#F5282814] overflow-hidden",
         className
       )}
       style={style}
     >
+      {mode === "mobile" && (
+        <Button className="pl-3">
+          <Search className="w-5 h-5 text-scarlet-red" />
+        </Button>
+      )}
       {/* Typing Effect Input */}
       <Input
         placeholder={`${placeholder} |`}
-        className="relative z-10 bg-transparent text-scarlet-red placeholder:text-red-300 text-sm flex-1 outline-none border-none h-12 font-normal placeholder:[letter-spacing:0.05em] px-4 transition-all duration-500"
+        className="relative z-10 bg-transparent text-scarlet-red placeholder:text-scarlet-red text-sm flex-1 outline-none border-none h-12 font-normal placeholder:[letter-spacing:0.05em] transition-all duration-500"
       />
 
       {/* Image Upload Button */}
-      <label className="cursor-pointer flex items-center justify-center bg-[#ffe5e5] text-[#F52828] w-12 h-12 hover:bg-[#ffcccc] transition-all duration-200">
+      <label
+        className={cn(
+          "cursor-pointer flex items-center justify-center w-12 h-12 text-scarlet-red transition-all duration-200",
+          mode === "desktop"
+            ? "bg-[#ffe5e5] hover:bg-[#ffcccc]"
+            : "bg-transparent"
+        )}
+      >
         <Camera
           size={20}
           className="transition-transform duration-200 hover:scale-110"
@@ -76,10 +91,12 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
         />
       </label>
 
-      {/* Search Button */}
-      <Button className="bg-scarlet-red text-white text-sm font-semibold w-24 rounded-l-none rounded-r-xl cursor-pointer h-12 hover:bg-red-700 transition-all duration-200">
-        Search
-      </Button>
+      {mode === "desktop" && (
+        <Button className="bg-scarlet-red text-white text-sm font-semibold w-16 xl:w-24 rounded-l-none rounded-r-xl cursor-pointer h-12 hover:bg-red-700 transition-all duration-200">
+          <Span className="hidden xl:block">Search</Span>
+          <Search className="w-5 h-5 block xl:hidden" />
+        </Button>
+      )}
     </div>
   );
 };

@@ -56,7 +56,7 @@ export default function LoginForm() {
             },
           })}
           placeholder="Enter your email"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.email} />
       </div>
@@ -66,16 +66,12 @@ export default function LoginForm() {
           type="password"
           {...register("password", { required: "Password is required" })}
           placeholder="Enter your password"
-          className="py-2 px-2 border border-gray-300 font-medium"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.password} />
       </div>
 
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full max-w-full bg-scarlet-red text-white py-2 rounded-md hover:bg-scarlet-red-600 transition duration-200 font-semibold"
-      >
+      <Button type="submit" disabled={isSubmitting} variant="authBtn">
         {isSubmitting ? "Logging in..." : "Login"}
       </Button>
     </form>

@@ -31,49 +31,50 @@ const ShopToolBar = () => {
   };
 
   return (
-    <div className="flex items-center justify-end space-x-2">
+    <div className="w-auto md:w-full flex items-center justify-end space-x-2">
       <div className="flex items-center space-x-2">
-        <Span className="text-gray-600 font-medium text-sm">Sort:</Span>
+        <Span className="text-gray-600 font-medium text-sm hidden md:block">
+          Sort:
+        </Span>
         <Dropdown
           value={sortBy}
           onChange={handleSortChange}
           options={sortOptions}
           placeholder="Choose an option"
-          className="w-50"
+          className=""
         />
 
-        <Span className="text-gray-600 font-medium text-sm">Show:</Span>
+        <Span className="text-gray-600 font-medium text-sm hidden md:block">
+          Show:
+        </Span>
         <Dropdown
           value={itemsPerPage}
           onChange={handleItemsPerPageChange}
           options={itemsPerPageOptions}
           placeholder="Items per page"
-          className="w-50"
+          className=""
         />
       </div>
-      <div className="flex space-x-2">
-        {/* Grid and List View Buttons */}
-        <Button
-          onClick={() => handleViewChange("grid")}
-          className={`p-2 rounded-md border transition-all ${
-            viewMode === "grid"
-              ? "bg-gray-200 border-gray-400"
-              : "border-gray-300"
-          }`}
-        >
-          <Grid2x2 className="w-4 h-4" />
-        </Button>
-        <Button
-          onClick={() => handleViewChange("list")}
-          className={`p-2 rounded-md border transition-all ${
-            viewMode === "list"
-              ? "bg-gray-200 border-gray-400"
-              : "border-gray-300"
-          }`}
-        >
-          <List className="w-4 h-4" />
-        </Button>
-      </div>
+      <Button
+        onClick={() => handleViewChange("grid")}
+        className={`p-2 rounded-md border transition-all ${
+          viewMode === "grid"
+            ? "bg-gray-200 border-gray-400"
+            : "border-gray-300"
+        }`}
+      >
+        <Grid2x2 className="w-4 h-4" />
+      </Button>
+      <Button
+        onClick={() => handleViewChange("list")}
+        className={`p-2 rounded-md border transition-all ${
+          viewMode === "list"
+            ? "bg-gray-200 border-gray-400"
+            : "border-gray-300"
+        }`}
+      >
+        <List className="w-4 h-4" />
+      </Button>
     </div>
   );
 };

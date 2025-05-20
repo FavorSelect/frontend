@@ -21,7 +21,7 @@ export default async function Home() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 xl:space-y-8">
       <HeroWrapper />
       <CosyEveningsProductGrid products={cosyEveningProduct} />
       <WeeklyPromotionProductsList />
