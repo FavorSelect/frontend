@@ -7,6 +7,7 @@ import ErrorMessage from "../global/ErrorMessage";
 import { useLoginMutation } from "@/store/api/authApi";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type FormValues = {
   email: string;
@@ -60,7 +61,6 @@ export default function LoginForm() {
         />
         <ErrorMessage error={errors.email} />
       </div>
-
       <div className="space-y-1">
         <Input
           type="password"
@@ -70,7 +70,14 @@ export default function LoginForm() {
         />
         <ErrorMessage error={errors.password} />
       </div>
-
+      <div className="flex justify-end">
+        <Link
+          href="/password-reset"
+          className="text-sm text-blue-600 hover:underline"
+        >
+          Forgot Password?
+        </Link>
+      </div>
       <Button type="submit" disabled={isSubmitting} variant="authBtn">
         {isSubmitting ? "Logging in..." : "Login"}
       </Button>
