@@ -36,6 +36,16 @@ export const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    resetPassword: builder.mutation({
+      query: ({ resetToken, password }) => ({
+        url: `api/auth/find-my-account/${resetToken}`,
+        method: "POST",
+        body: {
+          password,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -45,4 +55,5 @@ export const {
   useLoginMutation,
   useVerifyOtpMutation,
   useFindMyAccountMutation,
+  useResetPasswordMutation,
 } = authApi;

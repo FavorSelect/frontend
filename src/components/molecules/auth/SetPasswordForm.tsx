@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useResetPasswordMutation } from "@/store/api/authApi";
+import toast from "react-hot-toast";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
-import Paragraph from "@/components/atoms/Paragraph";
-import { setPassword } from "@/store/slices/auth/setPasswordSlice";
-import toast from "react-hot-toast";
 import ErrorMessage from "../global/ErrorMessage";
 
 type FormValues = {
@@ -14,48 +13,49 @@ type FormValues = {
   confirmPassword: string;
 };
 
-export default function SetPasswordForm() {
+type SetPasswordFormProps = {
+  resetToken: string;
+};
+
+export default function SetPasswordForm({ resetToken }: SetPasswordFormProps) {
+  const router = useRouter();
+  const [resetPassword] = useResetPasswordMutation();
+
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isValid },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
-  const dispatch = useDispatch();
 
-  const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
+  const onSubmit = async (data: FormValues) => {
+    if (!resetToken) {
+      toast.error("Reset token is missing.");
+      return;
+    }
 
-  const onSubmit = (data: FormValues) => {
-    dispatch(
-      setPassword({
-        password: data.password,
-        confirmPassword: data.confirmPassword,
-      })
-    );
-
-    console.log("Set Password Form Data Submitted:", data);
-
-    // Show success toast
-    toast.success("Password set successfully!");
+    try {
+      await resetPassword({ resetToken, password: data.password }).unwrap();
+      toast.success("Password reset successful!");
+      router.push("/login");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Password reset failed.");
+    }
   };
-
-  const isSubmitDisabled =
-    !password || !confirmPassword || password !== confirmPassword || !isValid;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="space-y-1">
+      <div>
         <Input
           type="password"
           {...register("password", { required: "Password is required" })}
-          placeholder="Enter new password"
+          placeholder="New Password"
           className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.password} />
       </div>
 
-      <div className="space-y-1">
+      <div>
         <Input
           type="password"
           {...register("confirmPassword", {
@@ -63,14 +63,14 @@ export default function SetPasswordForm() {
             validate: (value) =>
               value === watch("password") || "Passwords do not match",
           })}
-          placeholder="Confirm new password"
+          placeholder="Confirm Password"
           className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
         <ErrorMessage error={errors.confirmPassword} />
       </div>
 
-      <Button type="submit" variant="authBtn">
-        Set Password
+      <Button type="submit" variant="authBtn" disabled={isSubmitting}>
+        {isSubmitting ? "Updating..." : "Set Password"}
       </Button>
     </form>
   );
