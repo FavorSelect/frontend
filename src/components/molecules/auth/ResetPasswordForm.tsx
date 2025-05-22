@@ -1,11 +1,11 @@
 "use client";
-
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { setResetPasswordData } from "@/store/slices/auth/resetPasswordSlice"; // updated slice import
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Paragraph from "@/components/atoms/Paragraph";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useFindMyAccountMutation } from "@/store/api/authApi";
 
 type FormValues = {
   email: string;
@@ -15,19 +15,40 @@ export default function ResetPasswordForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
-  const dispatch = useDispatch();
 
-  const onSubmit = (data: FormValues) => {
-    dispatch(
-      setResetPasswordData({
-        email: data.email,
-      })
-    );
+  const router = useRouter();
+  const [findMyAccount] = useFindMyAccountMutation();
 
-    // Handle reset password request here
-    console.log("Reset Password Email Submitted:", data);
+  const onSubmit = async (data: FormValues) => {
+    try {
+      toast.loading("Checking account...");
+      const res = await findMyAccount({ email: data.email }).unwrap();
+      console.log(res);
+
+      toast.dismiss();
+      toast.success(res.message || "Check your email for a reset link.");
+
+      localStorage.setItem("resetEmail", data.email);
+      setTimeout(() => {
+        localStorage.removeItem("resetEmail");
+      }, 3 * 60 * 1000);
+
+      router.push("/check-your-email");
+    } catch (error: unknown) {
+      toast.dismiss();
+      console.error("Reset request failed:", error);
+
+      if (typeof error === "object" && error !== null && "data" in error) {
+        const apiError = error as { data: { message?: string } };
+        toast.error(
+          apiError.data.message || "Account not found or server error"
+        );
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
   };
 
   return (
@@ -52,8 +73,8 @@ export default function ResetPasswordForm() {
         )}
       </div>
 
-      <Button type="submit" variant="authBtn">
-        Submit
+      <Button type="submit" disabled={isSubmitting} variant="authBtn">
+        {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </form>
   );

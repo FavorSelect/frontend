@@ -28,9 +28,21 @@ export const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    findMyAccount: builder.mutation({
+      query: (data: { email: string }) => ({
+        url: "api/auth/find-my-account",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useSignupMutation, useLoginMutation, useVerifyOtpMutation } =
-  authApi;
+export const {
+  useSignupMutation,
+  useLoginMutation,
+  useVerifyOtpMutation,
+  useFindMyAccountMutation,
+} = authApi;
