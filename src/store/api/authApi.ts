@@ -42,7 +42,7 @@ export const authApi = apiSlice.injectEndpoints({
         url: `api/auth/find-my-account/${resetToken}`,
         method: "POST",
         body: {
-          password,
+          newPassword: password,
         },
       }),
     }),
