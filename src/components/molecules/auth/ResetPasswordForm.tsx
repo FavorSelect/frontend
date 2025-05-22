@@ -35,7 +35,9 @@ export default function ResetPasswordForm() {
         localStorage.removeItem("resetEmail");
       }, 3 * 60 * 1000);
 
-      router.push("/password-reset/check-your-email");
+      router.push(
+        `/password-reset/check-your-email/${encodeURIComponent(data.email)}`
+      );
     } catch (error: unknown) {
       toast.dismiss();
       console.error("Reset request failed:", error);
