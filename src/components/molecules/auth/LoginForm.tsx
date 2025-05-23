@@ -8,6 +8,8 @@ import { useLoginMutation } from "@/store/api/authApi";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/slices/auth/authSlice";
 
 type FormValues = {
   email: string;
@@ -15,6 +17,7 @@ type FormValues = {
 };
 
 export default function LoginForm() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -26,9 +29,16 @@ export default function LoginForm() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      console.log("Logging in...");
       const response = await login(data).unwrap();
       localStorage.setItem("token", response.token);
+
+      dispatch(
+        setUser({
+          name: response.user.firstName,
+          email: response.user.email,
+          profileImage: response.user.profilePhoto,
+        })
+      );
 
       toast.success(response.message || "Login successful!");
       router.push("/");

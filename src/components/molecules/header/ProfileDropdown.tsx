@@ -1,27 +1,40 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { LogIn, User, UserPlus } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { logout } from "@/store/slices/auth/authSlice";
+import { User, UserPlus, LogIn, LogOut } from "lucide-react";
 import Span from "@/components/atoms/Span";
+import Image from "next/image";
 import { cn } from "@/utils/cn";
 
-const ProfileDropdown: React.FC = () => {
+export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
-  // Close the dropdown on outside click
+  const user = useSelector((state: RootState) => state.auth.user);
+  console.log(user);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
+  const handleLinkClick = () => setIsOpen(false);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  // Close the dropdown on link click
-  const handleLinkClick = () => setIsOpen(false);
 
   return (
     <div ref={ref} className="relative text-sm cursor-pointer">
@@ -31,8 +44,23 @@ const ProfileDropdown: React.FC = () => {
         aria-expanded={isOpen}
         className="flex flex-col items-center group"
       >
-        <User className="w-6 h-6" />
-        <Span className="mt-1 hidden xl:block">Profile</Span>
+        {isLoggedIn && user ? (
+          <>
+            <Image
+              src={user.profileImage || "/profile-img.png"}
+              alt="User Avatar"
+              className="w-6 h-6 rounded-full object-cover"
+              width={32}
+              height={32}
+            />
+            <Span className="mt-1 hidden xl:block">{user.name}</Span>
+          </>
+        ) : (
+          <>
+            <User className="w-6 h-6" />
+            <Span className="mt-1 hidden xl:block">Profile</Span>
+          </>
+        )}
       </div>
 
       {/* Dropdown Menu */}
@@ -47,27 +75,47 @@ const ProfileDropdown: React.FC = () => {
         )}
         tabIndex={0}
       >
-        <li onClick={handleLinkClick}>
-          <Link
-            href="/signup"
-            className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
-          >
-            <UserPlus className="mr-2 w-5 h-5" />
-            Sign Up
-          </Link>
-        </li>
-        <li onClick={handleLinkClick}>
-          <Link
-            href="/login"
-            className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
-          >
-            <LogIn className="mr-2 w-5 h-5 xl:w-5 xl:h-5" />
-            Login
-          </Link>
-        </li>
+        {!isLoggedIn ? (
+          <>
+            <li onClick={handleLinkClick}>
+              <Link
+                href="/signup"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
+              >
+                <UserPlus className="mr-2 w-5 h-5" />
+                Sign Up
+              </Link>
+            </li>
+            <li onClick={handleLinkClick}>
+              <Link
+                href="/login"
+                className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
+              >
+                <LogIn className="mr-2 w-5 h-5" />
+                Login
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link
+                href="/dashboard"
+                className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700 transition-colors"
+              >
+                <User className="mr-2 w-5 h-5" />
+                Profile
+              </Link>
+            </li>
+            <li onClick={handleLogout}>
+              <button className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700 transition-colors cursor-pointer">
+                <LogOut className="mr-2 w-5 h-5" />
+                Logout
+              </button>
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );
-};
-
-export default ProfileDropdown;
+}

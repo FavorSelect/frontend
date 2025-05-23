@@ -24,6 +24,8 @@ import checkoutReducer from "@/store/slices/checkout/checkoutSlice";
 import orderFilterReducer from "@/store/slices/dashboard/orderFilterSlice";
 import reviewFilterReducer from "@/store/slices/dashboard/reviewFilterSlice";
 
+import authReducer from "@/store/slices/auth/authSlice";
+
 const persistConfig = {
   key: "root",
   storage,
@@ -39,6 +41,7 @@ const persistConfig = {
     "productView",
     "orderFilter",
     "reviewFilter",
+    "auth",
   ],
 };
 
@@ -56,6 +59,7 @@ const rootReducer = {
   orderFilter: orderFilterReducer,
   reviewFilter: reviewFilterReducer,
   hamburger: hamburgerReducer,
+  auth: authReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);
