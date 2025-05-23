@@ -1,15 +1,13 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { Facebook, Google, X } from "@/assets/icon";
 import { Button } from "@/components/atoms/Button";
 import SignupForm from "@/components/molecules/auth/SignupForm";
 import { ChevronDown } from "lucide-react";
-import { useRouter } from "next/navigation";
 import FormHeader from "@/components/molecules/auth/FormHeader";
 import FormText from "@/components/molecules/auth/FormText";
 
 const SignupWrapper = () => {
-  const router = useRouter();
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
@@ -20,16 +18,6 @@ const SignupWrapper = () => {
   const handletwitterLogin = () => {
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/twitter`;
   };
-  useEffect(() => {
-    console.log("Current URL:", window.location.href);
-    const queryParams = new URLSearchParams(window.location.search);
-    const token = queryParams.get("token");
-
-    if (token) {
-      localStorage.setItem("token", token);
-      router.push("/");
-    }
-  }, [router]);
 
   return (
     <div className="font-montserrat w-full max-w-md mx-auto p-4 md:p-8 bg-white rounded-lg shadow-md">

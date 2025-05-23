@@ -8,6 +8,17 @@ import FormHeader from "@/components/molecules/auth/FormHeader";
 import FormText from "@/components/molecules/auth/FormText";
 
 const LoginWrapper = () => {
+  const handleGoogleLogin = () => {
+    console.log("Google login clicked");
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
+  };
+  const handleFacebookLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/facebook`;
+  };
+  const handletwitterLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/twitter`;
+  };
+
   return (
     <div className="font-montserrat w-full max-w-md mx-auto p-4 md:p-8 bg-white rounded-lg shadow-md">
       <FormHeader> Log in to your account</FormHeader>
@@ -30,6 +41,7 @@ const LoginWrapper = () => {
       <div className="flex flex-col lg:flex-row gap-4">
         <Button
           type="button"
+          onClick={handleGoogleLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-2 text-sm lg:text-base 
                     hover:bg-light-gray hover:border-scarlet-red transition-all duration-200"
         >
@@ -38,6 +50,7 @@ const LoginWrapper = () => {
 
         <Button
           type="button"
+          onClick={handleFacebookLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-2 text-sm lg:text-base 
                     hover:bg-light-gray hover:border-scarlet-red transition-all duration-200"
         >
@@ -46,6 +59,7 @@ const LoginWrapper = () => {
 
         <Button
           type="button"
+          onClick={handletwitterLogin}
           className="flex-1 flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-2 text-sm lg:text-base 
                     hover:bg-light-gray hover:border-scarlet-red transition-all duration-200"
         >

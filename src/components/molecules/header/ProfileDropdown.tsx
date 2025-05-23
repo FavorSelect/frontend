@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { logout } from "@/store/slices/auth/authSlice";
+import { logout, setUser } from "@/store/slices/auth/authSlice";
 import { User, UserPlus, LogIn, LogOut } from "lucide-react";
 import Span from "@/components/atoms/Span";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import { cn } from "@/utils/cn";
 import { useLogoutMutation } from "@/store/api/authApi";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { useSearchParams } from "next/navigation";
 
 export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,11 +19,9 @@ export default function ProfileDropdown() {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
-  console.log(user);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-
+  const searchParams = useSearchParams();
   const handleLinkClick = () => setIsOpen(false);
-
   const [logoutApi] = useLogoutMutation();
 
   const handleLogout = async () => {
@@ -48,6 +47,25 @@ export default function ProfileDropdown() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!searchParams.has("name") || !searchParams.has("email")) return;
+
+    const name = searchParams.get("name");
+    const email = searchParams.get("email");
+
+    if (name && email) {
+      dispatch(
+        setUser({
+          name: decodeURIComponent(name),
+          email: decodeURIComponent(email),
+        })
+      );
+
+      const newUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, [searchParams, dispatch]);
 
   return (
     <div ref={ref} className="relative text-sm cursor-pointer">
