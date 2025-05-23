@@ -46,6 +46,13 @@ export const authApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+
+    logout: builder.mutation<void, void>({
+      query: () => ({
+        url: "api/auth/logout",
+        method: "POST",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -56,4 +63,5 @@ export const {
   useVerifyOtpMutation,
   useFindMyAccountMutation,
   useResetPasswordMutation,
+  useLogoutMutation,
 } = authApi;

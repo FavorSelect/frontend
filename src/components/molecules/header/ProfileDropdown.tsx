@@ -8,21 +8,34 @@ import { User, UserPlus, LogIn, LogOut } from "lucide-react";
 import Span from "@/components/atoms/Span";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
+import { useLogoutMutation } from "@/store/api/authApi";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const user = useSelector((state: RootState) => state.auth.user);
   console.log(user);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const handleLinkClick = () => setIsOpen(false);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    setIsOpen(false);
+  const [logoutApi] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutApi().unwrap();
+      dispatch(logout());
+      setIsOpen(false);
+      toast.success("You have been logged out.");
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+      toast.error("Failed to logout. Please try again.");
+    }
   };
 
   useEffect(() => {
@@ -98,7 +111,7 @@ export default function ProfileDropdown() {
           </>
         ) : (
           <>
-            <li>
+            <li onClick={handleLinkClick}>
               <Link
                 href="/dashboard"
                 className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700 transition-colors"

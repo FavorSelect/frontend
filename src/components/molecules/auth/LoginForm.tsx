@@ -30,7 +30,6 @@ export default function LoginForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await login(data).unwrap();
-      localStorage.setItem("token", response.token);
 
       dispatch(
         setUser({
