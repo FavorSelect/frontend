@@ -1,8 +1,9 @@
+"use client";
 import React from "react";
-import AddAddress from "@/components/molecules/dashboard/AddAddress";
+import AddShippingAddress from "@/components/molecules/dashboard/AddShippingAddress";
 
 const ShippingAddressWrapper = ({ token }: { token: string }) => {
-  return <AddAddress token={token} />;
+  return <AddShippingAddress token={token} />;
 };
 
 export default ShippingAddressWrapper;

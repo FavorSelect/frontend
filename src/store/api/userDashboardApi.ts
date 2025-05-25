@@ -1,19 +1,51 @@
 import { apiSlice } from "./api";
-import { AddressFormValues } from "@/components/molecules/dashboard/AddressForm";
+import { AddressFormValues } from "@/components/molecules/dashboard/ShippingAddressForm";
 
 export const userDashboardApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addShippingAddress: builder.mutation({
-      query: ({
-        data,
-        token,
-      }: {
-        data: AddressFormValues;
-        token: string | undefined;
-      }) => ({
+      query: ({ data, token }: { data: AddressFormValues; token: string }) => ({
         url: "api/user/address/add",
         method: "POST",
         body: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+    getShippingAddress: builder.mutation({
+      query: ({ token }: { token: string }) => ({
+        url: "api/user/address",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    updateShippingAddress: builder.mutation({
+      query: ({
+        data,
+        token,
+        id,
+      }: {
+        data: AddressFormValues;
+        token: string;
+        id: number;
+      }) => ({
+        url: `api/user/address/${id}`,
+        method: "PUT",
+        body: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    deleteShippingAddress: builder.mutation({
+      query: ({ token, id }) => ({
+        url: `api/user/address/${id}`,
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -23,4 +55,9 @@ export const userDashboardApi = apiSlice.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useAddShippingAddressMutation } = userDashboardApi;
+export const {
+  useAddShippingAddressMutation,
+  useGetShippingAddressMutation,
+  useUpdateShippingAddressMutation,
+  useDeleteShippingAddressMutation,
+} = userDashboardApi;

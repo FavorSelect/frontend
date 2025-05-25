@@ -4,11 +4,15 @@ import { Input } from "@/components/atoms/Input";
 import { Button } from "@/components/atoms/Button";
 import ErrorMessage from "../global/ErrorMessage";
 import { SingleSelectField } from "../global/SingleSelectField";
-import { useAddShippingAddressMutation } from "@/store/api/userDashboardApi";
+import {
+  useAddShippingAddressMutation,
+  useUpdateShippingAddressMutation,
+} from "@/store/api/userDashboardApi";
 import toast from "react-hot-toast";
 import Spinner from "../global/Spinner";
 
 export type AddressFormValues = {
+  id: number;
   recipientName: string;
   street: string;
   city: string;
@@ -31,42 +35,78 @@ const cities = [
   { value: "bangalore", label: "Bangalore" },
 ];
 
-const AddressForm = ({
+const ShippingAddressForm = ({
   token,
   setIsOpen,
+  updateAdd,
 }: {
   token: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  updateAdd?: AddressFormValues | null;
 }) => {
   const {
     control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<AddressFormValues>();
+  } = useForm<AddressFormValues>({
+    defaultValues: updateAdd || {
+      recipientName: "",
+      street: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      country: "",
+      phoneNumber: "",
+      isDefault: false,
+    },
+  });
 
   const [addShippingAddress] = useAddShippingAddressMutation();
-
-  console.log(token);
+  const [updateShippingAddress] = useUpdateShippingAddressMutation();
 
   const onSubmit = async (data: AddressFormValues) => {
+    const id = updateAdd?.id;
+
+    const isUpdate = updateAdd && typeof id === "number";
+
     try {
-      const response = await addShippingAddress({ data, token }).unwrap();
+      const response = isUpdate
+        ? await updateShippingAddress({ data, token, id }).unwrap()
+        : await addShippingAddress({ data, token }).unwrap();
 
       console.log("Shipping Address Response:", response);
-      toast.success(response.message || "Address added successfully!");
+
+      toast.success(
+        response.message ||
+          (isUpdate
+            ? "Address updated successfully!"
+            : "Address added successfully!")
+      );
+
       setIsOpen(false);
     } catch (error) {
       console.error("Shipping Address Failed:", error);
 
-      if (typeof error === "object" && error !== null && "data" in error) {
-        const apiError = error as { data: { message?: string } };
-        toast.error(apiError.data.message || "Something went wrong.");
-      } else {
-        toast.error("Failed to add address. Please try again.");
-      }
+      type APIError = {
+        data?: {
+          message?: string;
+        };
+      };
+
+      const err = error as APIError;
+
+      const message =
+        typeof err === "object" && err !== null && err.data?.message
+          ? err.data.message
+          : isUpdate
+          ? "Failed to update address. Please try again."
+          : "Failed to add address. Please try again.";
+
+      toast.error(message);
     }
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-5">
       <div className="space-y-1">
@@ -194,8 +234,10 @@ const AddressForm = ({
             <>
               <Spinner /> Saving...
             </>
+          ) : updateAdd ? (
+            "Update Address"
           ) : (
-            "Save Address"
+            "Add Address"
           )}
         </Button>
       </div>
@@ -203,4 +245,4 @@ const AddressForm = ({
   );
 };
 
-export default AddressForm;
+export default ShippingAddressForm;
