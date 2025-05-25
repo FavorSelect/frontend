@@ -41,6 +41,16 @@ const AddShippingAddress = ({ token }: { token: string }) => {
           onEdit={openForEdit}
           onDataLoad={setAddresses}
         />
+        <div className="mt-3 flex justify-end">
+          {!(addresses.length === 0) && (
+            <Button
+              onClick={openForAdd}
+              className="px-6 py-2 border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-100 transition-colors border"
+            >
+              Add more
+            </Button>
+          )}
+        </div>
         {/* Address section */}
         <div className="flex-grow flex items-center justify-center">
           {!hasAddresses && (

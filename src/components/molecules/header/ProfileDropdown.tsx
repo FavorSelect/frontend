@@ -12,6 +12,7 @@ import { useLogoutMutation } from "@/store/api/authApi";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
+import { decrypt } from "@/utils/decrypt";
 
 export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,21 +50,31 @@ export default function ProfileDropdown() {
   }, []);
 
   useEffect(() => {
-    if (!searchParams.has("name") || !searchParams.has("email")) return;
+    const encrypted = searchParams.get("data");
 
-    const name = searchParams.get("name");
-    const email = searchParams.get("email");
+    if (!encrypted) return;
 
-    if (name && email) {
-      dispatch(
-        setUser({
-          name: decodeURIComponent(name),
-          email: decodeURIComponent(email),
-        })
-      );
+    const decryptedData = decrypt(encrypted);
 
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, "", newUrl);
+    if (!decryptedData) return;
+
+    try {
+      const parsed = JSON.parse(decryptedData);
+      const { name, email } = parsed;
+
+      if (name && email) {
+        dispatch(
+          setUser({
+            name,
+            email,
+          })
+        );
+
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, "", newUrl);
+      }
+    } catch (err) {
+      console.error("Failed to parse decrypted data:", err);
     }
   }, [searchParams, dispatch]);
 
@@ -78,11 +89,11 @@ export default function ProfileDropdown() {
         {isLoggedIn && user ? (
           <>
             <Image
-              src={user.profileImage || "/profile-img.png"}
+              src={user.profileImage || "/user.jpg"}
               alt="User Avatar"
-              className="w-6 h-6 rounded-full object-cover"
-              width={32}
-              height={32}
+              className="w-9 h-9 rounded-full object-cover"
+              width={40}
+              height={40}
             />
             <Span className="mt-1 hidden xl:block">{user.name}</Span>
           </>

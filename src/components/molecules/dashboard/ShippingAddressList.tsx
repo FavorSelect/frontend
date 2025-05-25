@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import { Button } from "@/components/atoms/Button";
 import { AddressFormValues } from "./ShippingAddressForm";
 import toast from "react-hot-toast";
+import Spinner from "../global/Spinner";
 
 type ShippingAddressListProps = {
   token: string;
@@ -20,7 +21,8 @@ const ShippingAddressList = ({
   onDataLoad,
 }: ShippingAddressListProps) => {
   const [getShippingAddress, { data }] = useGetShippingAddressMutation();
-  const [deleteShippingAddress] = useDeleteShippingAddressMutation();
+  const [deleteShippingAddress, { isLoading }] =
+    useDeleteShippingAddressMutation();
 
   useEffect(() => {
     if (token) {
@@ -37,7 +39,6 @@ const ShippingAddressList = ({
   const addresses = data?.addresses || [];
 
   const handleDelete = async (id: number) => {
-    console.log(id);
     try {
       await deleteShippingAddress({ token, id }).unwrap();
       toast.success("Address deleted successfully!");
@@ -84,8 +85,9 @@ const ShippingAddressList = ({
                 </Button>
                 <Button
                   onClick={() => handleDelete(address.id)}
-                  className="text-sm border border-gray-300 hover:bg-gray-100 px-2 py-1.5"
+                  className="text-sm border border-gray-300 text-white px-2 py-1.5 bg-scarlet-red"
                 >
+                  {isLoading && <Spinner />}
                   Delete
                 </Button>
               </div>

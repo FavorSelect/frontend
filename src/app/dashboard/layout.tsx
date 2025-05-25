@@ -78,7 +78,7 @@ export default function DashboardLayout({
               <UserProfile
                 name={user?.name || "Guest User"}
                 membership="FavorSelect Member"
-                profileImage={user?.profileImage || "/profile-img.png"}
+                profileImage={user?.profileImage || "/user.jpg"}
                 verified={true}
               />
               <Sidebar tabs={tabs} />
