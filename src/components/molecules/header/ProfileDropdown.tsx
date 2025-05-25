@@ -91,7 +91,7 @@ export default function ProfileDropdown() {
             <Image
               src={user.profileImage || "/user.jpg"}
               alt="User Avatar"
-              className="w-9 h-9 rounded-full object-cover"
+              className="w-6 h-6 rounded-full object-cover"
               width={40}
               height={40}
             />
