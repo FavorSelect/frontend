@@ -2,7 +2,7 @@
 import { cn } from "@/utils/cn";
 import React, { useEffect, useMemo, useState } from "react";
 import { ControllerProps, FieldPath, FieldValues } from "react-hook-form";
-import Select from "react-select";
+import Select, { SelectInstance } from "react-select";
 
 const controlStyles = {
   base: "border rounded-lg bg-white hover:cursor-pointer",
@@ -91,7 +91,9 @@ export function SingleSelectField<
     setSelectedOption(newValue);
     onChange(selectedValue);
   };
-
+  const selectRef = React.useRef<SelectInstance<SelectOption, false> | null>(
+    null
+  );
   return (
     <Select
       isClearable
@@ -101,7 +103,14 @@ export function SingleSelectField<
       value={selectedOption}
       onChange={handleChange}
       onBlur={field.onBlur}
-      ref={field.ref}
+      onMenuClose={() => {
+        setTimeout(() => {
+          selectRef.current?.blur();
+        }, 0);
+      }}
+      ref={selectRef}
+      closeMenuOnSelect={true}
+      menuShouldBlockScroll={false}
       unstyled
       styles={{
         input: (base) => ({

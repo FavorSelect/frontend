@@ -1,8 +1,8 @@
 import React from "react";
-import EmptyAddressList from "@/components/molecules/dashboard/EmptyAddressList";
+import AddAddress from "@/components/molecules/dashboard/AddAddress";
 
-const ShippingAddressWrapper = () => {
-  return <EmptyAddressList />;
+const ShippingAddressWrapper = ({ token }: { token: string }) => {
+  return <AddAddress token={token} />;
 };
 
 export default ShippingAddressWrapper;

@@ -38,7 +38,7 @@ export default function RootLayout({
           <HeaderWrapper />
 
           {children}
-          <Toaster position="top-right" reverseOrder={false} />
+          <Toaster position="top-center" reverseOrder={false} />
           <FooterWrapper />
           <BackToTop />
         </ReduxProvider>

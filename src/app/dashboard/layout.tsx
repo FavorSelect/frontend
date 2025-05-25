@@ -1,9 +1,11 @@
+"use client";
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import AccountHeading from "@/components/molecules/dashboard/AccountHeading";
 import Sidebar from "@/components/molecules/dashboard/Sidebar";
 import UserProfile from "@/components/molecules/dashboard/UserProfile";
+import { RootState } from "@/store/store";
 import {
   CreditCard,
   Heart,
@@ -14,6 +16,7 @@ import {
   Truck,
   User,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const tabs = [
   {
@@ -63,6 +66,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const user = useSelector((state: RootState) => state.auth.user);
+
   return (
     <Section className="py-8">
       <MaxWidthWrapper>
@@ -71,9 +76,9 @@ export default function DashboardLayout({
             <div className="bg-white shadow-sm px-4 py-2.5 rounded-lg space-y-4">
               <AccountHeading />
               <UserProfile
-                name="Demir K."
+                name={user?.name || "Guest User"}
                 membership="FavorSelect Member"
-                profileImage="/user.jpg"
+                profileImage={user?.profileImage || "/profile-img.png"}
                 verified={true}
               />
               <Sidebar tabs={tabs} />

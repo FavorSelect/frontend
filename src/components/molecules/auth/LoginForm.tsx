@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/slices/auth/authSlice";
+import Spinner from "../global/Spinner";
 
 type FormValues = {
   email: string;
@@ -88,7 +89,13 @@ export default function LoginForm() {
         </Link>
       </div>
       <Button type="submit" disabled={isSubmitting} variant="authBtn">
-        {isSubmitting ? "Logging in..." : "Login"}
+        {isSubmitting ? (
+          <>
+            <Spinner /> Logging in...
+          </>
+        ) : (
+          "Login"
+        )}
       </Button>
     </form>
   );
