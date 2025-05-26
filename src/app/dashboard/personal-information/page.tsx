@@ -1,6 +1,12 @@
 import React from "react";
 import PersonalInformationWrapper from "@/components/organisms/dashboard/PersonalInformationWrapper";
+import { cookies } from "next/headers";
 
-export default function Page() {
-  return <PersonalInformationWrapper />;
+export default async function Page() {
+  const cookieStore = await cookies();
+
+  const token = cookieStore.get("token")?.value;
+
+  if (!token || token === "undefined") return;
+  return <PersonalInformationWrapper token={token} />;
 }

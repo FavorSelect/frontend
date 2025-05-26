@@ -6,10 +6,13 @@ import ErrorMessage from "../global/ErrorMessage";
 import { SingleSelectField } from "../global/SingleSelectField";
 import {
   useAddShippingAddressMutation,
+  useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,
 } from "@/store/api/userDashboardApi";
 import toast from "react-hot-toast";
 import Spinner from "../global/Spinner";
+import { useDispatch } from "react-redux";
+import { setShippingAddresses } from "@/store/slices/dashboard/getShippingAddressSlice";
 
 export type AddressFormValues = {
   id: number;
@@ -64,6 +67,8 @@ const ShippingAddressForm = ({
 
   const [addShippingAddress] = useAddShippingAddressMutation();
   const [updateShippingAddress] = useUpdateShippingAddressMutation();
+  const dispatch = useDispatch();
+  const { refetch } = useGetShippingAddressQuery({ token });
 
   const onSubmit = async (data: AddressFormValues) => {
     const id = updateAdd?.id;
@@ -85,6 +90,10 @@ const ShippingAddressForm = ({
       );
 
       setIsOpen(false);
+      const result = await refetch();
+      if (result.data?.addresses) {
+        dispatch(setShippingAddresses(result.data.addresses));
+      }
     } catch (error) {
       console.error("Shipping Address Failed:", error);
 

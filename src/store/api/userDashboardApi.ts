@@ -13,7 +13,7 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         },
       }),
     }),
-    getShippingAddress: builder.mutation({
+    getShippingAddress: builder.query({
       query: ({ token }: { token: string }) => ({
         url: "api/user/address",
         method: "GET",
@@ -22,7 +22,6 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         },
       }),
     }),
-
     updateShippingAddress: builder.mutation({
       query: ({
         data,
@@ -51,13 +50,24 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+
+    getPersonalInformation: builder.mutation({
+      query: ({ token }: { token: string }) => ({
+        url: "api/user",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
 export const {
   useAddShippingAddressMutation,
-  useGetShippingAddressMutation,
+  useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,
   useDeleteShippingAddressMutation,
+  useGetPersonalInformationMutation,
 } = userDashboardApi;

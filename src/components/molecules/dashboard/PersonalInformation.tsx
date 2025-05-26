@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import ErrorMessage from "../global/ErrorMessage";
 import { Input } from "@/components/atoms/Input";
 import { Button } from "@/components/atoms/Button";
 import { SingleSelectField } from "../global/SingleSelectField";
+import { useGetPersonalInformationMutation } from "@/store/api/userDashboardApi";
 
-export type FormValues = {
+export type PersonalFormValues = {
   firstName: string;
   lastName: string;
   phoneNumber: number;
   email: string;
-  address: string;
   city: string;
   state: string;
   zipCode: string;
@@ -26,16 +26,27 @@ const country = [
   { value: "tr", label: "Turkey" },
 ];
 
-const PersonalInformation = () => {
+const PersonalInformation = ({ token }: { token: string }) => {
   const {
     control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>();
+  } = useForm<PersonalFormValues>();
 
-  // form submitting
-  const onSubmit = async (data: FormValues) => {
+  const [getPersonalInformation, { data }] =
+    useGetPersonalInformationMutation();
+
+  if (data) {
+    console.log(data.user);
+  }
+  useEffect(() => {
+    if (token) {
+      getPersonalInformation({ token });
+    }
+  }, [token, getPersonalInformation]);
+
+  const onSubmit = async (data: PersonalFormValues) => {
     console.log(data);
   };
 
@@ -59,6 +70,7 @@ const PersonalInformation = () => {
               {...register("firstName", { required: "First name is required" })}
               placeholder="Enter your first name"
               className="py-2 px-2 border border-gray-300 font-medium"
+              defaultValue={(data !== undefined && data.user.firstName) || ""}
             />
             <ErrorMessage error={errors.firstName} />
           </div>
@@ -76,6 +88,7 @@ const PersonalInformation = () => {
               {...register("lastName", { required: "Last name is required" })}
               placeholder="Enter your last name"
               className="py-2 px-2 border border-gray-300 font-medium"
+              defaultValue={(data !== undefined && data.user.lastName) || ""}
             />
             <ErrorMessage error={errors.lastName} />
           </div>
@@ -96,6 +109,7 @@ const PersonalInformation = () => {
               })}
               placeholder="Enter your phone number"
               className="py-2 px-2 border border-gray-300 font-medium"
+              defaultValue={(data !== undefined && data.user.phoneNumber) || ""}
             />
             <ErrorMessage error={errors.phoneNumber} />
           </div>
@@ -113,32 +127,13 @@ const PersonalInformation = () => {
               {...register("email")}
               placeholder="Enter your email address"
               className="py-2 px-2 border border-gray-300 font-medium cursor-not-allowed"
-              value="registered@gmail.com"
+              defaultValue={(data !== undefined && data.user.email) || ""}
               disabled={true}
             />
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="space-y-1 flex-1">
-            <label
-              htmlFor="address"
-              className="inline-block font-semibold text-sm"
-            >
-              Address
-            </label>
-            <Input
-              type="text"
-              id="address"
-              {...register("address", {
-                required: "Address is required",
-              })}
-              placeholder="Enter your address"
-              className="py-2 px-2 border border-gray-300 font-medium"
-            />
-            <ErrorMessage error={errors.address} />
-          </div>
-
           <div className="space-y-1 flex-1">
             <label
               htmlFor="city"
@@ -152,6 +147,7 @@ const PersonalInformation = () => {
               {...register("city")}
               placeholder="Enter your state"
               className="py-2 px-2 border border-gray-300 font-medium"
+              defaultValue={(data !== undefined && data.user.state) || ""}
             />
             <ErrorMessage error={errors.city} />
           </div>

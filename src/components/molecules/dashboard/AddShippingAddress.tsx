@@ -6,10 +6,13 @@ import React, { useState } from "react";
 import ShippingAddressForm, { AddressFormValues } from "./ShippingAddressForm";
 import ShippingAddressList from "./ShippingAddressList";
 import DrawerContainer from "../global/Drawer";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const AddShippingAddress = ({ token }: { token: string }) => {
-  const [addresses, setAddresses] = useState<AddressFormValues[]>([]);
-  const hasAddresses = addresses.length > 0;
+  const addresses = useSelector(
+    (state: RootState) => state.getShippingAddress.addresses
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [editAddress, setEditAddress] = useState<AddressFormValues | null>(
     null
@@ -25,6 +28,8 @@ const AddShippingAddress = ({ token }: { token: string }) => {
     setIsOpen(true);
   };
 
+  const hasAddresses = addresses && addresses.length > 0;
+
   return (
     <>
       <div className="relative h-full flex flex-col">
@@ -35,26 +40,23 @@ const AddShippingAddress = ({ token }: { token: string }) => {
             Manage your shipping and billing addresses
           </Span>
         </div>
-        {/* shipping address list */}
-        <ShippingAddressList
-          token={token}
-          onEdit={openForEdit}
-          onDataLoad={setAddresses}
-        />
-        <div className="mt-3 flex justify-end">
-          {!(addresses.length === 0) && (
-            <Button
-              onClick={openForAdd}
-              className="px-6 py-2 border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-100 transition-colors border"
-            >
-              Add more
-            </Button>
-          )}
-        </div>
-        {/* Address section */}
-        <div className="flex-grow flex items-center justify-center">
-          {!hasAddresses && (
-            <div className="flex flex-col items-center">
+
+        {/* Conditional rendering: Either list or empty state */}
+        <div className="flex-grow px-4">
+          {hasAddresses ? (
+            <>
+              <ShippingAddressList token={token} onEdit={openForEdit} />
+              <div className="flex justify-end mt-4">
+                <Button
+                  onClick={openForAdd}
+                  className="px-6 py-2 border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-100 transition-colors border"
+                >
+                  Add More
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full">
               <MapPin className="text-gray-300 w-12 h-12 mb-4" />
               <h2 className="text-lg font-semibold text-gray-700 mb-2">
                 No addresses saved
@@ -72,6 +74,8 @@ const AddShippingAddress = ({ token }: { token: string }) => {
           )}
         </div>
       </div>
+
+      {/* Drawer for add/edit */}
       <DrawerContainer isOpen={isOpen} setIsOpen={setIsOpen}>
         <ShippingAddressForm
           token={token}
