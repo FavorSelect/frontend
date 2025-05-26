@@ -23,9 +23,9 @@ import productViewReducer from "@/store/slices/product-view/productViewSlice";
 import checkoutReducer from "@/store/slices/checkout/checkoutSlice";
 import orderFilterReducer from "@/store/slices/dashboard/orderFilterSlice";
 import reviewFilterReducer from "@/store/slices/dashboard/reviewFilterSlice";
-import getShippingAddressReducer from "@/store/slices/dashboard/getShippingAddressSlice";
-
 import authReducer from "@/store/slices/auth/authSlice";
+import getShippingAddressReducer from "@/store/slices/dashboard/getShippingAddressSlice";
+import getUserPersonalInfoReducer from "@/store/slices/dashboard/getUserPersonalInfoSlice";
 
 const persistConfig = {
   key: "root",
@@ -44,6 +44,7 @@ const persistConfig = {
     "reviewFilter",
     "auth",
     "getShippingAddress",
+    "getUserPersonalInfo",
   ],
 };
 
@@ -63,6 +64,7 @@ const rootReducer = {
   hamburger: hamburgerReducer,
   auth: authReducer,
   getShippingAddress: getShippingAddressReducer,
+  getUserPersonalInfo: getUserPersonalInfoReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);

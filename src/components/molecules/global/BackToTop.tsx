@@ -27,7 +27,7 @@ const BackToTop: React.FC = () => {
     let lastScroll = 0;
     const throttledScroll = () => {
       const now = Date.now();
-      if (now - lastScroll > 100) {
+      if (now - lastScroll > 95) {
         handleScroll();
         lastScroll = now;
       }

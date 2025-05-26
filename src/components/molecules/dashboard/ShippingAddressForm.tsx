@@ -91,9 +91,7 @@ const ShippingAddressForm = ({
 
       setIsOpen(false);
       const result = await refetch();
-      if (result.data?.addresses) {
-        dispatch(setShippingAddresses(result.data.addresses));
-      }
+      dispatch(setShippingAddresses(result.data.addresses));
     } catch (error) {
       console.error("Shipping Address Failed:", error);
 

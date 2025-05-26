@@ -31,7 +31,17 @@ export default function LoginForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await login(data).unwrap();
+      console.log(response);
+      const is2FA = response.isTwoFactorAuthEnable;
 
+      // 2fa user
+      if (is2FA) {
+        toast.success(response.message || "OTP sent. Verify to login.");
+        router.push(`/login/verify-otp`);
+        return;
+      }
+
+      // Normal user
       dispatch(
         setUser({
           name: response.user.firstName,
@@ -39,8 +49,8 @@ export default function LoginForm() {
           profileImage: response.user.profilePhoto,
         })
       );
-
       toast.success(response.message || "Login successful!");
+
       router.push("/");
     } catch (error: unknown) {
       console.error("Login failed:", error);

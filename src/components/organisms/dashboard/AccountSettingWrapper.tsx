@@ -5,11 +5,11 @@ import EmailPreferences from "@/components/molecules/dashboard/EmailPreferences"
 import SecuritySection from "@/components/molecules/dashboard/SecuritySection";
 import React from "react";
 
-const AccountSettingWrapper = () => {
+const AccountSettingWrapper = ({ token }: { token: string }) => {
   return (
     <div className="space-y-6">
       <AccountSettingHeader />
-      <SecuritySection />
+      <SecuritySection token={token} />
       <EmailPreferences />
       <DeleteAccount />
     </div>

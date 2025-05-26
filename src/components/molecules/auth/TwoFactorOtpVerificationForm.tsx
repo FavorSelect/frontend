@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Paragraph from "@/components/atoms/Paragraph";
-import { useVerifyOtpMutation } from "@/store/api/authApi";
+import { useVerifyTwoFactorMutation } from "@/store/api/userDashboardApi";
 
 type OtpFormValues = {
   otp1: string;
@@ -19,9 +19,9 @@ type OtpFormValues = {
   otp6: string;
 };
 
-const NewUserOtpVerificationForm = () => {
+const TwoFactorOtpVerificationForm = () => {
   const router = useRouter();
-  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const [verifyTwoFactor, { isLoading }] = useVerifyTwoFactorMutation();
 
   const {
     register,
@@ -32,17 +32,16 @@ const NewUserOtpVerificationForm = () => {
 
   const onSubmit = async (data: OtpFormValues) => {
     try {
-      // Debugging: log the OTP data
       console.log("OTP Data Received:", data);
       const verificationCode = Object.values(data).join("");
-
-      console.log("Verification Code:", verificationCode);
       if (verificationCode.length !== 6) {
         toast.error("Please enter a 6-digit OTP.");
         return;
       }
 
-      const response = await verifyOtp({ verificationCode }).unwrap();
+      const response = await verifyTwoFactor({
+        otp: verificationCode,
+      }).unwrap();
 
       console.log("OTP Verification Response:", response);
       toast.success(response.message || "OTP verified successfully!");
@@ -144,4 +143,4 @@ const NewUserOtpVerificationForm = () => {
   );
 };
 
-export default NewUserOtpVerificationForm;
+export default TwoFactorOtpVerificationForm;
