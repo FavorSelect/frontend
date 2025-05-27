@@ -110,10 +110,10 @@ export const userDashboardApi = apiSlice.injectEndpoints({
     }),
 
     verifyTwoFactor: builder.mutation({
-      query: (data: { otp: string }) => ({
+      query: (verificationCode: string) => ({
         url: "api/auth/verify-two-factor",
-        method: "POST",
-        body: data,
+        method: "PATCH",
+        body: { verificationCode: verificationCode },
       }),
     }),
   }),

@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import { ShieldCheck } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Paragraph from "@/components/atoms/Paragraph";
 import { useVerifyTwoFactorMutation } from "@/store/api/userDashboardApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/slices/user/userSlice";
 
 type OtpFormValues = {
   otp1: string;
@@ -20,6 +21,7 @@ type OtpFormValues = {
 };
 
 const TwoFactorOtpVerificationForm = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [verifyTwoFactor, { isLoading }] = useVerifyTwoFactorMutation();
 
@@ -32,20 +34,25 @@ const TwoFactorOtpVerificationForm = () => {
 
   const onSubmit = async (data: OtpFormValues) => {
     try {
-      console.log("OTP Data Received:", data);
-      const verificationCode = Object.values(data).join("");
-      if (verificationCode.length !== 6) {
+      const otp = Object.values(data).join("");
+      if (otp.length !== 6) {
         toast.error("Please enter a 6-digit OTP.");
         return;
       }
 
-      const response = await verifyTwoFactor({
-        otp: verificationCode,
-      }).unwrap();
+      const response = await verifyTwoFactor(otp).unwrap();
 
-      console.log("OTP Verification Response:", response);
+      console.log(response);
       toast.success(response.message || "OTP verified successfully!");
-      router.push("/login");
+      dispatch(
+        setUser({
+          name: response.user.firstName,
+          email: response.user.email,
+          profileImage: response.user.profilePhoto,
+        })
+      );
+
+      router.push("/");
     } catch (error: unknown) {
       console.error("OTP verification failed:", error);
 
@@ -122,23 +129,6 @@ const TwoFactorOtpVerificationForm = () => {
         <ShieldCheck className="w-5 h-5" />
         {isLoading || isSubmitting ? "Verifying..." : "Verify"}
       </Button>
-
-      <p className="text-gray-400 text-sm mb-2">
-        Didn’t get the code?{" "}
-        <Button className="text-black underline hover:text-rose-600">
-          Resend code
-        </Button>
-      </p>
-
-      <div className="flex justify-center gap-4 text-gray-500 text-xs mt-6">
-        <Link href="#" className="">
-          Need help?
-        </Link>
-        <span>|</span>
-        <Link href="#" className="">
-          Send feedback
-        </Link>
-      </div>
     </form>
   );
 };

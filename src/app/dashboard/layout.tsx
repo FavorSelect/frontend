@@ -66,7 +66,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.user.userInfo);
 
   return (
     <Section className="py-8">

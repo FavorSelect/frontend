@@ -12,8 +12,8 @@ import {
   REGISTER,
 } from "redux-persist";
 import hamburgerReducer from "@/store/slices/humburger/hamburgerSlice";
-import resetPasswordReducer from "@/store/slices/auth/resetPasswordSlice";
-import setPasswordReducer from "@/store/slices/auth/setPasswordSlice";
+import resetPasswordReducer from "@/store/slices/user/resetPasswordSlice";
+import setPasswordReducer from "@/store/slices/user/setPasswordSlice";
 import productColorSelectorReducer from "@/store/slices/product-details/productColorSelectorSlice";
 import productSizeSelectorReducer from "@/store/slices/product-details/productSizeSelectorSlice";
 import productQuantityReducer from "@/store/slices/product-details/productQuantitySlice";
@@ -23,7 +23,7 @@ import productViewReducer from "@/store/slices/product-view/productViewSlice";
 import checkoutReducer from "@/store/slices/checkout/checkoutSlice";
 import orderFilterReducer from "@/store/slices/dashboard/orderFilterSlice";
 import reviewFilterReducer from "@/store/slices/dashboard/reviewFilterSlice";
-import authReducer from "@/store/slices/auth/authSlice";
+import authReducer from "@/store/slices/user/userSlice";
 import getShippingAddressReducer from "@/store/slices/dashboard/getShippingAddressSlice";
 import getUserPersonalInfoReducer from "@/store/slices/dashboard/getUserPersonalInfoSlice";
 
@@ -42,7 +42,7 @@ const persistConfig = {
     "productView",
     "orderFilter",
     "reviewFilter",
-    "auth",
+    "user",
     "getShippingAddress",
     "getUserPersonalInfo",
   ],
@@ -62,7 +62,7 @@ const rootReducer = {
   orderFilter: orderFilterReducer,
   reviewFilter: reviewFilterReducer,
   hamburger: hamburgerReducer,
-  auth: authReducer,
+  user: authReducer,
   getShippingAddress: getShippingAddressReducer,
   getUserPersonalInfo: getUserPersonalInfoReducer,
 };

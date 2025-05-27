@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/store/slices/auth/authSlice";
+import { setUser } from "@/store/slices/user/userSlice";
 import Spinner from "../global/Spinner";
 
 type FormValues = {
@@ -33,7 +33,7 @@ export default function LoginForm() {
       const response = await login(data).unwrap();
       console.log(response);
       const is2FA = response.isTwoFactorAuthEnable;
-
+      console.log(is2FA);
       // 2fa user
       if (is2FA) {
         toast.success(response.message || "OTP sent. Verify to login.");
