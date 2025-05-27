@@ -6,13 +6,13 @@ type User = {
   profileImage?: string;
 };
 
-type AuthState = {
+type UserState = {
   userInfo: User | null;
   isLoggedIn: boolean;
   isTwoFactorEnabled: boolean;
 };
 
-const initialState: AuthState = {
+const initialState: UserState = {
   userInfo: null,
   isLoggedIn: false,
   isTwoFactorEnabled: false,

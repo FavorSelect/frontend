@@ -109,11 +109,42 @@ export const userDashboardApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    getTwoFactorAuthStatus: builder.query({
+      query: ({ token }: { token: string }) => ({
+        url: "api/user/two-factor-status",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
     verifyTwoFactor: builder.mutation({
       query: (verificationCode: string) => ({
         url: "api/auth/verify-two-factor",
         method: "PATCH",
         body: { verificationCode: verificationCode },
+      }),
+    }),
+
+    requestAccountDeletion: builder.mutation({
+      query: ({ token, reason }: { token: string; reason: string }) => ({
+        url: "api/support/deletion-request",
+        method: "POST",
+        body: { reason: reason },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    getAccountDeletionStatus: builder.query({
+      query: ({ token }: { token: string }) => ({
+        url: "api/support/account-deletion/status",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),
@@ -129,5 +160,8 @@ export const {
   useUpdatePersonalInformationMutation,
   useChangePasswordMutation,
   useEnableTwoFactorAuthMutation,
+  useGetTwoFactorAuthStatusQuery,
   useVerifyTwoFactorMutation,
+  useRequestAccountDeletionMutation,
+  useGetAccountDeletionStatusQuery,
 } = userDashboardApi;

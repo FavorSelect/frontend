@@ -1,29 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/atoms/Button";
 import Paragraph from "@/components/atoms/Paragraph";
-import { useEnableTwoFactorAuthMutation } from "@/store/api/userDashboardApi";
+import {
+  useEnableTwoFactorAuthMutation,
+  useGetTwoFactorAuthStatusQuery,
+} from "@/store/api/userDashboardApi";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { setTwoFactorStatus } from "@/store/slices/user/userSlice";
-
+import { RootState } from "@/store/store";
 const TwoFactorSection = ({ token }: { token: string }) => {
   const dispatch = useDispatch();
+  const [enableTwoFactorAuth, { isLoading }] = useEnableTwoFactorAuthMutation();
+
   const isTwoFactorEnabled = useSelector(
     (state: RootState) => state.user.isTwoFactorEnabled
   );
-  const [enableTwoFactorAuth, { isLoading }] = useEnableTwoFactorAuthMutation();
+
+  const { data } = useGetTwoFactorAuthStatusQuery({ token });
+
+  useEffect(() => {
+    if (data?.isTwoFactorAuthEnable) {
+      dispatch(setTwoFactorStatus(data.isTwoFactorAuthEnable));
+    }
+  }, [data, dispatch]);
 
   const handleToggle = async () => {
+    const newStatus = !isTwoFactorEnabled;
+
     try {
       const response = await enableTwoFactorAuth({
-        enable: !isTwoFactorEnabled,
+        enable: newStatus,
         token,
       }).unwrap();
 
-      dispatch(setTwoFactorStatus(!isTwoFactorEnabled));
-      toast.success(response.message || "2FA status updated.");
+      toast.success(response.message || "2FA status updated.", {
+        duration: 3000,
+      });
+      dispatch(setTwoFactorStatus(newStatus));
     } catch (err: any) {
       console.error(err);
       toast.error(err?.data?.message || "Failed to update 2FA.");
@@ -39,19 +54,9 @@ const TwoFactorSection = ({ token }: { token: string }) => {
         <Button
           onClick={handleToggle}
           disabled={isLoading}
-          className={`px-6 py-2 rounded-md text-sm transition border font-semibold ${
-            isTwoFactorEnabled
-              ? "border-gray-400 text-gray-700 hover:bg-gray-100"
-              : "border-scarlet-red text-scarlet-red hover:bg-red-50"
-          }`}
+          className="px-6 py-2 rounded-md text-sm transition border border-scarlet-red text-scarlet-red hover:bg-red-50 font-semibold"
         >
-          {isLoading
-            ? isTwoFactorEnabled
-              ? "Disabling..."
-              : "Enabling..."
-            : isTwoFactorEnabled
-            ? "Disable"
-            : "Enable"}
+          {isTwoFactorEnabled ? "Disable 2FA" : "Enable 2FA"}
         </Button>
       </div>
       <Paragraph className="text-gray-500 text-sm">

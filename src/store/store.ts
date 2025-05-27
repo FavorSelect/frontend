@@ -26,6 +26,7 @@ import reviewFilterReducer from "@/store/slices/dashboard/reviewFilterSlice";
 import authReducer from "@/store/slices/user/userSlice";
 import getShippingAddressReducer from "@/store/slices/dashboard/getShippingAddressSlice";
 import getUserPersonalInfoReducer from "@/store/slices/dashboard/getUserPersonalInfoSlice";
+import acccountDeletionStatusReducer from "@/store/slices/user/accountDeletionStatusSlice";
 
 const persistConfig = {
   key: "root",
@@ -45,6 +46,7 @@ const persistConfig = {
     "user",
     "getShippingAddress",
     "getUserPersonalInfo",
+    "accountDeletionStatus",
   ],
 };
 
@@ -65,6 +67,7 @@ const rootReducer = {
   user: authReducer,
   getShippingAddress: getShippingAddressReducer,
   getUserPersonalInfo: getUserPersonalInfoReducer,
+  acccountDeletionStatus: acccountDeletionStatusReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);

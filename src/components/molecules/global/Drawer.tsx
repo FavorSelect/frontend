@@ -23,7 +23,7 @@ const DrawerContainer = ({
     <Drawer.Root
       open={isOpen}
       onOpenChange={setIsOpen}
-      dismissible={false}
+      dismissible
       direction="right"
     >
       <Drawer.Portal>
@@ -33,19 +33,8 @@ const DrawerContainer = ({
         >
           <Drawer.Title className="sr-only" />
           <div className="bg-white h-full w-full flex flex-col overflow-y-auto space-y-2">
-            {/* Header with Logo and Close */}
-            <div className="border-b border-scarlet-red px-3 py-2.5 flex justify-between items-center">
-              <Logo />
-              <Button
-                onClick={() => setIsOpen(false)}
-                className="cursor-pointer"
-              >
-                <X className="h-6 w-6 text-scarlet-red" />
-              </Button>
-            </div>
-
             {/* Dynamic Content */}
-            <div>{children}</div>
+            <div className="pt-4">{children}</div>
           </div>
         </Drawer.Content>
       </Drawer.Portal>

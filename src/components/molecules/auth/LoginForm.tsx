@@ -36,7 +36,9 @@ export default function LoginForm() {
       console.log(is2FA);
       // 2fa user
       if (is2FA) {
-        toast.success(response.message || "OTP sent. Verify to login.");
+        toast.success(response.message, {
+          duration: 4000,
+        });
         router.push(`/login/verify-otp`);
         return;
       }

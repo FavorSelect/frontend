@@ -11,7 +11,7 @@ const AccountSettingWrapper = ({ token }: { token: string }) => {
       <AccountSettingHeader />
       <SecuritySection token={token} />
       <EmailPreferences />
-      <DeleteAccount />
+      <DeleteAccount token={token} />
     </div>
   );
 };
