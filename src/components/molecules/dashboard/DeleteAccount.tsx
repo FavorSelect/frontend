@@ -14,6 +14,7 @@ import Link from "next/link";
 import { setAccountDeletionStatus } from "@/store/slices/user/accountDeletionStatusSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import SkeletonDeleteAccount from "./SkeletonDeleteAccount";
 
 const reasons = [
   "Concerned about data privacy and security",
@@ -41,7 +42,8 @@ function DeleteAccount({ token }: { token: string }) {
   const [requestAccountDeletion, { isLoading }] =
     useRequestAccountDeletionMutation();
 
-  const { data } = useGetAccountDeletionStatusQuery({ token });
+  const { data, isLoading: isFetchingStatus } =
+    useGetAccountDeletionStatusQuery({ token });
   console.log(data);
   const reduxDeletionStatus = useSelector(
     (state: RootState) => state.acccountDeletionStatus.hasRequestedDeletion
@@ -93,6 +95,10 @@ function DeleteAccount({ token }: { token: string }) {
       });
     }
   };
+
+  if (isFetchingStatus) {
+    return <SkeletonDeleteAccount />;
+  }
 
   return (
     <div className="pb-3">
