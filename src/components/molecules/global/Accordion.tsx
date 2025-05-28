@@ -2,7 +2,13 @@ import { Button } from "@/components/atoms/Button";
 import { cn } from "@/utils/cn";
 import React, { useState } from "react";
 
-const Accordion = ({ title, answer }: { title: string; answer: string }) => {
+const Accordion = ({
+  title,
+  answer,
+}: {
+  title: string;
+  answer: React.ReactNode;
+}) => {
   const [accordionOpen, setAccordionOpen] = useState(false);
 
   return (

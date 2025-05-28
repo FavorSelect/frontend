@@ -147,6 +147,27 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+
+    raiseSupportTicket: builder.mutation({
+      query: ({ formData, token }: { formData: FormData; token: string }) => ({
+        url: "api/support/user/raise-ticket",
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    getOpenTicket: builder.query({
+      query: ({ token }: { token: string }) => ({
+        url: "api/support/user/my-tickets",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -164,4 +185,6 @@ export const {
   useVerifyTwoFactorMutation,
   useRequestAccountDeletionMutation,
   useGetAccountDeletionStatusQuery,
+  useRaiseSupportTicketMutation,
+  useGetOpenTicketQuery,
 } = userDashboardApi;

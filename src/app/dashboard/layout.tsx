@@ -57,7 +57,7 @@ const tabs = [
   {
     label: "Need help and Questions?",
     icon: <HelpCircle className="w-5 h-5" />,
-    href: "/dashboard/frequently-question",
+    href: "/dashboard/support",
   },
 ];
 

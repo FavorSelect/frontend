@@ -17,14 +17,14 @@ interface TabNavigationProps {
 
 const Sidebar: React.FC<TabNavigationProps> = ({ tabs }) => {
   const pathname = usePathname();
-  const activeTab = tabs.find((tab) => tab.href === pathname) || tabs[0];
+
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <nav className="flex items-center w-full">
       <div ref={scrollContainerRef} className="flex flex-col gap-2.5">
         {tabs.map((tab, index) => {
-          const isActive = tab.href === activeTab.href;
+          const isActive = pathname.startsWith(tab.href);
 
           return (
             <Link

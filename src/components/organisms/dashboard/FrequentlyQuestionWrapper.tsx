@@ -2,8 +2,12 @@
 import React from "react";
 import Paragraph from "@/components/atoms/Paragraph";
 import Accordion from "@/components/molecules/global/Accordion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const FrequentlyQuestionWrapper = () => {
+  const pathname = usePathname();
+
   return (
     <div className="relative h-full">
       <h2 className="text-xl font-bold text-scarlet-red mb-6">
@@ -27,7 +31,18 @@ const FrequentlyQuestionWrapper = () => {
         />
         <Accordion
           title="How can I contact support?"
-          answer=" You can reach our support team via the `Need help?` link in your account menu or by emailing support@favorselect.com. "
+          answer={
+            <>
+              You can reach our support team via the Need help? link in your
+              account menu, by emailing support@favorselect.com, or by{" "}
+              <Link
+                href={`${pathname}/raise-ticket`}
+                className="font-semibold text-scarlet-red"
+              >
+                raising a support ticket.
+              </Link>
+            </>
+          }
         />
         <Accordion
           title="When will my order arrive?"

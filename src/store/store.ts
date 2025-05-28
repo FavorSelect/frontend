@@ -11,6 +11,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+
 import hamburgerReducer from "@/store/slices/humburger/hamburgerSlice";
 import resetPasswordReducer from "@/store/slices/user/resetPasswordSlice";
 import setPasswordReducer from "@/store/slices/user/setPasswordSlice";
@@ -27,6 +28,8 @@ import authReducer from "@/store/slices/user/userSlice";
 import getShippingAddressReducer from "@/store/slices/dashboard/getShippingAddressSlice";
 import getUserPersonalInfoReducer from "@/store/slices/dashboard/getUserPersonalInfoSlice";
 import acccountDeletionStatusReducer from "@/store/slices/user/accountDeletionStatusSlice";
+import supportTabReducer from "@/store/slices/dashboard/supportTab";
+import openTicketReducer from "@/store/slices/dashboard/openTicketSlice";
 
 const persistConfig = {
   key: "root",
@@ -68,6 +71,8 @@ const rootReducer = {
   getShippingAddress: getShippingAddressReducer,
   getUserPersonalInfo: getUserPersonalInfoReducer,
   acccountDeletionStatus: acccountDeletionStatusReducer,
+  supportTab: supportTabReducer,
+  openTicket: openTicketReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);
