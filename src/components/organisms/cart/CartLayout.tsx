@@ -6,7 +6,7 @@ import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import { CartItem } from "@/components/molecules/cart/CartItem";
-import { OrderSummary } from "@/components/molecules/cart/OrderSummary";
+import { OrderSummary } from "@/components/molecules/cart/OrderCartSummary";
 import React, { useState } from "react";
 
 type CartProduct = {

@@ -30,6 +30,7 @@ import getUserPersonalInfoReducer from "@/store/slices/dashboard/getUserPersonal
 import acccountDeletionStatusReducer from "@/store/slices/user/accountDeletionStatusSlice";
 import supportTabReducer from "@/store/slices/dashboard/supportTab";
 import openTicketReducer from "@/store/slices/dashboard/openTicketSlice";
+import orderDetailsReducer from "@/store/slices/dashboard/orderDetailsSlice";
 
 const persistConfig = {
   key: "root",
@@ -68,6 +69,7 @@ const rootReducer = {
   reviewFilter: reviewFilterReducer,
   hamburger: hamburgerReducer,
   user: authReducer,
+  orderDetails: orderDetailsReducer,
   getShippingAddress: getShippingAddressReducer,
   getUserPersonalInfo: getUserPersonalInfoReducer,
   acccountDeletionStatus: acccountDeletionStatusReducer,

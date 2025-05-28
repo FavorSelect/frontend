@@ -81,7 +81,7 @@ export default function DashboardLayout({
                 profileImage={user?.profileImage || "/user.jpg"}
                 verified={true}
               />
-              <Sidebar tabs={tabs} />
+              <Sidebar tabs={tabs} defaultTab="/dashboard/orders" />
             </div>
             <div className="bg-white shadow-sm px-5 py-2.5 flex-1 rounded-lg">
               {children}

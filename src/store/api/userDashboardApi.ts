@@ -19,6 +19,28 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         },
       }),
     }),
+
+    getOrdersById: builder.query({
+      query: ({ id, token }: { id: string; token: string }) => ({
+        url: `api/user/my-orders/${id}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    addReview: builder.mutation({
+      query: ({ formData, token }: { formData: FormData; token: string }) => ({
+        url: `api/user/review/add`,
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
     addShippingAddress: builder.mutation({
       query: ({ data, token }: { data: AddressFormValues; token: string }) => ({
         url: "api/user/address/add",
@@ -189,6 +211,8 @@ export const userDashboardApi = apiSlice.injectEndpoints({
 
 export const {
   useGetFilteredOrdersQuery,
+  useGetOrdersByIdQuery,
+  useAddReviewMutation,
   useAddShippingAddressMutation,
   useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,

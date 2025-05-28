@@ -13,9 +13,10 @@ interface Tab {
 
 interface TabNavigationProps {
   tabs: Tab[];
+  defaultTab?: string;
 }
 
-const Sidebar: React.FC<TabNavigationProps> = ({ tabs }) => {
+const Sidebar: React.FC<TabNavigationProps> = ({ tabs, defaultTab }) => {
   const pathname = usePathname();
 
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -24,7 +25,9 @@ const Sidebar: React.FC<TabNavigationProps> = ({ tabs }) => {
     <nav className="flex items-center w-full">
       <div ref={scrollContainerRef} className="flex flex-col gap-2.5">
         {tabs.map((tab, index) => {
-          const isActive = pathname.startsWith(tab.href);
+          const isActive =
+            (pathname === "/dashboard" && tab.href === defaultTab) ||
+            pathname.startsWith(tab.href);
 
           return (
             <Link
