@@ -1,9 +1,24 @@
 import { PersonalFormValues } from "@/components/molecules/dashboard/PersonalInformation";
 import { apiSlice } from "./api";
 import { AddressFormValues } from "@/components/molecules/dashboard/ShippingAddressForm";
+import { OrdersResponse } from "@/types";
 
 export const userDashboardApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getFilteredOrders: builder.query<
+      OrdersResponse,
+      { token: string; status?: string }
+    >({
+      query: ({ token, status }) => ({
+        url: status
+          ? `api/user/my-orders?status=${status}`
+          : `api/user/my-orders`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     addShippingAddress: builder.mutation({
       query: ({ data, token }: { data: AddressFormValues; token: string }) => ({
         url: "api/user/address/add",
@@ -173,6 +188,7 @@ export const userDashboardApi = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetFilteredOrdersQuery,
   useAddShippingAddressMutation,
   useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,

@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type OrderFilter = "all" | "delivered" | "awaiting";
+export type OrderFilter =
+  | "all"
+  | "pending"
+  | "processing"
+  | "shipped"
+  | "delivered"
+  | "cancelled";
 
 interface OrderFilterState {
   filter: OrderFilter;

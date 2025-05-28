@@ -1,10 +1,6 @@
 "use client";
-
 import { Drawer } from "vaul";
-import { X } from "lucide-react";
 import React from "react";
-import { Button } from "@/components/atoms/Button";
-import Logo from "../header/Logo";
 
 type DrawerContainerProps = {
   isOpen: boolean;

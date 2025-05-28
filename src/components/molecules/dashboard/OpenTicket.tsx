@@ -14,7 +14,6 @@ const OpenTicket = ({ token }: { token: string }) => {
     { refetchOnMountOrArgChange: true }
   );
 
-  console.log(data);
   const tickets = useSelector((state: RootState) => state.openTicket.tickets);
 
   useEffect(() => {
