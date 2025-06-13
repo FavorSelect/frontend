@@ -4,7 +4,7 @@ import Section from "@/components/atoms/Section";
 import Span from "@/components/atoms/Span";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
-import ProductDisplayCard from "@/components/molecules/product/ProductDisplayCard";
+import PopularProductCard from "@/components/molecules/product/PopularProductCard";
 import {
   Carousel,
   CarouselContent,
@@ -12,12 +12,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/molecules/slider/Carousel";
-import { Product } from "@/types/Product";
+import { ProductT } from "@/types/real.product";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type CosyProductListProps = {
-  products: Product[];
+  products: ProductT[];
 };
 
 const CosyEveningsProductGrid = ({ products }: CosyProductListProps) => {
@@ -46,7 +46,7 @@ const CosyEveningsProductGrid = ({ products }: CosyProductListProps) => {
   mx-1
 "
                   >
-                    <ProductDisplayCard {...product} />
+                    <PopularProductCard key={product.id} product={product} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

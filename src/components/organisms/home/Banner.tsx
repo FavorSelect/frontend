@@ -23,7 +23,7 @@ const Banner = ({ banners }: BannerPropTypes) => {
               width={1170}
               height={330}
               quality={100}
-              className="w-full h-[200px] sm:h-[500px] object-cover rounded-2xl"
+              className="w-full h-[200px] sm:h-[400px] object-cover rounded-2xl"
             />
           </Link>
         </ContainerBox>

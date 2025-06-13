@@ -30,3 +30,6 @@ export const getBrandBannerUrl = () => {
 export const getProductBannerUrl = () => {
   return `${FAVOR_SELECT_API_URL}/api/advertisement/products-banners`;
 };
+export const getProductUrl = (endpoint: string) => {
+  return `${FAVOR_SELECT_API_URL}/${endpoint}`;
+};
