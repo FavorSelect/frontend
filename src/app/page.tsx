@@ -11,6 +11,13 @@ import {
   PAGINATED_PRODUCT_PER_PAGE,
   POPULAR_PRODUCT_PER_PAGE,
 } from "@/config/constants";
+import {
+  getBrandBanners,
+  getHeroBanners,
+  getPopularBanners,
+  getProductBanners,
+  getWeeklyBanners,
+} from "@/actions/getBanner";
 
 export default async function Home() {
   const cosyEveningProduct = await getProduct(COSY_EVENING_PRODUCT_PER_PAGE);
@@ -20,15 +27,22 @@ export default async function Home() {
     PAGINATED_PRODUCT_PER_PAGE
   );
 
+  // all banners
+  const banners = await getHeroBanners();
+  const weeklyBanners = await getWeeklyBanners();
+  const popularBanners = await getPopularBanners();
+  const brandBanners = await getBrandBanners();
+  const productBanners = await getProductBanners();
+
   return (
     <div className="space-y-6 xl:space-y-8">
-      <HeroWrapper />
+      <HeroWrapper banners={banners} />
       <CosyEveningsProductGrid products={cosyEveningProduct} />
-      <WeeklyPromotionProductsList />
-      <PopularProductGrid products={popularProducts} />
-      <Banner />
+      <WeeklyPromotionProductsList banners={weeklyBanners} />
+      <PopularProductGrid products={popularProducts} banners={popularBanners} />
+      <Banner banners={brandBanners} />
       <TopPickProductGrid initialProducts={initialProduct} />
-      <CountryProductsCarousel />
+      <CountryProductsCarousel banners={productBanners} />
     </div>
   );
 }

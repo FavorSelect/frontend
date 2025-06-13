@@ -3,23 +3,15 @@ import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import HeroCarousel from "@/components/molecules/home/HeroCarousel";
+import { Banner } from "@/types/banner";
 import React from "react";
-import heroImage from "@/assets/images/black_friday_facebook_banner_02 1.png";
 
-const HeroWrapper = () => {
-  const images = [
-    heroImage.src,
-    heroImage.src,
-    heroImage.src,
-    heroImage.src,
-    heroImage.src,
-    heroImage.src,
-  ];
+const HeroWrapper = ({ banners }: { banners: Banner[] }) => {
   return (
     <Section>
       <MaxWidthWrapper>
         <ContainerBox className="py-0 px-0 xl:py-0 xl:px-0">
-          <HeroCarousel images={images} />
+          <HeroCarousel banners={banners} />
         </ContainerBox>
       </MaxWidthWrapper>
     </Section>

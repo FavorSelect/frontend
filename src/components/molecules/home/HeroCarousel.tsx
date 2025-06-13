@@ -4,12 +4,9 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/atoms/Button";
+import { Banner } from "@/types/banner";
 
-interface HeroCarouselProps {
-  images: string[];
-}
-
-const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
+const HeroCarousel = ({ banners }: { banners: Banner[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
@@ -77,21 +74,18 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
 
       {/* Main Carousel */}
       <div
-        className="relative overflow-hidden rounded-xl h-[200px] sm:h-full"
+        className="relative overflow-hidden rounded-xl h-[200px] sm:h-[550px]"
         ref={emblaRef}
       >
         <div className="flex h-full select-none">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="relative flex-[0_0_100%] aspect-[1150/445]"
-            >
+          {banners.map((banner, index) => (
+            <div key={index} className="relative flex-[0_0_100%] aspect-[16/9]">
               <Image
-                src={image}
-                alt={`Slide ${index}`}
-                width={1150}
+                src={banner.image}
+                alt={banner.title}
+                width={1000}
                 height={445}
-                className="w-full h-full"
+                className="w-full h-full object-cover"
                 priority={index === 0}
               />
             </div>
@@ -101,7 +95,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ images }) => {
 
       {/* Dots */}
       <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5 sm:gap-2 z-10">
-        {images.map((_, index) => (
+        {banners.map((_, index) => (
           <Button
             key={index}
             className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${

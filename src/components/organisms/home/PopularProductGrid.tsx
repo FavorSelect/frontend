@@ -5,16 +5,19 @@ import Heading from "@/components/atoms/Heading";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import ProductDisplayCard from "@/components/molecules/product/ProductDisplayCard";
-import trendingBanner from "@/assets/images/trending-banner.png";
 import Image from "next/image";
 import { Product } from "@/types/Product";
 import Span from "@/components/atoms/Span";
+import { Banner } from "@/types/banner";
 
 type TopProductListProps = {
   products: Product[];
+  banners: Banner[];
 };
 
-const PopularProductGrid = ({ products }: TopProductListProps) => {
+const PopularProductGrid = ({ products, banners }: TopProductListProps) => {
+  const popularBanner = banners[0];
+
   return (
     <Section>
       <MaxWidthWrapper>
@@ -33,9 +36,11 @@ const PopularProductGrid = ({ products }: TopProductListProps) => {
           <div className="flex gap-x-3">
             <div className="hidden xl:block">
               <Image
-                src={trendingBanner}
-                alt="Trending-banner"
+                src={popularBanner.image}
+                alt={popularBanner.title}
                 className="w-full h-full object-cover rounded-2xl"
+                width={300}
+                height={600}
               />
             </div>
 

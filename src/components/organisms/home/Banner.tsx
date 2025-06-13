@@ -1,24 +1,29 @@
 import React from "react";
-import banner from "@/assets/images/banner.png";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import ContainerBox from "@/components/layout/ContainerBox";
 import Image from "next/image";
 import Section from "@/components/atoms/Section";
 import Link from "next/link";
+import { Banner as BannerType } from "@/types/banner";
 
-const Banner = () => {
+type BannerPropTypes = {
+  banners: BannerType[];
+};
+
+const Banner = ({ banners }: BannerPropTypes) => {
+  const brandBanner = banners[0];
   return (
     <Section>
       <MaxWidthWrapper>
         <ContainerBox className="px-0 py-0">
           <Link href="#">
             <Image
-              src={banner}
-              alt="banner"
+              src={brandBanner.image}
+              alt={brandBanner.title}
               width={1170}
               height={330}
               quality={100}
-              className="w-full h-auto rounded-2xl"
+              className="w-full h-[200px] sm:h-[500px] object-cover rounded-2xl"
             />
           </Link>
         </ContainerBox>

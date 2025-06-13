@@ -1,9 +1,11 @@
 import { PersonalFormValues } from "@/components/molecules/dashboard/PersonalInformation";
 import { apiSlice } from "./api";
 import { AddressFormValues } from "@/components/molecules/dashboard/ShippingAddressForm";
-import { OrdersResponse } from "@/types";
+import { OrdersResponse, ReviewsResponse } from "@/types";
+import { WishlistResponse } from "@/types/wishlist";
 
 export const userDashboardApi = apiSlice.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getFilteredOrders: builder.query<
       OrdersResponse,
@@ -35,6 +37,42 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         url: `api/user/review/add`,
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    getReviews: builder.query<ReviewsResponse, string>({
+      query: (token: string) => ({
+        url: "api/user/my-reviews",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    getWishList: builder.query<WishlistResponse, string>({
+      query: (token: string) => ({
+        url: "api/user/wishlist",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
+
+    removeFromWishlist: builder.mutation({
+      query: ({
+        token,
+        wishlistItemId,
+      }: {
+        token: string;
+        wishlistItemId: number;
+      }) => ({
+        url: `api/user/wishlist/remove/${wishlistItemId}`,
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -206,13 +244,15 @@ export const userDashboardApi = apiSlice.injectEndpoints({
       }),
     }),
   }),
-  overrideExisting: false,
 });
 
 export const {
   useGetFilteredOrdersQuery,
   useGetOrdersByIdQuery,
   useAddReviewMutation,
+  useGetReviewsQuery,
+  useGetWishListQuery,
+  useRemoveFromWishlistMutation,
   useAddShippingAddressMutation,
   useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,

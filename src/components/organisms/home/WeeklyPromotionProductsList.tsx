@@ -1,13 +1,9 @@
-import categoryImage from "@/assets/images/professional-makeup-tools-colored-background.png";
-import categoryImage2 from "@/assets/images/still-life-say-no-fast-fashion.png";
-import categoryImage3 from "@/assets/images/beauty-care-cosmetic-product-with-pink-tones.png";
 import Section from "@/components/atoms/Section";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import ContainerBox from "@/components/layout/ContainerBox";
 import Heading from "@/components/atoms/Heading";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import ProductCarouselCard from "@/components/molecules/product/ProductCarouselCard";
 import {
   Carousel,
   CarouselContent,
@@ -16,51 +12,10 @@ import {
   CarouselPrevious,
 } from "@/components/molecules/slider/Carousel";
 import Span from "@/components/atoms/Span";
+import { Banner } from "@/types/banner";
+import Image from "next/image";
 
-const promoCategory = [
-  {
-    imageSrc: categoryImage,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage2,
-    title: "Shoes & Footwear",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage2,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-    subTitle: "Sale",
-  },
-];
-
-const WeeklyPromotionProductsList = () => {
+const WeeklyPromotionProductsList = ({ banners }: { banners: Banner[] }) => {
   return (
     <Section>
       <MaxWidthWrapper>
@@ -78,7 +33,7 @@ const WeeklyPromotionProductsList = () => {
           <div>
             <Carousel className="overflow-hidden">
               <CarouselContent className="flex snap-x snap-mandatory">
-                {promoCategory.map((category, index) => (
+                {banners.map((banner, index) => (
                   <CarouselItem
                     key={index}
                     className="flex-shrink-0 
@@ -86,10 +41,13 @@ const WeeklyPromotionProductsList = () => {
   mx-1 md:pl-1
 "
                   >
-                    <ProductCarouselCard
-                      title={category.title}
-                      subtitle={category.subTitle}
-                      image={category.imageSrc.src}
+                    <Image
+                      src={banner.image}
+                      alt={banner.title}
+                      width={500}
+                      height={445}
+                      className="w-full h-full object-cover"
+                      priority={index === 0}
                     />
                   </CarouselItem>
                 ))}

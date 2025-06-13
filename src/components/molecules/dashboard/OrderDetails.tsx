@@ -62,18 +62,18 @@ const OrderDetails = ({ id, token }: { id: string; token: string }) => {
         <p className="font-medium text-gray-700">Shipping Address</p>
         <div className="bg-gray-50 p-4 rounded-md mt-2 shadow-sm">
           <p className="text-gray-900 font-semibold">
-            {order.shippingAddress.recipientName}
+            {order.shippingAddress?.recipientName}
           </p>
-          <p>{order.shippingAddress.street}</p>
+          <p>{order.shippingAddress?.street}</p>
           <p>
-            {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
-            {order.shippingAddress.postalCode}
+            {order.shippingAddress?.city}, {order.shippingAddress?.state} -{" "}
+            {order.shippingAddress?.postalCode}
           </p>
-          <p>{order.shippingAddress.country}</p>
-          <p>Phone: {order.shippingAddress.phoneNumber}</p>
+          <p>{order.shippingAddress?.country}</p>
+          <p>Phone: {order.shippingAddress?.phoneNumber}</p>
           <p className="text-sm text-gray-500">
-            {order.shippingAddress.type} address{" "}
-            {order.shippingAddress.isDefault && "(Default)"}
+            {order.shippingAddress?.type} address{" "}
+            {order.shippingAddress?.isDefault && "(Default)"}
           </p>
         </div>
       </div>

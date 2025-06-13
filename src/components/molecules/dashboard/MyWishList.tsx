@@ -1,144 +1,106 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/atoms/Button";
 import Image from "next/image";
-import React, { useState, useEffect, useMemo } from "react";
-import Pagination from "../global/Pagination";
+import React, { useState } from "react";
 import { UserCardSkeleton as WishListCardSkeleton } from "@/components/molecules/dashboard/UserCardSkeleton";
+import {
+  useGetWishListQuery,
+  useRemoveFromWishlistMutation,
+} from "@/store/api/userDashboardApi";
+import toast from "react-hot-toast";
 
-interface WishList {
-  id: string;
-  title: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  status: string;
-  imageUrl: string;
-}
+const MyWishList = ({ token }: { token: string }) => {
+  const { data, isLoading, isFetching, refetch } = useGetWishListQuery(token);
+  const [removeFromWishlist, { isLoading: isRemoving }] =
+    useRemoveFromWishlistMutation();
+  const [removingId, setRemovingId] = useState<number | null>(null);
 
-const orders: WishList[] = [
-  {
-    id: "123456789",
-    title: "Handcrafted Leather Backpack",
-    price: 899,
-    rating: 4.5,
-    reviews: 79,
-    status: "Delivered",
-    imageUrl: "/bag-2.jpg",
-  },
-  {
-    id: "12367456789",
-    title: "Elegant Watch",
-    price: 499,
-    rating: 5,
-    reviews: 54,
-    status: "Awaiting Payment",
-    imageUrl: "/bag-1.jpg",
-  },
-  {
-    id: "987654321",
-    title: "Wireless Headphones",
-    price: 1299,
-    rating: 4.8,
-    reviews: 150,
-    status: "Delivered",
-    imageUrl: "/bag-1.jpg",
-  },
-  {
-    id: "456789123",
-    title: "Smartphone Case",
-    price: 199,
-    rating: 3.5,
-    reviews: 45,
-    status: "Awaiting Payment",
-    imageUrl: "/bag-1.jpg",
-  },
-  {
-    id: "567891231114",
-    title: "Bluetooth Speaker",
-    price: 799,
-    rating: 4.2,
-    reviews: 90,
-    status: "Delivered",
-    imageUrl: "/bag-1.jpg",
-  },
-  {
-    id: "567891234",
-    title: "Bluetooth Speaker",
-    price: 799,
-    rating: 4.2,
-    reviews: 90,
-    status: "Delivered",
-    imageUrl: "/bag-1.jpg",
-  },
-];
+  if (isLoading || isFetching) {
+    return <WishListCardSkeleton />;
+  }
 
-const ITEMS_PER_PAGE = 2;
+  if (!data || !data.wishlist || data.wishlist.length === 0) {
+    return <p>No items in your wishlist.</p>;
+  }
 
-const MyWishList: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const { wishlistCount, wishlist } = data;
 
-  // Simulate initial loading
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  const handleRemove = async (wishlistItemId: number) => {
+    setRemovingId(wishlistItemId);
+    try {
+      const response = await removeFromWishlist({
+        token,
+        wishlistItemId,
+      }).unwrap();
 
-  // Pagination Logic
-  const totalPages = Math.max(Math.ceil(orders.length / ITEMS_PER_PAGE), 1);
-  const paginatedOrders = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    return orders.slice(start, end);
-  }, [currentPage]);
-
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+      // ✅ Show success message from backend
+      toast.success(response?.message || "Removed from wishlist");
+      refetch();
+    } catch (error: any) {
+      const message =
+        error?.data?.message || "Failed to remove item from wishlist";
+      toast.error(message);
+      console.error("Failed to remove from wishlist:", error);
+    } finally {
+      setRemovingId(null);
+    }
   };
 
   return (
     <div className="relative h-full">
-      <h2 className="text-xl font-bold text-scarlet-red mb-6">Wishlist</h2>
+      <h2 className="text-xl font-bold text-scarlet-red mb-6">
+        Wishlist ({wishlistCount})
+      </h2>
 
-      {/* Initial Loading Skeleton */}
-      {isLoading ? (
-        <div className="space-y-4">
-          {[...Array(ITEMS_PER_PAGE)].map((_, index) => (
-            <WishListCardSkeleton key={index} />
-          ))}
-        </div>
-      ) : // Order List
-      paginatedOrders.length > 0 ? (
-        <div className="space-y-2">
-          {paginatedOrders.map((order) => (
+      <div className="space-y-2">
+        {wishlist.map((item) => {
+          const product = item.Product;
+          const rating = Math.floor(product.averageCustomerRating || 0);
+
+          return (
             <div
-              key={order.id}
+              key={item.id}
               className="border border-[#eeeeee] pb-2 rounded-lg"
             >
-              <div className="mb-4 bg-[#f5f5f5] px-3 py-3.5">
-                <span className="font-semibold">My wishlist</span>
+              <div className="mb-4 bg-[#f5f5f5] px-3 py-3.5 flex justify-between items-center">
+                <span className="font-semibold">My Wishlist</span>
+                <Button
+                  onClick={() => handleRemove(item.id)}
+                  disabled={isRemoving && removingId === item.id}
+                  className="text-sm text-red-500 hover:underline disabled:opacity-50"
+                >
+                  {isRemoving && removingId === item.id
+                    ? "Removing..."
+                    : "Remove"}
+                </Button>
               </div>
+
               <div className="flex justify-between">
                 <div className="flex gap-4 items-center p-3">
                   <Image
-                    src={order.imageUrl}
-                    alt={order.title}
-                    className="w-20 h-20 bg-gray-200 rounded-lg"
+                    src={product.coverImageUrl}
+                    alt={product.productName}
+                    className="w-20 h-20 bg-gray-200 rounded-lg object-cover"
                     width={80}
                     height={80}
                   />
                   <div>
-                    <h3 className="font-semibold text-lg">{order.title}</h3>
+                    <h3 className="font-semibold text-lg">
+                      {product.productName}
+                    </h3>
                     <div className="flex items-center text-yellow-500 my-2">
-                      {"★".repeat(Math.floor(order.rating))}
-                      {"☆".repeat(5 - Math.floor(order.rating))}
+                      {"★".repeat(rating)}
+                      {"☆".repeat(5 - rating)}
                       <span className="ml-2 text-scarlet-red">
-                        ({order.reviews})
+                        ({product.totalCustomerReviews})
                       </span>
                     </div>
-                    <p className="text-lg font-semibold">TRY {order.price}</p>
+                    <p className="text-lg font-semibold">
+                      TRY {product.productPrice}
+                    </p>
                   </div>
                 </div>
+
                 <div className="flex flex-col space-y-3.5 p-3">
                   <Button className="bg-scarlet-red text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition text-sm flex items-center">
                     Add to Cart
@@ -149,22 +111,9 @@ const MyWishList: React.FC = () => {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <p className="text-gray-500">No items in your wishlist.</p>
-      )}
-
-      {/* Pagination */}
-      {orders.length > 0 && (
-        <Pagination
-          className="absolute bottom-0 right-0"
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          disbaled={isLoading}
-        />
-      )}
+          );
+        })}
+      </div>
     </div>
   );
 };

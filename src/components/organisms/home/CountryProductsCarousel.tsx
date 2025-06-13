@@ -1,13 +1,10 @@
-import categoryImage from "@/assets/images/garlic-flour-fresh-red-cherry-tomatoes-tagliatelle-pasta-wooden-surface.png";
-import categoryImage2 from "@/assets/images/top-view-different-seasonings-with-olive-oil-dark-space.png";
-import categoryImage3 from "@/assets/images/clothes-decor-independence-day.png";
 import Section from "@/components/atoms/Section";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import ContainerBox from "@/components/layout/ContainerBox";
 import Heading from "@/components/atoms/Heading";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import PromoCategoryCard from "@/components/molecules/product/ProductCarouselCard";
+
 import {
   Carousel,
   CarouselContent,
@@ -17,43 +14,10 @@ import {
 } from "@/components/molecules/slider/Carousel";
 
 import Span from "@/components/atoms/Span";
+import { Banner } from "@/types/banner";
+import Image from "next/image";
 
-const promoCategory = [
-  {
-    imageSrc: categoryImage,
-    title: "Leather Mens Slipper",
-  },
-  {
-    imageSrc: categoryImage2,
-    title: "Shoes & Footwear",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-  },
-  {
-    imageSrc: categoryImage,
-    title: "Leather Mens Slipper",
-  },
-  {
-    imageSrc: categoryImage2,
-    title: "Leather Mens Slipper",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-  },
-  {
-    imageSrc: categoryImage3,
-    title: "Leather Mens Slipper",
-  },
-];
-
-const CountryProductsCarousel = () => {
+const CountryProductsCarousel = ({ banners }: { banners: Banner[] }) => {
   return (
     <Section>
       <MaxWidthWrapper>
@@ -71,18 +35,21 @@ const CountryProductsCarousel = () => {
           <div>
             <Carousel className="overflow-hidden">
               <CarouselContent className="flex snap-x snap-mandatory">
-                {promoCategory.map((category, index) => (
+                {banners.map((banner, index) => (
                   <CarouselItem
                     key={index}
                     className="flex-shrink-0 
-  basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4
-  mx-1 lg:pl-2
-"
+                  basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4
+                  mx-1 md:pl-1
+                "
                   >
-                    <PromoCategoryCard
-                      title={category.title}
-                      image={category.imageSrc.src}
-                      textColorClass="text-white"
+                    <Image
+                      src={banner.image}
+                      alt={banner.title}
+                      width={500}
+                      height={445}
+                      className="w-full h-full object-cover"
+                      priority={index === 0}
                     />
                   </CarouselItem>
                 ))}
