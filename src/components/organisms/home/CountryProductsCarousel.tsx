@@ -4,7 +4,6 @@ import ContainerBox from "@/components/layout/ContainerBox";
 import Heading from "@/components/atoms/Heading";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-
 import {
   Carousel,
   CarouselContent,
@@ -39,16 +38,16 @@ const CountryProductsCarousel = ({ banners }: { banners: Banner[] }) => {
                   <CarouselItem
                     key={index}
                     className="flex-shrink-0 
-                  basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4
-                  mx-1 md:pl-1
-                "
+  basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4
+  mx-1 lg:pl-2
+"
                   >
                     <Image
                       src={banner.image}
                       alt={banner.title}
                       width={500}
                       height={445}
-                      className="w-full h-full object-cover"
+                      className="w-full h-[300px] object-cover"
                       priority={index === 0}
                     />
                   </CarouselItem>
