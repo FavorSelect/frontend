@@ -31,6 +31,7 @@ import acccountDeletionStatusReducer from "@/store/slices/user/accountDeletionSt
 import supportTabReducer from "@/store/slices/dashboard/supportTab";
 import openTicketReducer from "@/store/slices/dashboard/openTicketSlice";
 import orderDetailsReducer from "@/store/slices/dashboard/orderDetailsSlice";
+import filterUIReducer from "@/store/slices/filterUI.slice";
 
 const persistConfig = {
   key: "root",
@@ -75,6 +76,7 @@ const rootReducer = {
   acccountDeletionStatus: acccountDeletionStatusReducer,
   supportTab: supportTabReducer,
   openTicket: openTicketReducer,
+  filterUI: filterUIReducer,
 };
 
 const combinedReducer = combineReducers(rootReducer);

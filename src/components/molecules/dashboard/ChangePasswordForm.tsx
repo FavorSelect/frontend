@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/atoms/Input";
@@ -25,7 +24,7 @@ const ChangePasswordForm = ({ token }: { token: string }) => {
 
   const onSubmit = async (data: PasswordFormValues) => {
     try {
-      await changePassword({
+      const response = await changePassword({
         data: {
           currentPassword: data.currentPassword,
           newPassword: data.newPassword,
@@ -33,12 +32,14 @@ const ChangePasswordForm = ({ token }: { token: string }) => {
         token,
       }).unwrap();
 
-      toast.success("Password changed successfully.");
+      toast.success(response.message || "Password changed successfully.");
       reset();
-    } catch (err: any) {
-      toast.error(
-        err?.data?.message || "Failed to change password. Please try again."
-      );
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(
+          err?.message || "Failed to change password. Please try again."
+        );
+      }
     }
   };
 

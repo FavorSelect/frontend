@@ -130,3 +130,22 @@ export const getRecommendationProduct = async (): Promise<ProductT[]> => {
     throw new Error(`An error occurred: ${error}`);
   }
 };
+
+export const getProductByCategoriesAndBrands = async (
+  queryParams: Record<string, string>
+): Promise<ProductT[]> => {
+  const query = new URLSearchParams(queryParams).toString();
+  const url = getProductUrl(`api/general/products?${query}`);
+
+  try {
+    const response = await fetch(url, {
+      credentials: "include",
+    });
+    if (!response.ok) throw await handleError(response);
+    const responseData = (await response.json()) as ProductApiResponse;
+    return responseData.products;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`An error occurred: ${error}`);
+  }
+};
