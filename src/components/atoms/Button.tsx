@@ -13,6 +13,8 @@ const buttonVariants = cva(
           "w-full bg-scarlet-red text-white py-2 rounded-md hover:bg-red-600 transition duration-200 font-semibold text-sm md:text-base",
         subtle:
           "border border-input bg-accent/20 hover:bg-white/10 hover:text-accent-foreground",
+        resetBtn:
+          "text-sm font-medium bg-scarlet-red text-white  px-2 py-1.5 rounded-md",
       },
       size: {
         default: "h-10 px-4 py-2",

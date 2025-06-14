@@ -1,32 +1,72 @@
-import React, { useState } from "react";
+"use client";
 
-type ColorOption = {
-  name: string;
-  hex: string;
-  count: number;
-};
+import React, { useEffect, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { setPending } from "@/store/slices/filterUI.slice";
+import { useDispatch } from "react-redux";
+import { Button } from "@/components/atoms/Button";
 
-const colors: ColorOption[] = [
-  { name: "Black", hex: "#000000", count: 1 },
-  { name: "Blue", hex: "#007bff", count: 10 },
-  { name: "Brown", hex: "#a52a2a", count: 5 },
-  { name: "Green", hex: "#28a745", count: 4 },
-  { name: "Red", hex: "#dc3545", count: 4 },
-  { name: "Yellow", hex: "#ffc107", count: 5 },
-];
-
-const ColorFilter = () => {
+const ColorFilter = ({
+  colors,
+}: {
+  colors: { name: string; count: number; hex: string }[];
+}) => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const raw = searchParams.get("colors");
+    const values = raw ? raw.split(",") : [];
+    setSelectedColors(values);
+  }, [searchParams]);
+
+  useEffect(() => {
+    dispatch(setPending(isPending));
+  }, [isPending, dispatch]);
+
+  const updateURL = (updated: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (updated.length > 0) {
+      params.set("colors", updated.join(","));
+    } else {
+      params.delete("colors");
+    }
+    startTransition(() => router.push(`?${params.toString()}`));
+  };
 
   const toggleColor = (name: string) => {
-    setSelectedColors((prev) =>
-      prev.includes(name) ? prev.filter((c) => c !== name) : [...prev, name]
-    );
+    const updated = selectedColors.includes(name)
+      ? selectedColors.filter((c) => c !== name)
+      : [...selectedColors, name];
+
+    setSelectedColors(updated);
+    updateURL(updated);
+  };
+
+  const handleResetColorFilter = () => {
+    setSelectedColors([]);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("colors");
+
+    startTransition(() => {
+      router.push(`?${params.toString()}`);
+    });
   };
 
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold text-lg">Filter by color</h3>
+      <div className="flex justify-between items-center">
+        <h3 className="font-semibold text-lg">Filter by color</h3>
+        {selectedColors.length > 0 && !isPending && (
+          <Button onClick={handleResetColorFilter} variant="resetBtn">
+            Reset
+          </Button>
+        )}
+      </div>
       <ul className="space-y-3">
         {colors.map(({ name, hex, count }) => {
           const isSelected = selectedColors.includes(name);
@@ -34,35 +74,17 @@ const ColorFilter = () => {
             <li key={name}>
               <button
                 type="button"
-                className="w-full flex items-center justify-between gap-2 cursor-pointer"
+                className="w-full flex items-center justify-between gap-2"
                 onClick={() => toggleColor(name)}
               >
                 <div className="flex items-center gap-3">
                   <span
-                    className={`w-5 h-5 rounded-full flex items-center justify-center transition-all duration-150 ${
-                      isSelected ? "ring-1 ring-blue-500" : ""
+                    className={`w-5 h-5 rounded-full ${
+                      isSelected ? "ring-2 ring-blue-600" : ""
                     }`}
                     style={{ backgroundColor: hex }}
-                  >
-                    {isSelected && (
-                      <svg
-                        className="w-3 h-3 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={3}
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </span>
-                  <span
-                    className={`text-sm text-gray-800 ${
-                      isSelected ? "font-semibold" : "font-normal"
-                    }`}
-                  >
-                    {name}
-                  </span>
+                  />
+                  <span className="text-sm">{name}</span>
                 </div>
                 <span className="text-sm text-gray-500">({count})</span>
               </button>
