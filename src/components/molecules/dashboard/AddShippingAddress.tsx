@@ -6,13 +6,12 @@ import React, { useState } from "react";
 import ShippingAddressForm, { AddressFormValues } from "./ShippingAddressForm";
 import ShippingAddressList from "./ShippingAddressList";
 import DrawerContainer from "../global/Drawer";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useGetShippingAddressQuery } from "@/store/api/userDashboardApi";
 
 const AddShippingAddress = ({ token }: { token: string }) => {
-  const addresses = useSelector(
-    (state: RootState) => state.getShippingAddress.addresses
-  );
+  const { data, refetch } = useGetShippingAddressQuery({
+    token,
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [editAddress, setEditAddress] = useState<AddressFormValues | null>(
     null
@@ -28,8 +27,6 @@ const AddShippingAddress = ({ token }: { token: string }) => {
     setIsOpen(true);
   };
 
-  const hasAddresses = addresses && addresses.length > 0;
-
   return (
     <>
       <div className="relative h-full flex flex-col">
@@ -41,11 +38,15 @@ const AddShippingAddress = ({ token }: { token: string }) => {
           </Span>
         </div>
 
-        {/* Conditional rendering: Either list or empty state */}
         <div className="flex-grow px-4">
-          {hasAddresses ? (
+          {data?.addresses.length !== 0 ? (
             <>
-              <ShippingAddressList token={token} onEdit={openForEdit} />
+              <ShippingAddressList
+                token={token}
+                onEdit={openForEdit}
+                addresses={data?.addresses || []}
+                refetch={refetch}
+              />
               <div className="flex justify-end mt-4">
                 <Button
                   onClick={openForAdd}
@@ -81,6 +82,7 @@ const AddShippingAddress = ({ token }: { token: string }) => {
           token={token}
           setIsOpen={setIsOpen}
           updateAdd={editAddress}
+          refetch={refetch}
         />
       </DrawerContainer>
     </>

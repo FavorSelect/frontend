@@ -3,6 +3,7 @@ import { apiSlice } from "./api";
 import { AddressFormValues } from "@/components/molecules/dashboard/ShippingAddressForm";
 import { OrdersResponse, ReviewsResponse } from "@/types";
 import { WishlistResponse } from "@/types/wishlist";
+import { AddressApiResponse, AddressDeleteResponse } from "@/types/addresses";
 
 export const userDashboardApi = apiSlice.injectEndpoints({
   overrideExisting: true,
@@ -89,8 +90,8 @@ export const userDashboardApi = apiSlice.injectEndpoints({
         },
       }),
     }),
-    getShippingAddress: builder.query({
-      query: ({ token }: { token: string }) => ({
+    getShippingAddress: builder.query<AddressApiResponse, { token: string }>({
+      query: ({ token }) => ({
         url: "api/user/address",
         method: "GET",
         headers: {
@@ -117,7 +118,10 @@ export const userDashboardApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    deleteShippingAddress: builder.mutation({
+    deleteShippingAddress: builder.mutation<
+      AddressDeleteResponse,
+      { token: string; id: number }
+    >({
       query: ({ token, id }) => ({
         url: `api/user/address/${id}`,
         method: "DELETE",

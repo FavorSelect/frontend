@@ -7,7 +7,11 @@ import {
   getProductUrl,
 } from "@/utils/getApirUrl";
 import { handleError } from "@/utils/handleResponseError";
-import { ProductT, ProductApiResponse } from "@/types/real.product";
+import {
+  ProductT,
+  ProductApiResponse,
+  RecommendationApiResponse,
+} from "@/types/real.product";
 
 // fake backend api
 interface ApiResponse {
@@ -119,8 +123,8 @@ export const getRecommendationProduct = async (): Promise<ProductT[]> => {
       throw await handleError(response);
     }
 
-    const responseData = (await response.json()) as ProductApiResponse;
-    return responseData.products;
+    const responseData = (await response.json()) as RecommendationApiResponse;
+    return responseData.recommended;
   } catch (error: unknown) {
     console.error(error);
     throw new Error(`An error occurred: ${error}`);

@@ -7,11 +7,9 @@ import TopPickProductGrid from "@/components/organisms/home/TopPickProductGrid";
 import WeeklyPromotionProductsList from "@/components/organisms/home/WeeklyPromotionProductsList";
 import {
   getCozyEveningProduct,
-  getPaginatedProduct,
   getPopularProduct,
   getRecommendationProduct,
 } from "@/actions/getProduct";
-import { PAGINATED_PRODUCT_PER_PAGE } from "@/config/constants";
 import {
   getBrandBanners,
   getHeroBanners,
@@ -21,10 +19,6 @@ import {
 } from "@/actions/getBanner";
 
 export default async function Home() {
-  const initialProduct = await getPaginatedProduct(
-    0,
-    PAGINATED_PRODUCT_PER_PAGE
-  );
   // all banners
   const banners = await getHeroBanners();
   const weeklyBanners = await getWeeklyBanners();
@@ -44,7 +38,7 @@ export default async function Home() {
       <WeeklyPromotionProductsList banners={weeklyBanners} />
       <PopularProductGrid products={popularProduct} banners={popularBanners} />
       <Banner banners={brandBanners} />
-      <TopPickProductGrid initialProducts={initialProduct} />
+      <TopPickProductGrid recommendedProducts={recommendationProduct} />
       <CountryProductsCarousel banners={productBanners} />
     </div>
   );

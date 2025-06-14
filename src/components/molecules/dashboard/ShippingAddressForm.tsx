@@ -6,13 +6,10 @@ import ErrorMessage from "../global/ErrorMessage";
 import { SingleSelectField } from "../global/SingleSelectField";
 import {
   useAddShippingAddressMutation,
-  useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,
 } from "@/store/api/userDashboardApi";
 import toast from "react-hot-toast";
 import Spinner from "../global/Spinner";
-import { useDispatch } from "react-redux";
-import { setShippingAddresses } from "@/store/slices/dashboard/getShippingAddressSlice";
 
 export type AddressFormValues = {
   id: number;
@@ -42,10 +39,12 @@ const ShippingAddressForm = ({
   token,
   setIsOpen,
   updateAdd,
+  refetch,
 }: {
   token: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateAdd?: AddressFormValues | null;
+  refetch: () => void;
 }) => {
   const {
     control,
@@ -67,8 +66,6 @@ const ShippingAddressForm = ({
 
   const [addShippingAddress] = useAddShippingAddressMutation();
   const [updateShippingAddress] = useUpdateShippingAddressMutation();
-  const dispatch = useDispatch();
-  const { refetch } = useGetShippingAddressQuery({ token });
 
   const onSubmit = async (data: AddressFormValues) => {
     const id = updateAdd?.id;
@@ -88,29 +85,16 @@ const ShippingAddressForm = ({
             ? "Address updated successfully!"
             : "Address added successfully!")
       );
-
+      refetch();
       setIsOpen(false);
-      const result = await refetch();
-      dispatch(setShippingAddresses(result.data.addresses));
-    } catch (error) {
-      console.error("Shipping Address Failed:", error);
-
-      type APIError = {
-        data?: {
-          message?: string;
-        };
-      };
-
-      const err = error as APIError;
-
-      const message =
-        typeof err === "object" && err !== null && err.data?.message
-          ? err.data.message
-          : isUpdate
-          ? "Failed to update address. Please try again."
-          : "Failed to add address. Please try again.";
-
-      toast.error(message);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(
+          err.message || isUpdate
+            ? "Failed to update address. Please try again."
+            : "Failed to add address. Please try again."
+        );
+      }
     }
   };
 

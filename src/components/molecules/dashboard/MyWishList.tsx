@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/atoms/Button";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -32,15 +31,13 @@ const MyWishList = ({ token }: { token: string }) => {
         token,
         wishlistItemId,
       }).unwrap();
-
-      // ✅ Show success message from backend
       toast.success(response?.message || "Removed from wishlist");
       refetch();
-    } catch (error: any) {
-      const message =
-        error?.data?.message || "Failed to remove item from wishlist";
-      toast.error(message);
-      console.error("Failed to remove from wishlist:", error);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Failed to delete wishlist");
+        console.error("Failed to remove from wishlist:", err);
+      }
     } finally {
       setRemovingId(null);
     }
