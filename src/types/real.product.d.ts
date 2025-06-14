@@ -49,3 +49,8 @@ export interface ProductApiResponse {
   success: boolean;
   products: ProductT[];
 }
+
+export interface RecommendationApiResponse {
+  success: boolean;
+  recommended: ProductT[];
+}

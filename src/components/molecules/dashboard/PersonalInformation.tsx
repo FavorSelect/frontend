@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import ErrorMessage from "../global/ErrorMessage";
@@ -9,9 +8,6 @@ import {
   useGetPersonalInformationQuery,
   useUpdatePersonalInformationMutation,
 } from "@/store/api/userDashboardApi";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { setUserPersonalInfo } from "@/store/slices/dashboard/getUserPersonalInfoSlice";
 import SkeletonPersonalForm from "./SkeletonPersonalInformationForm";
 import toast from "react-hot-toast";
 import Spinner from "../global/Spinner";
@@ -38,12 +34,10 @@ const country = [
 ];
 
 const PersonalInformation = ({ token }: { token: string }) => {
-  const dispatch = useDispatch();
-  const { data, error, isLoading } = useGetPersonalInformationQuery({ token });
+  const { data, isLoading, refetch } = useGetPersonalInformationQuery({
+    token,
+  });
   const [updatePersonalInformation] = useUpdatePersonalInformationMutation();
-  const userInfo = useSelector(
-    (state: RootState) => state.getUserPersonalInfo.user
-  );
 
   const {
     control,
@@ -55,33 +49,22 @@ const PersonalInformation = ({ token }: { token: string }) => {
 
   useEffect(() => {
     if (data?.user) {
-      dispatch(setUserPersonalInfo(data.user));
-    }
-  }, [data, dispatch]);
-
-  useEffect(() => {
-    if (userInfo) {
       reset({
-        firstName: userInfo.firstName || "",
-        lastName: userInfo.lastName || "",
-        phone: userInfo.phone,
-        email: userInfo.email || "",
-        city: userInfo.city || "",
-        state: userInfo.state || "",
-        zipCode: userInfo.zipCode || "",
-        country: userInfo.country || "",
+        firstName: data.user.firstName || "",
+        lastName: data.user.lastName || "",
+        phone: data.user.phone,
+        email: data.user.email || "",
+        city: data.user.city || "",
+        state: data.user.state || "",
+        zipCode: data.user.zipCode || "",
+        country: data.user.country || "",
       });
     }
-  }, [userInfo, reset]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error("Failed to load personal information.");
-    }
-  }, [error]);
+  }, [data, reset]);
 
   const onSubmit = async (formData: PersonalFormValues) => {
-    if (!userInfo?.id) {
+    const userId = data?.user?.id;
+    if (!userId) {
       toast.error("User ID not found.");
       return;
     }
@@ -89,14 +72,16 @@ const PersonalInformation = ({ token }: { token: string }) => {
       const response = await updatePersonalInformation({
         data: formData,
         token,
-        id: userInfo.id,
+        id: userId,
       }).unwrap();
       toast.success(response?.message || "Profile updated successfully.");
-      dispatch(setUserPersonalInfo(response.user));
-    } catch (err: any) {
-      const message =
-        err?.data?.message || "Failed to update profile. Please try again.";
-      toast.error(message);
+      refetch();
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(
+          err.message || "Failed to update profile. Please try again."
+        );
+      }
     }
   };
 

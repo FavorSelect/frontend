@@ -3,13 +3,13 @@ import Section from "@/components/atoms/Section";
 import Span from "@/components/atoms/Span";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
-import ProductDisplayCard from "@/components/molecules/product/ProductDisplayCard";
-import { Product } from "@/types/Product";
+import PopularProductCard from "@/components/molecules/product/PopularProductCard";
+import { ProductT } from "@/types/real.product";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type SimilarProductListProps = {
-  products: Product[];
+  products: ProductT[];
 };
 
 const SimilarProductWrapper = ({ products }: SimilarProductListProps) => {
@@ -28,8 +28,8 @@ const SimilarProductWrapper = ({ products }: SimilarProductListProps) => {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {products.map((product, index) => (
-              <ProductDisplayCard key={index} {...product} />
+            {products.map((product) => (
+              <PopularProductCard key={product.id} product={product} />
             ))}
           </div>
         </ContainerBox>

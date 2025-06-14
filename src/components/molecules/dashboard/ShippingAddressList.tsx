@@ -1,46 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  useDeleteShippingAddressMutation,
-  useGetShippingAddressQuery,
-} from "@/store/api/userDashboardApi";
-import React, { useEffect } from "react";
+import { useDeleteShippingAddressMutation } from "@/store/api/userDashboardApi";
+import React, { useState } from "react";
 import { Button } from "@/components/atoms/Button";
 import { AddressFormValues } from "./ShippingAddressForm";
 import toast from "react-hot-toast";
-
-import {
-  clearShippingAddresses,
-  setShippingAddresses,
-} from "@/store/slices/dashboard/getShippingAddressSlice";
-import { RootState } from "@/store/store";
-import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../global/Spinner";
 import { Edit, Trash } from "lucide-react";
+import { Address } from "@/types/addresses";
 
 type ShippingAddressListProps = {
   token: string;
   onEdit: (address: AddressFormValues) => void;
+  addresses: Address[];
+  refetch: () => void;
 };
 
-const ShippingAddressList = ({ token, onEdit }: ShippingAddressListProps) => {
-  const [deletingId, setDeletingId] = React.useState<number | null>(null);
+const ShippingAddressList = ({
+  token,
+  onEdit,
+  addresses,
+  refetch,
+}: ShippingAddressListProps) => {
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const [deleteShippingAddress] = useDeleteShippingAddressMutation();
-  const dispatch = useDispatch();
-  const { data, error, isLoading, refetch } = useGetShippingAddressQuery({
-    token,
-  });
-
-  const addresses = useSelector(
-    (state: RootState) => state.getShippingAddress.addresses
-  );
-
-  useEffect(() => {
-    if (data?.addresses) {
-      dispatch(setShippingAddresses(data.addresses));
-    } else if (error) {
-      dispatch(clearShippingAddresses());
-    }
-  }, [data, error, dispatch]);
 
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm(
@@ -49,19 +30,16 @@ const ShippingAddressList = ({ token, onEdit }: ShippingAddressListProps) => {
     if (!confirmed) return;
 
     setDeletingId(id);
-
     try {
-      await deleteShippingAddress({ token, id }).unwrap();
-      toast.success("Address deleted successfully!");
-
-      const result = await refetch();
-      if (result.data?.addresses) {
-        dispatch(setShippingAddresses(result.data.addresses));
-      }
+      const response = await deleteShippingAddress({ token, id }).unwrap();
+      toast.success(response.message || "Address deleted successfully!");
+      refetch();
     } catch (err) {
-      toast.error("Failed to delete address.");
-    } finally {
-      setDeletingId(null);
+      if (err instanceof Error) {
+        toast.error(err.message || "Failed to delete address.");
+      } else {
+        toast.error("Failed to delete address.");
+      }
     }
   };
 
