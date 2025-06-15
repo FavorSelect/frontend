@@ -40,8 +40,8 @@ const PopularProductGrid = ({ products, banners }: TopProductListProps) => {
                 src={popularBanner.image}
                 alt={popularBanner.title}
                 className="w-full h-full object-cover rounded-2xl"
-                width={300}
-                height={600}
+                width={800}
+                height={800}
               />
             </div>
 

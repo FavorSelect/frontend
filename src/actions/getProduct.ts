@@ -63,7 +63,7 @@ export const getProductById = async (id: string): Promise<Product> => {
   const url = getIdApiUrl(id);
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {});
 
     if (!response.ok) {
       throw await handleError(response);
@@ -82,7 +82,9 @@ export const getPopularProduct = async (): Promise<ProductT[]> => {
   const url = getProductUrl("api/general/products");
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+    });
     if (!response.ok) {
       throw await handleError(response);
     }
@@ -99,7 +101,9 @@ export const getCozyEveningProduct = async (): Promise<ProductT[]> => {
   const url = getProductUrl("api/general/products/category/lotion");
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+    });
     if (!response.ok) {
       throw await handleError(response);
     }
@@ -117,6 +121,7 @@ export const getRecommendationProduct = async (): Promise<ProductT[]> => {
 
   try {
     const response = await fetch(url, {
+      next: { revalidate: 60 },
       credentials: "include",
     });
     if (!response.ok) {
@@ -139,6 +144,7 @@ export const getProductByCategoriesAndBrands = async (
 
   try {
     const response = await fetch(url, {
+      next: { revalidate: 60 },
       credentials: "include",
     });
     if (!response.ok) throw await handleError(response);
