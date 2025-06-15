@@ -1,19 +1,13 @@
-import {
-  getBannerUrl,
-  getBrandBannerUrl,
-  getPopularBannerUrl,
-  getProductBannerUrl,
-  getWeeklyBannerUrl,
-} from "@/utils/getApirUrl";
+import { getBannerUrl } from "@/utils/getApirUrl";
 import { handleError } from "@/utils/handleResponseError";
 import { Banner, BannerResponse } from "@/types/banner";
 
 export const getHeroBanners = async (): Promise<Banner[]> => {
-  const url = getBannerUrl();
+  const url = getBannerUrl("homepage-banners");
 
   try {
     const response = await fetch(url, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -30,11 +24,11 @@ export const getHeroBanners = async (): Promise<Banner[]> => {
 };
 
 export const getWeeklyBanners = async (): Promise<Banner[]> => {
-  const url = getWeeklyBannerUrl();
+  const url = getBannerUrl("weekly-banners");
 
   try {
     const response = await fetch(url, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -51,10 +45,10 @@ export const getWeeklyBanners = async (): Promise<Banner[]> => {
 };
 
 export const getPopularBanners = async (): Promise<Banner[]> => {
-  const url = getPopularBannerUrl();
+  const url = getBannerUrl("popular-banners");
   try {
     const response = await fetch(url, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -71,10 +65,10 @@ export const getPopularBanners = async (): Promise<Banner[]> => {
 };
 
 export const getBrandBanners = async (): Promise<Banner[]> => {
-  const url = getBrandBannerUrl();
+  const url = getBannerUrl("brands-banners");
   try {
     const response = await fetch(url, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -91,10 +85,10 @@ export const getBrandBanners = async (): Promise<Banner[]> => {
 };
 
 export const getProductBanners = async (): Promise<Banner[]> => {
-  const url = getProductBannerUrl();
+  const url = getBannerUrl("products-banners");
   try {
     const response = await fetch(url, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {

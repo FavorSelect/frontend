@@ -27,7 +27,7 @@ export default async function Home() {
   const productBanners = await getProductBanners();
 
   // get products
-  const popularProduct = (await getPopularProduct()).slice(0, 12);
+  const popularProduct = (await getPopularProduct()).slice(0, 8);
   const cosyEveningProduct = await getCozyEveningProduct();
   const recommendationProduct = await getRecommendationProduct();
 

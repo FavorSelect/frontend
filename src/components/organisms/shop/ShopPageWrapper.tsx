@@ -152,6 +152,19 @@ const ShopPageWrapper = ({
             <div className="w-full lg:w-3/4 space-y-5">
               <div className="flex items-center no-scrollbar space-x-2 md:space-y-0 pb-3 md:pb-0">
                 <ShopMobileFilter>
+                  <div className="flex gap-3 items-center">
+                    {appliedFilterCount > 0 && (
+                      <span className="text-sm font-medium text-gray-700">
+                        {appliedFilterCount} filter
+                        {appliedFilterCount !== 1 ? "s" : ""} applied
+                      </span>
+                    )}
+                    {appliedFilterCount > 0 && !isPending && (
+                      <Button onClick={handleResetFilters} variant="resetBtn">
+                        Reset All Filters
+                      </Button>
+                    )}
+                  </div>
                   <ProductCategoryFilter categories={categories} />
                   <ProductPriceRangeFilter
                     min={backendRange[0]}

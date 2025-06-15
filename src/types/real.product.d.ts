@@ -54,3 +54,9 @@ export interface RecommendationApiResponse {
   success: boolean;
   recommended: ProductT[];
 }
+
+export interface ImageSearchProductApiResponse {
+  success: boolean;
+  matchedLabels: string[];
+  products: ProductT[];
+}

@@ -20,7 +20,7 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
       style={style}
     >
       <Link
-        href="/notifications"
+        href="/notification"
         className="hidden xl:flex flex-col items-center"
       >
         <Bell className="w-6 h-6" />

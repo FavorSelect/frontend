@@ -2,27 +2,38 @@ import {
   getProductByCategoriesAndBrands,
   getPopularProduct as getAllProduct,
 } from "@/actions/getProduct";
-
 import ShopPageWrapper from "@/components/organisms/shop/ShopPageWrapper";
 import { colorHexMap } from "@/utils/color";
+
+interface ResolvedSearchParams {
+  categories?: string;
+  brands?: string;
+  colors?: string;
+  inventoryStatus?: string;
+  maxPrice?: string;
+  sortBy?: string;
+}
+
+type SearchParams = Promise<ResolvedSearchParams>;
 
 export default async function Shop({
   searchParams,
 }: {
-  searchParams: { [key: string]: string };
+  searchParams: SearchParams;
 }) {
   const allProducts = await getAllProduct();
-  const params = await searchParams;
+
+  const { categories, brands, colors, inventoryStatus, maxPrice, sortBy } =
+    await searchParams;
 
   const queryParams: Record<string, string> = {};
 
-  if (params.categories) queryParams.categories = params.categories;
-  if (params.brands) queryParams.brands = params.brands;
-  if (params.colors) queryParams.colors = params.colors;
-  if (params.inventoryStatus)
-    queryParams.inventoryStatus = params.inventoryStatus;
-  if (params.maxPrice) queryParams.maxPrice = params.maxPrice;
-  if (params.sortBy) queryParams.sortBy = params.sortBy;
+  if (categories) queryParams.categories = categories;
+  if (brands) queryParams.brands = brands;
+  if (colors) queryParams.colors = colors;
+  if (inventoryStatus) queryParams.inventoryStatus = inventoryStatus;
+  if (maxPrice) queryParams.maxPrice = maxPrice;
+  if (sortBy) queryParams.sortBy = sortBy;
 
   const filteredProducts =
     Object.keys(queryParams).length > 0
@@ -45,12 +56,12 @@ export default async function Shop({
 
   const prices = allProducts.map((p) => p.productPrice);
   const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices);
+  const maxPriceVal = Math.max(...prices);
 
   const colorMap = new Map<string, number>();
   for (const product of allProducts) {
-    const colors = product.productColors ?? [];
-    for (const color of colors) {
+    const productColors = product.productColors ?? [];
+    for (const color of productColors) {
       colorMap.set(color, (colorMap.get(color) || 0) + 1);
     }
   }
@@ -78,7 +89,7 @@ export default async function Shop({
       products={filteredProducts}
       categories={categoriesList}
       brands={brandsList}
-      priceRange={[minPrice, maxPrice]}
+      priceRange={[minPrice, maxPriceVal]}
       colors={colorsList}
       statuses={statusesList}
     />

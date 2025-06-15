@@ -5,7 +5,15 @@ import { Input } from "@/components/atoms/Input";
 import { cn } from "@/utils/cn";
 import { Camera, Search } from "lucide-react";
 import Span from "@/components/atoms/Span";
-
+import { useImageSearchMutation } from "@/store/api/searchApi";
+import { useRouter, usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import {
+  setError,
+  setLoading,
+  setResults,
+} from "@/store/slices/search-results/imageSearch.slice";
+import Spinner from "../global/Spinner";
 interface MainHeaderSearchBarProps {
   className?: string;
   style?: React.CSSProperties;
@@ -25,6 +33,8 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
   style,
   mode = "desktop",
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [placeholder, setPlaceholder] = useState("");
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -51,6 +61,38 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
     setPlaceholder(currentText.substring(0, charIndex));
   }, [charIndex, isDeleting, textIndex]);
 
+  const dispatch = useDispatch();
+  const [imageSearch, { isLoading }] = useImageSearchMutation();
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    dispatch(setLoading(true));
+    dispatch(setError(false));
+
+    if (pathname !== "/search-results") {
+      router.push("/search-results");
+    }
+
+    try {
+      const response = await imageSearch(formData).unwrap();
+      dispatch(
+        setResults({
+          products: response.products,
+          labels: response.matchedLabels,
+        })
+      );
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setError(true));
+      dispatch(setLoading(false));
+      console.error("RTK image search error", error);
+    }
+  };
   return (
     <div
       className={cn(
@@ -75,19 +117,26 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
         className={cn(
           "cursor-pointer flex items-center justify-center w-12 h-12 text-scarlet-red transition-all duration-200",
           mode === "desktop"
-            ? "bg-[#ffe5e5] hover:bg-[#ffcccc]"
+            ? isLoading
+              ? "bg-scarlet-red/80"
+              : "bg-[#ffe5e5] hover:bg-[#ffcccc]"
             : "bg-transparent"
         )}
       >
-        <Camera
-          size={20}
-          className="transition-transform duration-200 hover:scale-110"
-        />
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Camera
+            size={20}
+            className="transition-transform duration-200 hover:scale-110"
+          />
+        )}
         <input
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={(e) => console.log(e.target.files)}
+          onChange={handleImageUpload}
+          disabled={isLoading}
         />
       </label>
 
