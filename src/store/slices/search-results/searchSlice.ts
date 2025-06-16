@@ -1,22 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductT } from "@/types/real.product";
 
-interface ImageSearchState {
+interface SearchState {
   products: ProductT[];
   labels: string[];
   isLoading: boolean;
   isError: boolean;
 }
 
-const initialState: ImageSearchState = {
+const initialState: SearchState = {
   products: [],
   labels: [],
   isLoading: false,
   isError: false,
 };
 
-export const imageSearchSlice = createSlice({
-  name: "imageSearch",
+export const searchSlice = createSlice({
+  name: "search",
   initialState,
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -37,6 +37,6 @@ export const imageSearchSlice = createSlice({
 });
 
 export const { setLoading, setError, setResults, resetResults } =
-  imageSearchSlice.actions;
+  searchSlice.actions;
 
-export default imageSearchSlice.reducer;
+export default searchSlice.reducer;

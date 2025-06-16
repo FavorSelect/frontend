@@ -1,13 +1,27 @@
+"use client";
 import { Notification } from "@/types/notification";
 import React from "react";
 import Image from "next/image";
 import { format } from "date-fns";
+import { useGetNotificationQuery } from "@/store/api/notificationApi";
 
-const NotificationWrapper = ({
-  notifications,
-}: {
-  notifications: Notification[];
-}) => {
+const NotificationWrapper = () => {
+  const { data, isLoading, isError } = useGetNotificationQuery();
+
+  if (isLoading) {
+    return (
+      <p className="text-gray-500 text-center">Loading notifications...</p>
+    );
+  }
+
+  if (isError || !data || !data.notifications) {
+    return (
+      <p className="text-red-500 text-center">Failed to load notifications.</p>
+    );
+  }
+
+  const notifications: Notification[] = data.notifications;
+
   return (
     <div className="font-montserrat w-full max-w-xl mx-auto p-4 md:p-8 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Notifications</h2>

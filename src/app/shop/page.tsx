@@ -1,3 +1,4 @@
+import { getCategories } from "@/actions/getCategory";
 import {
   getProductByCategoriesAndBrands,
   getPopularProduct as getAllProduct,
@@ -22,6 +23,7 @@ export default async function Shop({
   searchParams: SearchParams;
 }) {
   const allProducts = await getAllProduct();
+  const cate = await getCategories();
 
   const { categories, brands, colors, inventoryStatus, maxPrice, sortBy } =
     await searchParams;

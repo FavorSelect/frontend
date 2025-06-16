@@ -15,7 +15,7 @@ const Banner = ({ banners }: BannerPropTypes) => {
   return (
     <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="px-0 py-0">
+        <ContainerBox className="py-0 px-0 xl:py-0 xl:px-0">
           <Link href="#">
             <Image
               src={brandBanner.image}

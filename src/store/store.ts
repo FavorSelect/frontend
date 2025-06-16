@@ -12,7 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import imageSearchReducer from "@/store/slices/search-results/imageSearch.slice";
+import searchReducer from "@/store/slices/search-results/searchSlice";
 
 import hamburgerReducer from "@/store/slices/humburger/hamburgerSlice";
 import resetPasswordReducer from "@/store/slices/user/resetPasswordSlice";
@@ -39,7 +39,7 @@ const persistConfig = {
   key: "root",
   storage,
   whitelist: [
-    "imageSearch",
+    "search",
     "productColorSelector",
     "productSizeSelector",
     "productQuantity",
@@ -57,7 +57,7 @@ const persistConfig = {
 const rootReducer = {
   [apiSlice.reducerPath]: apiSlice.reducer,
   resetPassword: resetPasswordReducer,
-  imageSearch: imageSearchReducer,
+  search: searchReducer,
   setPassword: setPasswordReducer,
   productColorSelector: productColorSelectorReducer,
   productSizeSelector: productSizeSelectorReducer,

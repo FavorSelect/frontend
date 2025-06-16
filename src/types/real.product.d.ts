@@ -60,3 +60,8 @@ export interface ImageSearchProductApiResponse {
   matchedLabels: string[];
   products: ProductT[];
 }
+
+export interface SearchSuggestionsResponse {
+  success: boolean;
+  suggestions: string[];
+}

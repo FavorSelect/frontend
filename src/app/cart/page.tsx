@@ -1,5 +1,5 @@
-import CartLayout from "@/components/organisms/cart/CartLayout";
+import CartWrapper from "@/components/organisms/cart/CartWrapper";
 
 export default function CartPage() {
-  return <CartLayout />;
+  return <CartWrapper />;
 }

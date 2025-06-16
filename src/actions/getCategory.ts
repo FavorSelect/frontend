@@ -14,7 +14,7 @@ export const getCategories = async (): Promise<any[]> => {
     }
 
     const responseData = (await response.json()) as any;
-
+    console.log(responseData);
     return responseData.categories;
   } catch (error: unknown) {
     console.error("Failed to fetch banners:", error);

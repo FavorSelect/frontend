@@ -14,6 +14,8 @@ type CartItemProps = {
   quantity: number;
   isSelected: boolean;
   deliveryText: string;
+  loading: boolean;
+  avaiableStockQuantity: number;
   onSelect: (id: string, selected: boolean) => void;
   onQuantityChange: (id: string, quantity: number) => void;
   onRemove: (id: string) => void;
@@ -28,12 +30,14 @@ export const CartItem: React.FC<CartItemProps> = ({
   quantity,
   isSelected,
   deliveryText,
+  loading,
+  avaiableStockQuantity,
   onSelect,
   onQuantityChange,
   onRemove,
 }) => {
   return (
-    <div className="flex items-center gap-3 py-4 shadow-md px-3 rounded-lg">
+    <div className="flex items-center gap-3 py-4 px-3 rounded-lg border border-gray-200">
       <Checkbox
         checked={isSelected}
         onChange={(checked: boolean) => onSelect(id, checked)}
@@ -54,6 +58,8 @@ export const CartItem: React.FC<CartItemProps> = ({
         <QuantitySelector
           quantity={quantity}
           onChange={(newQty) => onQuantityChange(id, newQty)}
+          loading={loading}
+          avaiableStockQuantity={avaiableStockQuantity}
         />
       </div>
 

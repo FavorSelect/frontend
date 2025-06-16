@@ -36,7 +36,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   onApplyPromo,
 }) => {
   return (
-    <div className="shadow-md py-3 px-4 rounded-md bg-white w-full">
+    <div className="py-3 px-4 rounded-lg border border-gray-200 w-full">
       <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
 
       <div className="flex justify-between mb-2">
