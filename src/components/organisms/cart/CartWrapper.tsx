@@ -14,23 +14,20 @@ import {
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { handleApiError } from "@/utils/handleApiError";
-import { Trash } from "lucide-react";
+import { ShoppingCart, Trash } from "lucide-react";
 import Spinner from "@/components/molecules/global/Spinner";
 
 const CartWrapper: React.FC = () => {
-  const {
-    data,
-    isLoading,
-    isError,
-    refetch: refetchCartSummary,
-  } = useGetCartSummaryQuery();
+  const { data, isLoading, isError } = useGetCartSummaryQuery();
 
   const cart = data?.cart?.CartItems ?? [];
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [loadingIds, setLoadingIds] = useState<number[]>([]);
+  const [removeLoadingIds, setRemoveLoadingIds] = useState<number[]>([]);
   const [updateCartItem] = useUpdateCartItemMutation();
-  const [deleteSelectedCartItems, { isLoading: isDeleting }] =
+  const [deleteSelectedCartItems, { isLoading: isBulkDeleting }] =
     useDeleteSelectedCartItemsMutation();
+  const [deleteSingleItem] = useDeleteSelectedCartItemsMutation();
 
   const handleSelect = (id: number, selected: boolean) => {
     setSelectedIds((prev) =>
@@ -50,7 +47,6 @@ const CartWrapper: React.FC = () => {
         quantity,
       }).unwrap();
       toast.success(response?.message || "Cart updated");
-      await refetchCartSummary();
     } catch (err) {
       handleApiError(err, "Failed to update cart item");
     } finally {
@@ -59,12 +55,12 @@ const CartWrapper: React.FC = () => {
   };
 
   const handleRemove = async (id: number) => {
+    setRemoveLoadingIds((prev) => [...prev, id]);
     try {
-      const response = await deleteSelectedCartItems({
+      const response = await deleteSingleItem({
         itemIds: [id],
       }).unwrap();
       toast.success(response?.message || "Item removed from cart");
-      await refetchCartSummary();
     } catch (err) {
       handleApiError(err, "Failed to remove item");
     }
@@ -79,14 +75,15 @@ const CartWrapper: React.FC = () => {
   };
 
   const handleDeleteAll = async () => {
-    if (selectedIds.length === 0) return;
-
+    if (selectedIds.length === 0) {
+      alert("select all to delete");
+      return;
+    }
     try {
       const response = await deleteSelectedCartItems({
         itemIds: selectedIds,
       }).unwrap();
       toast.success(response?.message || "Selected items removed from cart");
-      await refetchCartSummary();
     } catch (err) {
       handleApiError(err, "Failed to remove selected items");
     }
@@ -103,6 +100,10 @@ const CartWrapper: React.FC = () => {
     <Section className="py-8">
       <MaxWidthWrapper>
         <ContainerBox className="py-8 px-5 bg-white shadow-sm rounded-md">
+          <div className="border-b border-b-gray-200 mb-4 pb-2 flex gap-x-2 items-center">
+            <h2 className="text-lg font-semibold">Your Cart</h2>{" "}
+            <ShoppingCart size={20} />
+          </div>
           {isLoading ? (
             <p className="text-center text-gray-500">Loading cart...</p>
           ) : isError ? (
@@ -130,9 +131,9 @@ const CartWrapper: React.FC = () => {
                     <Button
                       onClick={handleDeleteAll}
                       className="bg-scarlet-red flex items-center justify-center gap-2 text-white px-3 py-2 rounded-md font-semibold transition disabled:opacity-70 disabled:cursor-not-allowed"
-                      disabled={isDeleting}
+                      disabled={isBulkDeleting}
                     >
-                      {isDeleting ? (
+                      {isBulkDeleting ? (
                         <>
                           <Spinner className="text-white w-4 h-4" />
                           Deleting...
@@ -159,6 +160,7 @@ const CartWrapper: React.FC = () => {
                         quantity={item.quantity}
                         deliveryText="Estimated between 4 Aug to 7 Aug"
                         loading={loadingIds.includes(item.id)}
+                        removeLoading={removeLoadingIds.includes(item.id)}
                         avaiableStockQuantity={
                           item.Product.availableStockQuantity
                         }

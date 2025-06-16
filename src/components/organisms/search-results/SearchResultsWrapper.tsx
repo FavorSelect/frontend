@@ -52,7 +52,7 @@ const SearchResultsWrapper = () => {
 
             {!isLoading && !isError && products.length === 0 && (
               <div className="p-10 text-center text-gray-600">
-                No products matched your image.
+                No products matched with your search.
               </div>
             )}
 

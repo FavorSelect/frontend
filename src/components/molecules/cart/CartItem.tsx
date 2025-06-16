@@ -15,6 +15,7 @@ type CartItemProps = {
   isSelected: boolean;
   deliveryText: string;
   loading: boolean;
+  removeLoading: boolean;
   avaiableStockQuantity: number;
   onSelect: (id: string, selected: boolean) => void;
   onQuantityChange: (id: string, quantity: number) => void;
@@ -31,6 +32,7 @@ export const CartItem: React.FC<CartItemProps> = ({
   isSelected,
   deliveryText,
   loading,
+  removeLoading,
   avaiableStockQuantity,
   onSelect,
   onQuantityChange,
@@ -46,7 +48,7 @@ export const CartItem: React.FC<CartItemProps> = ({
       <Image
         src={imageUrl}
         alt={name}
-        className="w-auto h-auto object-cover rounded-md pr-3"
+        className="w-auto h-auto object-cover rounded-md border border-gray-200"
         width={70}
         height={70}
       />
@@ -54,6 +56,9 @@ export const CartItem: React.FC<CartItemProps> = ({
       <div className="flex-1 space-y-1.5">
         <h4 className="font-semibold text-lg text-gray-800">{name}</h4>
         <p className="text-sm text-gray-500">{deliveryText}</p>
+      </div>
+
+      <div className="flex gap-x-3">
         <PriceTag price={price} originalPrice={originalPrice} />
         <QuantitySelector
           quantity={quantity}
@@ -61,10 +66,7 @@ export const CartItem: React.FC<CartItemProps> = ({
           loading={loading}
           avaiableStockQuantity={avaiableStockQuantity}
         />
-      </div>
-
-      <div>
-        <RemoveCart onClick={() => onRemove(id)} />
+        <RemoveCart isRemoving={removeLoading} onClick={() => onRemove(id)} />
       </div>
     </div>
   );

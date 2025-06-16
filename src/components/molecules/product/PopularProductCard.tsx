@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { Button } from "@/components/atoms/Button";
 import Span from "@/components/atoms/Span";
 import { Flame, Heart, ShoppingCart, Star, View } from "lucide-react";
@@ -5,6 +7,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import { ProductT } from "@/types/real.product";
+import { useAddToCartMutation } from "@/store/api/cartApi";
+import { toast } from "react-hot-toast";
+import { handleApiError } from "@/utils/handleApiError";
+import Spinner from "../global/Spinner";
+import {
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation,
+  useGetWishlistQuery,
+} from "@/store/api/wishApi";
 
 interface ServerProductCardProps {
   product: ProductT;
@@ -15,6 +26,14 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
   product,
   viewMode = "grid",
 }) => {
+  const { data: wishlistData } = useGetWishlistQuery();
+
+  const [addToWishlist, { isLoading: isWishing }] = useAddToWishlistMutation();
+  const [removeFromWishlist, { isLoading: isUnwishing }] =
+    useRemoveFromWishlistMutation();
+
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
+
   const {
     id,
     productName,
@@ -24,6 +43,10 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
     coverImageUrl,
     rekognitionLabels = [],
   } = product;
+
+  const isInWishlist = wishlistData?.wishlist.some(
+    (item: any) => item.productId === id
+  );
 
   const hasDiscount =
     productDiscountPercentage !== null && productDiscountPercentage > 0;
@@ -35,6 +58,35 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
   const discount = hasDiscount ? `-${productDiscountPercentage}%` : undefined;
 
   const isListView = viewMode === "list";
+
+  const handleToggleWishlist = async () => {
+    try {
+      const matchedItem = wishlistData?.wishlist.find(
+        (item: any) => item.productId === id
+      );
+      if (matchedItem) {
+        console.log(matchedItem.id);
+        const res = await removeFromWishlist({
+          wishlistIds: [matchedItem.id],
+        }).unwrap();
+        toast.success(res?.message || "Removed from wishlist");
+      } else {
+        const res = await addToWishlist({ productId: id }).unwrap();
+        toast.success(res?.message || "Added to wishlist");
+      }
+    } catch (err) {
+      handleApiError(err, "Wishlist action failed");
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const res = await addToCart({ productId: id, quantity: 1 }).unwrap();
+      toast.success(res?.message || "Item added to cart");
+    } catch (err) {
+      handleApiError(err, "Failed to add to cart");
+    }
+  };
 
   return (
     <div
@@ -57,8 +109,18 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
             {discount}
           </Span>
         )}
-        <Button className="absolute h-8 w-8 p-1 rounded-full top-2.5 right-2 bg-white shadow">
-          <Heart className="w-4 h-4" />
+        <Button
+          onClick={handleToggleWishlist}
+          disabled={isWishing || isUnwishing}
+          className="absolute h-8 w-8 p-1 rounded-full top-2.5 right-2 bg-white shadow disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {isWishing || isUnwishing ? (
+            <Spinner className="mr-0 text-scarlet-red" />
+          ) : isInWishlist ? (
+            <Heart className="w-4 h-4 fill-scarlet-red text-scarlet-red" />
+          ) : (
+            <Heart className="w-4 h-4 text-scarlet-red" />
+          )}
         </Button>
         <Image
           src={coverImageUrl}
@@ -112,9 +174,22 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
         </div>
 
         <div className="space-y-2.5">
-          <Button className="w-full py-1.5 flex justify-center items-center gap-x-2 transition-colors bg-scarlet-red hover:bg-red-600 text-white text-sm font-medium rounded">
-            <ShoppingCart className="w-4 h-4" />
-            Add to Cart
+          <Button
+            onClick={handleAddToCart}
+            disabled={isAdding}
+            className="w-full py-1.5 flex justify-center items-center gap-x-2 transition-colors bg-scarlet-red hover:bg-red-600 text-white text-sm font-medium rounded disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isAdding ? (
+              <>
+                <Spinner className="w-4 h-4 text-white" />
+                Adding...
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="w-4 h-4" />
+                Add to Cart
+              </>
+            )}
           </Button>
           <Link
             href={`/shop/${id}`}

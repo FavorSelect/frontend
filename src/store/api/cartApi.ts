@@ -11,6 +11,7 @@ export const cartApi = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Cart"],
     }),
 
     // Update cart item quantity
@@ -23,6 +24,7 @@ export const cartApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: { quantity },
       }),
+      invalidatesTags: ["Cart"],
     }),
 
     // Get all cart items with summary
@@ -31,6 +33,7 @@ export const cartApi = apiSlice.injectEndpoints({
         url: "/api/user/cart-with-summery",
         method: "GET",
       }),
+      providesTags: ["Cart"],
     }),
 
     // Delete selected cart items by array of IDs
@@ -40,6 +43,7 @@ export const cartApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body,
       }),
+      invalidatesTags: ["Cart"],
     }),
   }),
 

@@ -4,6 +4,7 @@ import Span from "@/components/atoms/Span";
 import { cn } from "@/utils/cn";
 import { Bell, ShoppingBag, ShoppingCart } from "lucide-react";
 import ProfileDropdown from "./ProfileDropdown";
+import { useGetCartSummaryQuery } from "@/store/api/cartApi";
 
 interface MainHeaderNavbarProps {
   className?: string;
@@ -11,6 +12,9 @@ interface MainHeaderNavbarProps {
 }
 
 const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
+  const { data } = useGetCartSummaryQuery();
+  const cartCount = data?.cart?.CartItems?.length ?? 0;
+
   return (
     <div
       className={cn(
@@ -34,9 +38,15 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
       <ProfileDropdown />
       <Link href="/cart" className="flex flex-col items-center group">
         <div className="relative">
-          <Span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 flex justify-center items-center rounded-full leading-none">
-            20
-          </Span>
+          {cartCount !== 0 && (
+            <Span
+              className={`absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] font-semibold w-5 h-5 flex justify-center items-center rounded-full leading-none transition-all duration-300 ${
+                cartCount > 0 ? "scale-100" : "scale-90 opacity-60"
+              }`}
+            >
+              {cartCount}
+            </Span>
+          )}
           <ShoppingCart className="w-6 h-6" />
         </div>
         <Span className="mt-1 hidden xl:block">Shopping Cart</Span>

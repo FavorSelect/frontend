@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
 import { decrypt } from "@/utils/decrypt";
+import { apiSlice } from "@/store/api/api";
 
 export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +30,8 @@ export default function ProfileDropdown() {
     try {
       await logoutApi().unwrap();
       dispatch(logout());
+
+      dispatch(apiSlice.util.resetApiState());
       setIsOpen(false);
       toast.success("You have been logged out.");
       router.push("/login");

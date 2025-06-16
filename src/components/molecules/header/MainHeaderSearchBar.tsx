@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import { Camera, Search } from "lucide-react";
@@ -43,6 +43,7 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
     handleFocus,
     handleBlur,
   } = useSearchInput();
+  const [searching, setSearching] = useState(false);
   const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
 
   // Redux Logic
@@ -58,6 +59,25 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
   } = useGetSearchSuggestionsQuery(debouncedSearchTerm, {
     skip: debouncedSearchTerm.length < 2,
   });
+
+  const handleManualSearch = async () => {
+    if (!searchTerm.trim() || searching) return;
+
+    setSearching(true);
+    try {
+      await handleTextSearch(
+        searchTerm,
+        router,
+        pathname,
+        searchProductsByQuery,
+        dispatch,
+        setSearchTerm,
+        setShowSuggestions
+      );
+    } finally {
+      setSearching(false);
+    }
+  };
 
   return (
     <div
@@ -83,6 +103,9 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
           onFocus={handleFocus}
           className="relative z-10 bg-transparent text-scarlet-red placeholder-transparent text-sm flex-1 outline-none border-none h-12 font-normal placeholder:[letter-spacing:0.05em] transition-all duration-500 w-full"
           placeholder=" "
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleManualSearch();
+          }}
         />
         {searchTerm.length === 0 && (
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-sm text-scarlet-red pointer-events-none animated-placeholder flex items-center" />
@@ -122,6 +145,7 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
         {isLoading ? (
           <Spinner
             className={cn(
+              "mr-0",
               mode !== "desktop" ? "text-scarlet-red" : "text-white"
             )}
           />
@@ -144,9 +168,19 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
 
       {/* Search Button (Desktop) */}
       {mode === "desktop" && (
-        <Button className="bg-scarlet-red text-white text-sm font-semibold w-16 xl:w-24 rounded-l-none rounded-r-xl cursor-pointer h-12 hover:bg-red-700 transition-all duration-200">
-          <Span className="hidden xl:block">Search</Span>
-          <Search className="w-5 h-5 block xl:hidden" />
+        <Button
+          onClick={handleManualSearch}
+          disabled={searching}
+          className="bg-scarlet-red text-white text-sm font-semibold w-16 xl:w-24 rounded-l-none rounded-r-xl cursor-pointer h-12 hover:bg-red-700 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {searching ? (
+            <Spinner className="w-4 h-4 text-white" />
+          ) : (
+            <>
+              <Span className="hidden xl:block">Search</Span>
+              <Search className="w-5 h-5 block xl:hidden" />
+            </>
+          )}
         </Button>
       )}
     </div>
