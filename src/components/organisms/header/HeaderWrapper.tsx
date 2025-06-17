@@ -8,8 +8,9 @@ import MainHeaderSearchBar from "@/components/molecules/header/MainHeaderSearchB
 import MainHeaderNavbar from "@/components/molecules/header/MainHeaderNavbar";
 import Logo from "@/components/molecules/header/Logo";
 import MobileMenu from "@/components/molecules/header/MobileMenu";
+import { Category } from "@/types/category";
 
-const HeaderWrapper = () => {
+const HeaderWrapper = ({ categories }: { categories: Category[] }) => {
   return (
     <header className="space-y-3 xl:space-y-2 mb-4 xl:mb-8">
       <MaxWidthWrapper>
@@ -23,7 +24,7 @@ const HeaderWrapper = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex gap-x-3 items-center">
-              <MobileMenu />
+              <MobileMenu categories={categories} />
               <Logo />
             </div>
             {/* Search Bar */}
@@ -39,7 +40,7 @@ const HeaderWrapper = () => {
         <MaxWidthWrapper>
           <ContainerBox className="xl:px-0 px-0 py-0 xl:py-4">
             <div className="hidden xl:block">
-              <CategoryList />
+              <CategoryList categories={categories} />
             </div>
             <div className="block xl:hidden">
               <MainHeaderSearchBar mode="mobile" />

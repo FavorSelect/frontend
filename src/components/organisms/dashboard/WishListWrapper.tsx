@@ -2,8 +2,8 @@
 import React from "react";
 import MyWishList from "@/components/molecules/dashboard/MyWishList";
 
-const WishListWrapper = ({ token }: { token: string }) => {
-  return <MyWishList token={token} />;
+const WishListWrapper = () => {
+  return <MyWishList />;
 };
 
 export default WishListWrapper;

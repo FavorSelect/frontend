@@ -155,3 +155,23 @@ export const getProductByCategoriesAndBrands = async (
     throw new Error(`An error occurred: ${error}`);
   }
 };
+
+export const getProductDetail = async (id: string): Promise<ProductT[]> => {
+  const url = getProductUrl(`api/general/products/${id}`);
+
+  try {
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw await handleError(response);
+    }
+
+    const responseData = (await response.json()) as RecommendationApiResponse;
+    return responseData.recommended;
+  } catch (error: unknown) {
+    console.error(error);
+    throw new Error(`An error occurred: ${error}`);
+  }
+};

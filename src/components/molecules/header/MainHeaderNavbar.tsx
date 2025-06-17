@@ -31,7 +31,10 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
         <Span className="mt-1">Notifications</Span>
       </Link>
 
-      <Link href="/shop" className="hidden xl:flex flex-col items-center group">
+      <Link
+        href="/shop/all"
+        className="hidden xl:flex flex-col items-center group"
+      >
         <ShoppingBag className="w-6 h-6" />
         <Span className="mt-1">Shop</Span>
       </Link>

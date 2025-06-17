@@ -3,16 +3,23 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { UserCardSkeleton as WishListCardSkeleton } from "@/components/molecules/dashboard/UserCardSkeleton";
 import {
-  useGetWishListQuery,
   useRemoveFromWishlistMutation,
-} from "@/store/api/userDashboardApi";
-import toast from "react-hot-toast";
+  useGetWishlistQuery,
+} from "@/store/api/wishApi";
 
-const MyWishList = ({ token }: { token: string }) => {
-  const { data, isLoading, isFetching, refetch } = useGetWishListQuery(token);
+import toast from "react-hot-toast";
+import { useAddToCartMutation } from "@/store/api/cartApi";
+import { handleApiError } from "@/utils/handleApiError";
+import Spinner from "../global/Spinner";
+import { CreditCard, ShoppingCart, Trash2 } from "lucide-react";
+
+const MyWishList = () => {
+  const { data, isLoading, isFetching } = useGetWishlistQuery();
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
   const [removeFromWishlist, { isLoading: isRemoving }] =
     useRemoveFromWishlistMutation();
   const [removingId, setRemovingId] = useState<number | null>(null);
+  const [addCartId, setAddCartId] = useState<number | null>(null);
 
   if (isLoading || isFetching) {
     return <WishListCardSkeleton />;
@@ -28,18 +35,26 @@ const MyWishList = ({ token }: { token: string }) => {
     setRemovingId(wishlistItemId);
     try {
       const response = await removeFromWishlist({
-        token,
-        wishlistItemId,
+        wishlistIds: [wishlistItemId],
       }).unwrap();
       toast.success(response?.message || "Removed from wishlist");
-      refetch();
     } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message || "Failed to delete wishlist");
-        console.error("Failed to remove from wishlist:", err);
-      }
+      const message =
+        err instanceof Error ? err.message : "Failed to delete wishlist item.";
+      toast.error(message);
+      console.error("Failed to remove from wishlist:", err);
     } finally {
       setRemovingId(null);
+    }
+  };
+
+  const handleAddToCart = async (id: number) => {
+    setAddCartId(id);
+    try {
+      const res = await addToCart({ productId: id, quantity: 1 }).unwrap();
+      toast.success(res?.message || "Item added to cart");
+    } catch (err) {
+      handleApiError(err, "Failed to add to cart");
     }
   };
 
@@ -57,18 +72,23 @@ const MyWishList = ({ token }: { token: string }) => {
           return (
             <div
               key={item.id}
-              className="border border-[#eeeeee] pb-2 rounded-lg"
+              className="border border-[#eeeeee] pb-2 rounded-md"
             >
               <div className="mb-4 bg-[#f5f5f5] px-3 py-3.5 flex justify-between items-center">
                 <span className="font-semibold">My Wishlist</span>
                 <Button
                   onClick={() => handleRemove(item.id)}
                   disabled={isRemoving && removingId === item.id}
-                  className="text-sm text-red-500 hover:underline disabled:opacity-50"
+                  className="text-sm text-red-500 hover:underline disabled:opacity-50 flex items-center"
                 >
-                  {isRemoving && removingId === item.id
-                    ? "Removing..."
-                    : "Remove"}
+                  {isRemoving && removingId === item.id ? (
+                    "Removing..."
+                  ) : (
+                    <>
+                      <Trash2 className="w-4 h-4" />
+                      Remove wishlist
+                    </>
+                  )}
                 </Button>
               </div>
 
@@ -99,10 +119,25 @@ const MyWishList = ({ token }: { token: string }) => {
                 </div>
 
                 <div className="flex flex-col space-y-3.5 p-3">
-                  <Button className="bg-scarlet-red text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition text-sm flex items-center">
-                    Add to Cart
+                  <Button
+                    onClick={() => handleAddToCart(product.id)}
+                    disabled={addCartId === product.id && isAdding}
+                    className="bg-scarlet-red text-white py-2 px-4 rounded-md font-semibold hover:bg-red-700 transition text-sm flex items-center disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {addCartId === product.id && isAdding ? (
+                      <>
+                        <Spinner className="w-4 h-4 text-white mr-2" />
+                        Adding...
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="w-4 h-4" />
+                        Add to Cart
+                      </>
+                    )}
                   </Button>
-                  <Button className="bg-scarlet-red text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 transition text-sm flex items-center">
+                  <Button className="bg-scarlet-red text-white py-2 px-4 rounded-md font-semibold hover:bg-red-700 transition text-sm flex items-center">
+                    <CreditCard className="w-4 h-4" />
                     Buy Now
                   </Button>
                 </div>

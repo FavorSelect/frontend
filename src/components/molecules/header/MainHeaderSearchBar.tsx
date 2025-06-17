@@ -62,7 +62,6 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
 
   const handleManualSearch = async () => {
     if (!searchTerm.trim() || searching) return;
-
     setSearching(true);
     try {
       await handleTextSearch(

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { WishlistResponse } from "@/types/wishlist";
 import { apiSlice } from "./api";
 
 export const wishApi = apiSlice.injectEndpoints({
@@ -14,7 +15,7 @@ export const wishApi = apiSlice.injectEndpoints({
     }),
 
     // ✅ Get wishlist items
-    getWishlist: builder.query<any, void>({
+    getWishlist: builder.query<WishlistResponse, void>({
       query: () => ({
         url: "/api/user/wishlist",
         method: "GET",

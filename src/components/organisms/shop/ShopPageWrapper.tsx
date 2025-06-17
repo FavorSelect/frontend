@@ -20,36 +20,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const fakeCategories = [
-  { icon: "/icons/007-pills.svg", name: "Medicine", count: 20 },
-  { icon: "/icons/016-notepad.svg", name: "Nutrition", count: 11 },
-  { icon: "/icons/006-nose.svg", name: "Cough, Cold, Fever", count: 5 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/004-cream.svg", name: "Cosmetics", count: 6 },
-  { icon: "/icons/023-briefcase.svg", name: "Health", count: 27 },
-  { icon: "/icons/008-liposuction.svg", name: "Protection", count: 24 },
-  { icon: "/icons/013-syringe.svg", name: "Medication", count: 7 },
-  { icon: "/icons/027-brush.svg", name: "Mouth & Teeth", count: 1 },
-  { icon: "/icons/006-test-tube.svg", name: "Allergies", count: 14 },
-  { icon: "/icons/007-pills.svg", name: "Medicine", count: 20 },
-  { icon: "/icons/016-notepad.svg", name: "Nutrition", count: 11 },
-  { icon: "/icons/006-nose.svg", name: "Cough, Cold, Fever", count: 5 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/006-nose.svg", name: "Cough, Cold, Fever", count: 5 },
-  { icon: "/icons/030-pills.svg", name: "Dietary", count: 7 },
-  { icon: "/icons/004-cream.svg", name: "Cosmetics", count: 6 },
-  { icon: "/icons/023-briefcase.svg", name: "Health", count: 27 },
-  { icon: "/icons/008-liposuction.svg", name: "Protection", count: 24 },
-  { icon: "/icons/013-syringe.svg", name: "Medication", count: 7 },
-  { icon: "/icons/027-brush.svg", name: "Mouth & Teeth", count: 1 },
-  { icon: "/icons/006-test-tube.svg", name: "Allergies", count: 14 },
-];
+type CategoryCarouselType = {
+  icon: string;
+  name: string;
+  count: number;
+};
 
 type Brand = { name: string; count: number };
 type Color = { name: string; count: number; hex: string };
@@ -62,6 +37,7 @@ type ShopPageProductListProps = {
   priceRange: [number, number];
   colors: Color[];
   statuses: Status[];
+  categoryCarouselData: CategoryCarouselType[];
 };
 
 const ShopPageWrapper = ({
@@ -71,6 +47,7 @@ const ShopPageWrapper = ({
   priceRange: backendRange,
   colors,
   statuses,
+  categoryCarouselData,
 }: ShopPageProductListProps) => {
   const productViewMode = useSelector(
     (state: RootState) => state.productView.mode
@@ -124,7 +101,7 @@ const ShopPageWrapper = ({
     <Section>
       <MaxWidthWrapper>
         <ContainerBox hasBackground={true} className="space-y-8">
-          <CategoryCarousel category={fakeCategories} />
+          <CategoryCarousel category={categoryCarouselData} />
           <div className="flex gap-3 items-center">
             {appliedFilterCount > 0 && (
               <span className="text-sm font-medium text-gray-700">

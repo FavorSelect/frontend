@@ -2,7 +2,6 @@ import { PersonalFormValues } from "@/components/molecules/dashboard/PersonalInf
 import { apiSlice } from "./api";
 import { AddressFormValues } from "@/components/molecules/dashboard/ShippingAddressForm";
 import { OrdersResponse, ReviewsResponse } from "@/types";
-import { WishlistResponse } from "@/types/wishlist";
 import { AddressApiResponse, AddressDeleteResponse } from "@/types/addresses";
 
 export const userDashboardApi = apiSlice.injectEndpoints({
@@ -48,32 +47,6 @@ export const userDashboardApi = apiSlice.injectEndpoints({
       query: (token: string) => ({
         url: "api/user/my-reviews",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    }),
-
-    getWishList: builder.query<WishlistResponse, string>({
-      query: (token: string) => ({
-        url: "api/user/wishlist",
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    }),
-
-    removeFromWishlist: builder.mutation({
-      query: ({
-        token,
-        wishlistItemId,
-      }: {
-        token: string;
-        wishlistItemId: number;
-      }) => ({
-        url: `api/user/wishlist/remove/${wishlistItemId}`,
-        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -255,8 +228,6 @@ export const {
   useGetOrdersByIdQuery,
   useAddReviewMutation,
   useGetReviewsQuery,
-  useGetWishListQuery,
-  useRemoveFromWishlistMutation,
   useAddShippingAddressMutation,
   useGetShippingAddressQuery,
   useUpdateShippingAddressMutation,

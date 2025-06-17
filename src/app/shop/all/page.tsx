@@ -4,6 +4,7 @@ import {
   getPopularProduct as getAllProduct,
 } from "@/actions/getProduct";
 import ShopPageWrapper from "@/components/organisms/shop/ShopPageWrapper";
+import { transformCategoriesToCarouselData } from "@/utils/categoryHelpers";
 import { colorHexMap } from "@/utils/color";
 
 interface ResolvedSearchParams {
@@ -24,6 +25,7 @@ export default async function Shop({
 }) {
   const allProducts = await getAllProduct();
   const cate = await getCategories();
+  const categoryCarouselData = transformCategoriesToCarouselData(cate);
 
   const { categories, brands, colors, inventoryStatus, maxPrice, sortBy } =
     await searchParams;
@@ -94,6 +96,7 @@ export default async function Shop({
       priceRange={[minPrice, maxPriceVal]}
       colors={colorsList}
       statuses={statusesList}
+      categoryCarouselData={categoryCarouselData}
     />
   );
 }

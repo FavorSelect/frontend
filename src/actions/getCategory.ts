@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Category, CategoryResponse } from "@/types/category";
 import { getCategoryUrl } from "@/utils/getApirUrl";
 import { handleError } from "@/utils/handleResponseError";
 
-export const getCategories = async (): Promise<any[]> => {
+export const getCategories = async (): Promise<Category[]> => {
   const url = getCategoryUrl();
   try {
     const response = await fetch(url, {
@@ -13,11 +13,11 @@ export const getCategories = async (): Promise<any[]> => {
       throw await handleError(response);
     }
 
-    const responseData = (await response.json()) as any;
-    console.log(responseData);
+    const responseData = (await response.json()) as CategoryResponse;
+
     return responseData.categories;
   } catch (error: unknown) {
-    console.error("Failed to fetch banners:", error);
-    throw new Error(`An error occurred while fetching banners: ${error}`);
+    console.error("Failed to fetch categories:", error);
+    throw new Error(`An error occurred while fetching categories: ${error}`);
   }
 };

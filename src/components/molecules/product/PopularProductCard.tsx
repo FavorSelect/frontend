@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/atoms/Button";
 import Span from "@/components/atoms/Span";
@@ -16,6 +15,7 @@ import {
   useRemoveFromWishlistMutation,
   useGetWishlistQuery,
 } from "@/store/api/wishApi";
+import { WishlistItem } from "@/types/wishlist";
 
 interface ServerProductCardProps {
   product: ProductT;
@@ -45,7 +45,7 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
   } = product;
 
   const isInWishlist = wishlistData?.wishlist.some(
-    (item: any) => item.productId === id
+    (item: WishlistItem) => item.productId === id
   );
 
   const hasDiscount =
@@ -62,7 +62,7 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
   const handleToggleWishlist = async () => {
     try {
       const matchedItem = wishlistData?.wishlist.find(
-        (item: any) => item.productId === id
+        (item: WishlistItem) => item.productId === id
       );
       if (matchedItem) {
         console.log(matchedItem.id);
@@ -192,7 +192,7 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
             )}
           </Button>
           <Link
-            href={`/shop/${id}`}
+            href={`/shop/all/${id}`}
             className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-gray-900 transition-colors hover:bg-gray-800 text-white text-sm font-medium rounded"
           >
             <View className="w-4 h-4" />
