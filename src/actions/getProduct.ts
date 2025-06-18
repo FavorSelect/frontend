@@ -11,6 +11,8 @@ import {
   ProductT,
   ProductApiResponse,
   RecommendationApiResponse,
+  ProductDetailsApiResponse,
+  SimilarProductsApiResponse,
 } from "@/types/real.product";
 
 // fake backend api
@@ -156,7 +158,7 @@ export const getProductByCategoriesAndBrands = async (
   }
 };
 
-export const getProductDetail = async (id: string): Promise<ProductT[]> => {
+export const getProductDetail = async (id: string): Promise<ProductT> => {
   const url = getProductUrl(`api/general/products/${id}`);
 
   try {
@@ -168,8 +170,29 @@ export const getProductDetail = async (id: string): Promise<ProductT[]> => {
       throw await handleError(response);
     }
 
-    const responseData = (await response.json()) as RecommendationApiResponse;
-    return responseData.recommended;
+    const responseData = (await response.json()) as ProductDetailsApiResponse;
+    return responseData.product;
+  } catch (error: unknown) {
+    console.error(error);
+    throw new Error(`An error occurred: ${error}`);
+  }
+};
+
+export const getSimilarProducts = async (): Promise<ProductT[]> => {
+  const url = getProductUrl("api/general/products/similar/79");
+
+  try {
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw await handleError(response);
+    }
+
+    const responseData = (await response.json()) as SimilarProductsApiResponse;
+    return responseData.similarProducts;
   } catch (error: unknown) {
     console.error(error);
     throw new Error(`An error occurred: ${error}`);

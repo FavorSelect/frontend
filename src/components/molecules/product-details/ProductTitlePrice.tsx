@@ -6,9 +6,10 @@ import React from "react";
 interface Props {
   title: string;
   price: number;
-  originalPrice: number;
+  originalPrice?: number;
   reviews: number;
   description: string;
+  tag?: string;
 }
 
 const ProductTitlePrice = ({
@@ -17,13 +18,14 @@ const ProductTitlePrice = ({
   originalPrice,
   reviews,
   description,
+  tag,
 }: Props) => {
   return (
     <div className="space-y-2">
       <div className="flex flex-col xs:flex-row gap-3 xs:gap-2">
         <div className="flex gap-x-1 items-center justify-center xs:justify-start bg-[#FFECEC] text-[#FE5E5E] rounded-md font-semibold px-2 py-1 text-sm">
           <Flame className="text-[#FE8800] w-3.5 h-3.5" />
-          Best Seller
+          {tag}
         </div>
         <div className="flex gap-x-1 items-center justify-center xs:justify-start bg-[#FFF6D8] text-[#B98B00] rounded-md font-semibold px-2 py-1 text-sm">
           <Hourglass className="text-[#FE8800] w-3.5 h-3.5" />
@@ -42,9 +44,11 @@ const ProductTitlePrice = ({
         {"★".repeat(5)} <Span>{reviews}</Span>
       </div>
       <div className="flex items-center space-x-2 mt-2">
-        <Span className="line-through text-gray-500 font-semibold">
-          ${originalPrice.toFixed(2)}
-        </Span>
+        {originalPrice && originalPrice > price && (
+          <Span className="line-through text-gray-500 font-semibold">
+            ${originalPrice.toFixed(2)}
+          </Span>
+        )}
         <Span className="text-red-500 font-bold text-xl">
           ${price.toFixed(2)}
         </Span>

@@ -2,6 +2,16 @@ export interface Category {
   categoryName: string;
 }
 
+export interface Review {
+  id: number;
+  likeCount: number;
+  productId: number;
+  rating: number;
+  reviewDate: string;
+  reviewLike: number;
+  reviewPhoto: string;
+  reviewText: string;
+}
 export interface ProductT {
   id: number;
   UserId: number;
@@ -9,6 +19,7 @@ export interface ProductT {
   averageCustomerRating: number;
   category: Category;
   coverImageUrl: string;
+  galleryImageUrls: string[];
   createdAt: string;
   customerReviews: string | null;
   inventoryStatus: "InStock" | "OutOfStock" | string;
@@ -16,19 +27,20 @@ export interface ProductT {
   productBestSaleTag?: string | null;
   productBrand: string;
   productCategoryId: number;
-  productColors?: string[] | null;
+  productColors?: string;
   productDescription: string;
   productDimensions?: string | null;
-  productDiscountPercentage?: number | null;
+  productDiscountPercentage: number;
   productDiscountPrice?: number | null;
   productMaterial?: string | null;
   productModelNumber?: string | null;
   productName: string;
   productPrice: number;
   productReturnPolicy?: string | null;
-  productSizes?: string[] | null;
+  productSizes: string;
   productTags: string;
-  productVideoUrl?: string | null;
+  reviews: Review[];
+  productVideoUrl: string;
   productViewCount: number;
   productWarrantyInfo?: string | null;
   productWeight?: string | null;
@@ -48,6 +60,15 @@ export interface ProductT {
 export interface ProductApiResponse {
   success: boolean;
   products: ProductT[];
+}
+export interface ProductDetailsApiResponse {
+  success: boolean;
+  product: ProductT;
+}
+
+export interface SimilarProductsApiResponse {
+  success: boolean;
+  similarProducts: ProductT[];
 }
 
 export interface RecommendationApiResponse {

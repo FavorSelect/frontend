@@ -1,28 +1,24 @@
-import { getPopularProduct, getProductById } from "@/actions/getProduct";
+import { getProductDetail, getSimilarProducts } from "@/actions/getProduct";
 import ProductDetailsWrapper from "@/components/organisms/product-details/ProductDetailsWrapper";
 import SimilarProductWrapper from "@/components/organisms/similar-product/SimilarProductWrapper";
-import { Product } from "@/types/Product";
+import { cookies } from "next/headers";
 
 type Params = Promise<{ id: string }>;
 
 export default async function ProductDetails({ params }: { params: Params }) {
   const { id } = await params;
+  const productDetails = await getProductDetail(id);
+  const similarProducts = await getSimilarProducts();
 
-  const product: Product | null = await getProductById(id);
-  const similarProducts = (await getPopularProduct()).slice(0, 12);
+  const cookieStore = await cookies();
 
-  // Handle product not found
-  if (!product) {
-    return (
-      <div className="text-center py-20">
-        <h1>Product Not Found</h1>
-      </div>
-    );
-  }
+  const token = cookieStore.get("token")?.value;
+
+  if (!token || token === "undefined") return;
 
   return (
     <div className="space-y-6">
-      <ProductDetailsWrapper product={product} />
+      <ProductDetailsWrapper product={productDetails} token={token} />
       <SimilarProductWrapper products={similarProducts} />
     </div>
   );

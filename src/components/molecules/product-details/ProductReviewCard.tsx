@@ -4,34 +4,33 @@ import Image from "next/image";
 import Paragraph from "@/components/atoms/Paragraph";
 import { Button } from "@/components/atoms/Button";
 
-const image = ["/bag-1.jpg", "/bag-2.jpg", "/bag-4.jpg"];
-
-type ReviewProps = {
-  name: string;
-  date: string;
-  rating: number;
-  comment: string;
-  images?: string[];
-  likes?: number;
+type ReviewCardProps = {
+  review: {
+    id: number;
+    reviewText: string;
+    reviewPhoto?: string;
+    rating: number;
+    reviewDate: string;
+    reviewLike: number;
+    likeCount: number;
+    user?: {
+      firstName: string;
+      lastName: string;
+    };
+  };
 };
 
-const ReviewCard: React.FC<ReviewProps> = ({
-  name,
-  date,
-  rating,
-  comment,
-  likes,
-}) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+  const { reviewText, rating, reviewPhoto, reviewDate, reviewLike, likeCount } =
+    review;
+
   return (
     <div className="border-b border-gray-200 pb-6 mb-6">
       <div className="space-y-3">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div
-            className="font-semibold text-gray-800 flex gap-x-2 items-center
-          "
-          >
-            {name}
+          <div className="font-semibold text-gray-800 flex gap-x-2 items-center">
+            Omar Pervez
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
@@ -45,33 +44,33 @@ const ReviewCard: React.FC<ReviewProps> = ({
               ))}
             </div>
           </div>
-          <div className="text-sm text-gray-500">{date}</div>
+          <div className="text-sm text-gray-500">
+            {new Date(reviewDate).toLocaleDateString()}
+          </div>
         </div>
 
-        {(image ?? []).length > 0 && (
+        {/* Optional Image */}
+        {reviewPhoto && (
           <div className="flex gap-2 mb-2">
-            {(image ?? []).map((img, idx) => (
-              <Image
-                key={idx}
-                src={img}
-                width={70}
-                height={70}
-                alt={`Review photo ${idx + 1}`}
-                className="w-20 h-20 object-cover rounded-md border"
-              />
-            ))}
+            <Image
+              src={reviewPhoto}
+              width={70}
+              height={70}
+              alt={`Review photo`}
+              className="w-20 h-20 object-cover rounded-md border"
+            />
           </div>
         )}
 
+        {/* Comment & Likes */}
         <div className="flex justify-between items-center">
-          {/* Comment */}
-          <Paragraph className="text-gray-700 text-sm">{comment}</Paragraph>
-
-          {/* Like/Dislike */}
+          <Paragraph className="text-gray-700 text-sm">{reviewText}</Paragraph>
           <div className="pt-2 text-sm text-gray-500">
             <Button className="flex items-center gap-1 hover:text-scarlet-red">
               <ThumbsUp className="w-4 h-4" />
-              <span>({likes})</span>
+              <span>
+                ({likeCount}) {reviewLike}
+              </span>
             </Button>
           </div>
         </div>
