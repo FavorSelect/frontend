@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useState } from "react";
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
@@ -10,8 +10,7 @@ import ProductSizeSelector from "@/components/molecules/product-details/ProductS
 import QuantitySelector from "@/components/molecules/product-details/QuantitySelector";
 import ProductActionBtn from "@/components/molecules/product-details/ProductActionBtn";
 import PhotoReviewSlider from "@/components/molecules/product-details/PhotoReviewSlider";
-import ReviewCard from "@/components/molecules/product-details/ProductReviewCard";
-import { ProductT } from "@/types/real.product";
+import ProductReviewCard from "@/components/molecules/product-details/ProductReviewCard";
 import SpecRow from "@/components/molecules/product-details/SpecRow";
 import RatingDistribution from "@/components/molecules/product-details/RatingDistribution";
 import { calculateRatingDistribution } from "@/utils/calculateRatingDistribution";
@@ -19,25 +18,62 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { RootState } from "@/store/store";
 import { Tab, Tabs } from "@/components/molecules/global/Tab";
 import { setProductDetailsTab } from "@/store/slices/tab/tabsSlice";
-import AddProductReviewForm from "@/components/molecules/product-details/AddProductReviewForm";
+import { useAddReviewMutation } from "@/store/api/productDetailsApi";
+import ReviewForm from "@/components/molecules/global/ReviewForm";
+import { useGetProductDetailsQuery } from "@/store/api/productDetailsApi";
+import Pagination from "@/components/molecules/global/Pagination";
+import ReactPlayer from "react-player";
+import SkeletonProductImageGallery from "@/components/molecules/product-details/SkeletonProductImageGallery";
+import SkeletonProductDetailsSidebar from "@/components/molecules/product-details/SkeletonProductDetailsSidebar";
+import SkeletonTabs from "@/components/molecules/global/SkeletonTabs";
 
 interface ProductDetailsWrapperProps {
-  product: ProductT;
-  token: string;
+  token: string | undefined;
+  id: string;
 }
 
 const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
-  product,
   token,
+  id,
 }) => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(
     (state: RootState) => state.tabs.productDetailsTab
   );
+  const { data, isLoading, isError } = useGetProductDetailsQuery(id);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [addReview] = useAddReviewMutation();
 
-  const gallerySlides = product.productVideoUrl
-    ? [product.productVideoUrl, ...product.galleryImageUrls]
-    : product.galleryImageUrls;
+  const product = data?.product;
+
+  if (isLoading) {
+    return (
+      <Section>
+        <MaxWidthWrapper className="space-y-6">
+          <ContainerBox hasBackground={true}>
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="basis-3/5">
+                <SkeletonProductImageGallery />
+              </div>
+              <SkeletonProductDetailsSidebar />
+            </div>
+          </ContainerBox>
+
+          <ContainerBox className="py-8 px-4 font-montserrat bg-white shadow-sm rounded-md">
+            <SkeletonTabs tabCount={4} activeIndex={0} />
+          </ContainerBox>
+        </MaxWidthWrapper>
+      </Section>
+    );
+  }
+
+  if (isError) {
+    return <div>Error loading product details.</div>;
+  }
+
+  if (!product) {
+    return <div>Product not found.</div>;
+  }
 
   const productSizes = product.productSizes
     ? product.productSizes.split(", ")
@@ -58,15 +94,21 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
     !!product.productWarrantyInfo ||
     !!product.productReturnPolicy;
 
-  const ratingDistribution = useMemo(() => {
-    return calculateRatingDistribution(product.reviews || []);
-  }, [product.reviews]);
+  const ratingDistribution = calculateRatingDistribution(product.reviews || []);
 
   const reviewPhotos = product.reviews
     .map((review) => review.reviewPhoto)
     .filter((photo): photo is string => Boolean(photo));
 
-  console.log(product.id);
+  const REVIEWS_PER_PAGE = 3;
+
+  const totalReviews = product.reviews.length;
+  const totalPages = Math.ceil(totalReviews / REVIEWS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
+  const endIndex = startIndex + REVIEWS_PER_PAGE;
+
+  const paginatedReviews = product.reviews.slice(startIndex, endIndex);
 
   return (
     <Section>
@@ -76,7 +118,7 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
             <div className="basis-3/5">
               {(product.galleryImageUrls?.length ||
                 product.productVideoUrl) && (
-                <ProductImageGallery slides={gallerySlides} />
+                <ProductImageGallery slides={product.galleryImageUrls} />
               )}
             </div>
             <div className="basis-2/5 flex flex-col space-y-4 md:space-y-6 rounded-lg px-4">
@@ -199,14 +241,53 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
                   </div>
 
                   <div className="mt-6 space-y-6">
-                    {product.reviews.map((review) => (
-                      <ReviewCard key={review.id} review={review} />
+                    {paginatedReviews.map((review) => (
+                      <ProductReviewCard
+                        key={review.id}
+                        review={review}
+                        token={token}
+                      />
                     ))}
+
+                    {totalPages > 1 && (
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => setCurrentPage(page)}
+                        className="justify-end pt-3"
+                      />
+                    )}
                   </div>
                 </div>
               )}
               <h2 className="text-xl font-bold mb-2 text-left">Add Review</h2>
-              <AddProductReviewForm token={token} productId={product.id} />
+              <ReviewForm
+                productId={product.id}
+                token={token}
+                addReviewMutation={[addReview]}
+              />
+            </Tab>
+
+            <Tab label="Video">
+              <ReactPlayer
+                url={product.productVideoUrl}
+                controls
+                width="100%"
+                height="100%"
+                className="react-player rounded-md"
+                config={{
+                  youtube: {
+                    playerVars: {
+                      modestbranding: 0,
+                      rel: 0,
+                      showinfo: 1,
+                      fs: 1,
+                      cc_load_policy: 1,
+                      autoplay: 0,
+                    },
+                  },
+                }}
+              />
             </Tab>
           </Tabs>
         </ContainerBox>

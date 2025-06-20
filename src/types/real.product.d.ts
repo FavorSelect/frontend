@@ -11,6 +11,12 @@ export interface Review {
   reviewLike: number;
   reviewPhoto: string;
   reviewText: string;
+  user: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    id: number;
+  };
 }
 export interface ProductT {
   id: number;

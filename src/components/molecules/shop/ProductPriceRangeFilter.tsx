@@ -26,21 +26,27 @@ const ProductPriceRangeFilter = ({ min, max, valueType = "$" }: Props) => {
 
   useEffect(() => {
     const maxFromUrl = searchParams.get("maxPrice");
+    const minFromUrl = searchParams.get("minPrice");
 
-    if (maxFromUrl) {
-      const parsed = parseFloat(maxFromUrl);
-      if (!isNaN(parsed)) {
-        setLocalRange(([minVal]) => [minVal, parsed]);
-      }
+    if (maxFromUrl || minFromUrl) {
+      const parsedMax = maxFromUrl ? parseFloat(maxFromUrl) : NaN;
+      const parsedMin = minFromUrl ? parseFloat(minFromUrl) : NaN;
+
+      setLocalRange([
+        !isNaN(parsedMin) ? parsedMin : min,
+        !isNaN(parsedMax) ? parsedMax : max,
+      ]);
     } else {
       setLocalRange([min, max]);
     }
   }, [searchParams, min, max]);
 
+  // Handle the range change event
   const handleRangeChange = (updated: [number, number]) => {
     setLocalRange(updated);
 
     const params = new URLSearchParams(searchParams.toString());
+    params.set("minPrice", String(updated[0]));
     params.set("maxPrice", String(updated[1]));
 
     startTransition(() => {
@@ -48,10 +54,12 @@ const ProductPriceRangeFilter = ({ min, max, valueType = "$" }: Props) => {
     });
   };
 
+  // Handle resetting the price filter
   const handleResetPriceFilter = () => {
     setLocalRange([min, max]);
 
     const params = new URLSearchParams(searchParams.toString());
+    params.delete("minPrice");
     params.delete("maxPrice");
 
     startTransition(() => {

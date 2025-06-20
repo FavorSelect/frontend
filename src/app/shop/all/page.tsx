@@ -12,6 +12,7 @@ interface ResolvedSearchParams {
   brands?: string;
   colors?: string;
   inventoryStatus?: string;
+  minPrice?: string;
   maxPrice?: string;
   sortBy?: string;
 }
@@ -27,8 +28,15 @@ export default async function Shop({
   const cate = await getCategories();
   const categoryCarouselData = transformCategoriesToCarouselData(cate);
 
-  const { categories, brands, colors, inventoryStatus, maxPrice, sortBy } =
-    await searchParams;
+  const {
+    categories,
+    brands,
+    colors,
+    inventoryStatus,
+    minPrice,
+    maxPrice,
+    sortBy,
+  } = await searchParams;
 
   const queryParams: Record<string, string> = {};
 
@@ -37,6 +45,7 @@ export default async function Shop({
   if (colors) queryParams.colors = colors;
   if (inventoryStatus) queryParams.inventoryStatus = inventoryStatus;
   if (maxPrice) queryParams.maxPrice = maxPrice;
+  if (minPrice) queryParams.minPrice = minPrice;
   if (sortBy) queryParams.sortBy = sortBy;
 
   const filteredProducts =
@@ -59,12 +68,12 @@ export default async function Shop({
   const brandsList = Array.from(brandMap, ([name, count]) => ({ name, count }));
 
   const prices = allProducts.map((p) => p.productPrice);
-  const minPrice = Math.min(...prices);
+  const minPriceVal = Math.min(...prices);
   const maxPriceVal = Math.max(...prices);
 
   const colorMap = new Map<string, number>();
   for (const product of allProducts) {
-    const productColors = product.productColors ?? [];
+    const productColors = product.productColors?.split(" ") ?? [];
     for (const color of productColors) {
       colorMap.set(color, (colorMap.get(color) || 0) + 1);
     }
@@ -93,7 +102,7 @@ export default async function Shop({
       products={filteredProducts}
       categories={categoriesList}
       brands={brandsList}
-      priceRange={[minPrice, maxPriceVal]}
+      priceRange={[minPriceVal, maxPriceVal]}
       colors={colorsList}
       statuses={statusesList}
       categoryCarouselData={categoryCarouselData}

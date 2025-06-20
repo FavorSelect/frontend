@@ -51,9 +51,9 @@ const RatingDistribution: React.FC<RatingDistributionProps> = ({
         {([5, 4, 3, 2, 1] as StarRating[]).map((star) => (
           <div key={star} className="flex items-center text-sm text-gray-600">
             <span className="w-6">{star}</span>
-            <div className="flex-1 bg-gray-200 rounded h-2 mx-2">
+            <div className="flex-1 bg-gray-200 rounded h-2.5 mx-2">
               <div
-                className="bg-scarlet-red h-2 rounded"
+                className="bg-scarlet-red h-2.5 rounded"
                 style={{ width: `${ratingData[star]}%` }}
               />
             </div>

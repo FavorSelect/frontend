@@ -11,7 +11,6 @@ import {
   ProductT,
   ProductApiResponse,
   RecommendationApiResponse,
-  ProductDetailsApiResponse,
   SimilarProductsApiResponse,
 } from "@/types/real.product";
 
@@ -153,26 +152,6 @@ export const getProductByCategoriesAndBrands = async (
     const responseData = (await response.json()) as ProductApiResponse;
     return responseData.products;
   } catch (error) {
-    console.error(error);
-    throw new Error(`An error occurred: ${error}`);
-  }
-};
-
-export const getProductDetail = async (id: string): Promise<ProductT> => {
-  const url = getProductUrl(`api/general/products/${id}`);
-
-  try {
-    const response = await fetch(url, {
-      next: { revalidate: 60 },
-      credentials: "include",
-    });
-    if (!response.ok) {
-      throw await handleError(response);
-    }
-
-    const responseData = (await response.json()) as ProductDetailsApiResponse;
-    return responseData.product;
-  } catch (error: unknown) {
     console.error(error);
     throw new Error(`An error occurred: ${error}`);
   }

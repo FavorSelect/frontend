@@ -4,8 +4,6 @@ import { Button } from "@/components/atoms/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useProductDetailsCarouselController } from "@/hooks/useProductDetailsCarouselController";
 import { cn } from "@/utils/cn";
-import { isMediaPlayable } from "@/utils/isVideo";
-import ReactPlayer from "react-player";
 
 type EmblaCarouselProps = {
   slides: string[];
@@ -98,36 +96,14 @@ const ProductImageGallery: React.FC<EmblaCarouselProps> = ({ slides }) => {
                 className="relative flex-[0_0_100%] h-[200px] sm:h-[300px] md:h-auto"
                 key={index}
               >
-                {isMediaPlayable(source) ? (
-                  <ReactPlayer
-                    url={source}
-                    controls
-                    width="100%"
-                    height="100%"
-                    className="react-player rounded-md"
-                    config={{
-                      youtube: {
-                        playerVars: {
-                          modestbranding: 0,
-                          rel: 0,
-                          showinfo: 1,
-                          fs: 1,
-                          cc_load_policy: 1,
-                          autoplay: 0,
-                        },
-                      },
-                    }}
-                  />
-                ) : (
-                  <Image
-                    src={source}
-                    alt={`Slide ${index}`}
-                    width={400}
-                    height={300}
-                    className="w-full object-contain md:w-auto h-full mx-auto md:h-auto md:object-cover"
-                    priority={true}
-                  />
-                )}
+                <Image
+                  src={source}
+                  alt={`Slide ${index}`}
+                  width={400}
+                  height={300}
+                  className="w-full object-contain md:w-auto h-full mx-auto md:h-auto md:object-cover"
+                  priority={true}
+                />
               </div>
             ))}
           </div>

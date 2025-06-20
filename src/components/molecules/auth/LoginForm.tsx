@@ -42,13 +42,14 @@ export default function LoginForm() {
         router.push(`/login/verify-otp`);
         return;
       }
-
+      console.log(response);
       // Normal user
       dispatch(
         setUser({
           name: response.user.firstName,
           email: response.user.email,
           profileImage: response.user.profilePhoto,
+          userId: response.user.id,
         })
       );
       toast.success(response.message || "Login successful!");

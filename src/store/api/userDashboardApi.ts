@@ -32,17 +32,6 @@ export const userDashboardApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    addReview: builder.mutation({
-      query: ({ formData, token }: { formData: FormData; token: string }) => ({
-        url: `api/user/review/add`,
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    }),
-
     getReviews: builder.query<ReviewsResponse, string>({
       query: (token: string) => ({
         url: "api/user/my-reviews",
@@ -226,7 +215,6 @@ export const userDashboardApi = apiSlice.injectEndpoints({
 export const {
   useGetFilteredOrdersQuery,
   useGetOrdersByIdQuery,
-  useAddReviewMutation,
   useGetReviewsQuery,
   useAddShippingAddressMutation,
   useGetShippingAddressQuery,

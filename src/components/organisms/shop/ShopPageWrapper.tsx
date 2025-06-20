@@ -66,6 +66,7 @@ const ShopPageWrapper = ({
           "colors",
           "inventoryStatus",
           "maxPrice",
+          "minPrice",
           "sortBy",
         ].includes(key) &&
         value.trim() !== ""
@@ -86,6 +87,7 @@ const ShopPageWrapper = ({
       "colors",
       "inventoryStatus",
       "maxPrice",
+      "minPrice",
       "sortBy",
     ].forEach((key) => params.delete(key));
 

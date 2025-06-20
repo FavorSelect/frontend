@@ -10,7 +10,7 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(dashboardUrl);
   }
   // protected routes if token doesn't exist
-  const protectedRoutes = ["/dashboard", "/cart", "/shop/all/"];
+  const protectedRoutes = ["/dashboard", "/cart"];
 
   if (!token && protectedRoutes.some((route) => pathname.startsWith(route))) {
     const loginUrl = new URL("/login", request.url);
@@ -23,11 +23,5 @@ export default function middleware(request: NextRequest) {
 
 // Apply middleware for these paths
 export const config = {
-  matcher: [
-    "/login",
-    "/signup",
-    "/dashboard/:path*",
-    "/cart",
-    "/shop/all/:path*",
-  ],
+  matcher: ["/login", "/signup", "/dashboard/:path*", "/cart"],
 };

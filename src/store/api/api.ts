@@ -6,6 +6,6 @@ export const apiSlice = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_URL,
     credentials: "include",
   }),
-  tagTypes: ["Cart", "Wishlist"],
+  tagTypes: ["Cart", "Wishlist", "ProductDetails"],
   endpoints: () => ({}),
 });
