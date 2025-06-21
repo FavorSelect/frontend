@@ -1,55 +1,198 @@
 "use client";
+
+import { Button } from "@/components/atoms/Button";
+import { Checkbox } from "@/components/atoms/Checkbox";
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
 import AddressForm from "@/components/molecules/checkout/CheckoutAddressForm";
-import CardDetailsForm from "@/components/molecules/checkout/CardDetailsForm";
-import CheckoutOrderSummary from "@/components/molecules/checkout/CheckoutOrderSummary";
-import CoinbaseDetails from "@/components/molecules/checkout/CoinbaseDetails";
-import PaymentTabs from "@/components/molecules/checkout/PaymentTabs";
-import PayoneerDetails from "@/components/molecules/checkout/PayoneerDetails";
+import CheckoutAddressSkeleton from "@/components/molecules/checkout/CheckoutAddressSkeleton";
+import DrawerContainer from "@/components/molecules/global/Drawer";
+import { useGetShippingAddressQuery } from "@/store/api/userDashboardApi";
+import toast from "react-hot-toast";
 import { RootState } from "@/store/store";
-import React from "react";
+import { Lock, Plus } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { useCreateStripeCheckoutMutation } from "@/store/api/checkoutApi";
+import Spinner from "@/components/molecules/global/Spinner";
+import { handleApiError } from "@/utils/handleApiError";
 
 const CheckoutForm = () => {
-  const paymentMethod = useSelector(
-    (state: RootState) => state.checkout.paymentMethod
+  const quantity = useSelector(
+    (state: RootState) => state.productQuantity.quantity
   );
+  const productId = useSelector((state: RootState) => state.productId.id);
+  const [isOpen, setIsOpen] = useState(false);
+  const { data, isLoading, isError } = useGetShippingAddressQuery();
+  const addresses = useMemo(() => data?.addresses || [], [data]);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
+    null
+  );
+  const [createCheckout, { isLoading: isCheckoutLoading }] =
+    useCreateStripeCheckoutMutation();
+
+  useEffect(() => {
+    if (!addresses || addresses.length === 0) return;
+
+    const defaultAddress = addresses.find((addr) => addr.isDefault);
+    if (defaultAddress) {
+      setSelectedAddressId(defaultAddress.id);
+    } else if (addresses.length === 1) {
+      setSelectedAddressId(addresses[0].id);
+    }
+  }, [addresses]);
+
+  const handleCheckout = async () => {
+    console.log("CheckoutForm - Product ID:", productId);
+    console.log("CheckoutForm - Quantity:", quantity);
+    console.log("CheckoutForm - Selected Address ID:", selectedAddressId);
+    try {
+      const response = await createCheckout({
+        productId: productId,
+        quantity: quantity,
+        addressId: selectedAddressId!,
+      }).unwrap();
+      toast.success("Redirecting to payment...");
+      window.location.href = response.url;
+    } catch (err) {
+      handleApiError(err, "Failed to create checkout session");
+    }
+  };
+
   return (
-    <Section className="py-6">
+    <Section>
       <MaxWidthWrapper>
-        <ContainerBox>
-          <div className="flex flex-col md:flex-row gap-5">
-            <div className="flex-1 space-y-5">
-              {/* Shipping Address Form */}
-              <div className="space-y-4 py-8 px-5 bg-white shadow-sm rounded-md">
-                <h2 className="text-lg font-semibold">Shipping Address</h2>
-                <AddressForm />
-              </div>
-              {/* Payment Method */}
-              <div className="space-y-3 py-8 px-5 bg-white shadow-sm rounded-md">
-                <h2 className="text-lg font-semibold">Payment Method</h2>
-                <PaymentTabs />
-                {/* Conditional Rendering for Payment Forms */}
-                {paymentMethod === "Credit/Debit Card" ? (
-                  <CardDetailsForm />
-                ) : paymentMethod === "Payoneer" ? (
-                  <PayoneerDetails />
-                ) : paymentMethod === "Coinbase" ? (
-                  <CoinbaseDetails />
-                ) : (
-                  <div className="p-4 bg-gray-100 rounded-md">
-                    <p className="text-sm text-gray-700">
-                      Please select a payment method.
-                    </p>
-                  </div>
-                )}
-              </div>
+        <ContainerBox hasBackground={true}>
+          <div className="space-y-5">
+            <div className="space-y-4">
+              {isLoading && (
+                <>
+                  {[...Array(3)].map((_, idx) => (
+                    <CheckoutAddressSkeleton key={idx} />
+                  ))}
+                </>
+              )}
+
+              {isError && (
+                <div className="text-red-600 text-sm font-medium">
+                  Failed to load shipping addresses. Please try again later.
+                </div>
+              )}
+
+              {!isLoading &&
+                !isError &&
+                addresses.length !== 0 &&
+                addresses.map((address) => {
+                  const isSelected = selectedAddressId === address.id;
+
+                  return (
+                    <div
+                      key={address.id}
+                      onClick={() => setSelectedAddressId(address.id)}
+                      className={`cursor-pointer border rounded-lg p-5 bg-white transition-colors duration-200 ${
+                        isSelected
+                          ? "border-scarlet-red ring-2 ring-scarlet-red"
+                          : "border-gray-200"
+                      }`}
+                    >
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="space-y-2 text-sm text-gray-700">
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={isSelected}
+                              onChange={() => setSelectedAddressId(address.id)}
+                              id={`address-${address.id}`}
+                            />
+                            <p className="font-semibold text-gray-800">
+                              {address.recipientName}
+                            </p>
+                          </div>
+
+                          <div>
+                            <span className="font-medium text-gray-600">
+                              Phone:
+                            </span>{" "}
+                            <span>{address.phoneNumber}</span>
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-600">
+                              City:
+                            </span>{" "}
+                            <span>{address.city}</span>
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-600">
+                              State:
+                            </span>{" "}
+                            <span>{address.state}</span>
+                          </div>
+                          <div>
+                            <span className="font-medium text-gray-600">
+                              Country:
+                            </span>{" "}
+                            <span>{address.country.toUpperCase()}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-1 items-end">
+                          {address.isDefault && (
+                            <span className="text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded">
+                              Default
+                            </span>
+                          )}
+
+                          {isSelected && (
+                            <span className="text-xs font-medium bg-red-100 text-red-600 px-2 py-1 rounded">
+                              Selected
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
-            <div className="w-full md:w-96">
-              <CheckoutOrderSummary />
+            <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
+              <Button
+                onClick={() => setIsOpen(true)}
+                variant="authBtn"
+                className="w-full max-w-54"
+              >
+                <Plus size={19} /> Add New Address
+              </Button>
+
+              {selectedAddressId && (
+                <Button
+                  disabled={isCheckoutLoading}
+                  variant="authBtn"
+                  className={`w-full max-w-54 flex items-center justify-center gap-2 ${
+                    isCheckoutLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={handleCheckout}
+                >
+                  {isCheckoutLoading ? (
+                    <>
+                      <Spinner />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-5 h-5" />
+                      Secure Checkout
+                    </>
+                  )}
+                </Button>
+              )}
             </div>
+
+            <DrawerContainer
+              dismissible={false}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+            >
+              <AddressForm setIsOpen={setIsOpen} />
+            </DrawerContainer>
           </div>
         </ContainerBox>
       </MaxWidthWrapper>

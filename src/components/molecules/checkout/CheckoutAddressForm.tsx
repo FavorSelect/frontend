@@ -1,182 +1,212 @@
-"use client";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { setShippingAddress } from "@/store/slices/checkout/checkoutSlice";
-import { RootState } from "@/store/store";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/atoms/Input";
-import Paragraph from "@/components/atoms/Paragraph";
-import { useEffect } from "react";
 import { Button } from "@/components/atoms/Button";
-import Link from "next/link";
-import Span from "@/components/atoms/Span";
+import ErrorMessage from "../global/ErrorMessage";
+import { SingleSelectField } from "../global/SingleSelectField";
+import { useAddShippingAddressMutation } from "@/store/api/userDashboardApi";
+import toast from "react-hot-toast";
+import Spinner from "../global/Spinner";
 
-interface AddressFormValues {
-  email: string;
-  subscribe: boolean;
-  firstName: string;
-  lastName: string;
-  address: string;
-  apartment: string;
+export type AddressFormValues = {
+  id: number;
+  recipientName: string;
+  street: string;
   city: string;
   state: string;
   postalCode: string;
-  phone: string;
-  saveInfo: boolean;
-}
+  country: string;
+  phoneNumber: string;
+  isDefault: boolean;
+};
 
-export default function AddressForm() {
-  const dispatch = useDispatch();
-  const shippingAddress = useSelector(
-    (state: RootState) => state.checkout.shippingAddress
-  );
+const countries = [
+  { value: "india", label: "India" },
+  { value: "us", label: "United States" },
+  { value: "uk", label: "United Kingdom" },
+];
 
+const cities = [
+  { value: "mumbai", label: "Mumbai" },
+  { value: "delhi", label: "Delhi" },
+  { value: "bangalore", label: "Bangalore" },
+];
+
+const CheckoutAddressForm = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const {
+    control,
     register,
     handleSubmit,
-    setValue,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitting },
   } = useForm<AddressFormValues>({
-    defaultValues: shippingAddress,
+    defaultValues: {
+      recipientName: "",
+      street: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      country: "",
+      phoneNumber: "",
+      isDefault: false,
+    },
   });
 
-  const onSubmit = (data: AddressFormValues) => {
-    dispatch(setShippingAddress(data));
+  const [addShippingAddress] = useAddShippingAddressMutation();
+
+  const onSubmit = async (data: AddressFormValues) => {
+    try {
+      const response = await addShippingAddress(data).unwrap();
+
+      toast.success(response.message || "Address added successfully!");
+      reset();
+      setIsOpen(false);
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Failed to add address. Please try again.");
+      }
+    }
   };
 
-  // Set initial form values from the Redux store
-  useEffect(() => {
-    Object.keys(shippingAddress).forEach((key) =>
-      setValue(
-        key as keyof AddressFormValues,
-        shippingAddress[key as keyof AddressFormValues]
-      )
-    );
-  }, [shippingAddress, setValue]);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="w-full space-y-2">
-        <div className="flex items-center justify-between">
-          <label className="block text-gray-700 text-sm font-medium">
-            Email
-          </label>
-          <Span className="flex gap-x-1.5 items-center font-semibold">
-            Already have an account?
-            <Link href="/login" className="text-red-500 text-sm font-semibold">
-              Log in
-            </Link>
-          </Span>
-        </div>
-        <div>
-          <Input
-            type="email"
-            {...register("email", { required: "Email is required" })}
-            placeholder="Enter your email address"
-            className="py-2 px-2 border border-gray-300 font-medium w-full"
-          />
-          {errors.email && (
-            <Paragraph className="text-red-500 text-sm">
-              {errors.email.message}
-            </Paragraph>
-          )}
-        </div>
-        <div className="flex items-center">
-          <input type="checkbox" {...register("subscribe")} className="mr-2" />
-          <label className="text-sm text-gray-600">
-            Email me with news and offers
-          </label>
-        </div>
-      </div>
-      <div className="flex gap-4">
-        <div className="w-1/2">
-          <Input
-            type="text"
-            {...register("firstName", { required: "First name is required" })}
-            placeholder="First name"
-            className="py-2 px-2 border border-gray-300 font-medium w-full"
-          />
-          {errors.firstName && (
-            <Paragraph className="text-red-500 text-sm">
-              {errors.firstName.message}
-            </Paragraph>
-          )}
-        </div>
-        <div className="w-1/2">
-          <Input
-            type="text"
-            {...register("lastName", { required: "Last name is required" })}
-            placeholder="Last name"
-            className="py-2 px-2 border border-gray-300 font-medium w-full"
-          />
-          {errors.lastName && (
-            <Paragraph className="text-red-500 text-sm">
-              {errors.lastName.message}
-            </Paragraph>
-          )}
-        </div>
-      </div>
-
-      <Input
-        type="text"
-        {...register("address", { required: "Address is required" })}
-        placeholder="Address"
-        className="py-2 px-2 border border-gray-300 font-medium w-full"
-      />
-      {errors.address && (
-        <Paragraph className="text-red-500 text-sm">
-          {errors.address.message}
-        </Paragraph>
-      )}
-
-      <div className="flex gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-5">
+      <h2 className="text-lg font-semibold">Shipping Address</h2>
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">
+          Recipient Name
+        </label>
         <Input
           type="text"
-          {...register("apartment")}
-          placeholder="Apartment, suite, etc. (optional)"
-          className="py-2 px-2 border border-gray-300 font-medium w-full"
+          {...register("recipientName", {
+            required: "Recipient name is required",
+          })}
+          placeholder="Enter full name"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
+        <ErrorMessage error={errors.recipientName} />
+      </div>
+
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">
+          Phone Number
+        </label>
         <Input
           type="text"
-          {...register("city", { required: "City is required" })}
-          placeholder="City"
-          className="py-2 px-2 border border-gray-300 font-medium w-full"
+          {...register("phoneNumber", { required: "Phone number is required" })}
+          placeholder="Enter phone number"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
+        />
+        <ErrorMessage error={errors.phoneNumber} />
+      </div>
+
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">
+          Street Address
+        </label>
+        <Input
+          type="text"
+          {...register("street", { required: "Street address is required" })}
+          placeholder="123 Main Street"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
+        />
+        <ErrorMessage error={errors.street} />
+      </div>
+
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">City</label>
+        <Controller
+          name="city"
+          control={control}
+          rules={{ required: "City is required" }}
+          render={({ field, fieldState, formState }) => (
+            <>
+              <SingleSelectField
+                field={field}
+                fieldState={fieldState}
+                formState={formState}
+                options={cities}
+                placeholder="Select city"
+              />
+              <ErrorMessage error={fieldState.error} />
+            </>
+          )}
         />
       </div>
 
-      <div className="flex gap-4">
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">State</label>
         <Input
           type="text"
           {...register("state", { required: "State is required" })}
-          placeholder="State"
-          className="py-2 px-2 border border-gray-300 font-medium w-1/3"
+          placeholder="Enter state"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
+        <ErrorMessage error={errors.state} />
+      </div>
+
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">
+          Postal Code
+        </label>
         <Input
           type="text"
           {...register("postalCode", { required: "Postal code is required" })}
-          placeholder="Postal code"
-          className="py-2 px-2 border border-gray-300 font-medium w-1/3"
+          placeholder="400001"
+          className="w-full py-2 px-3 border border-gray-300 text-sm rounded-md font-medium"
         />
-        <Input
-          type="text"
-          {...register("phone", { required: "Phone is required" })}
-          placeholder="Phone"
-          className="py-2 px-2 border border-gray-300 font-medium w-1/3"
+        <ErrorMessage error={errors.postalCode} />
+      </div>
+
+      <div className="space-y-1">
+        <label className="inline-block font-semibold text-sm">Country</label>
+        <Controller
+          name="country"
+          control={control}
+          rules={{ required: "Country is required" }}
+          render={({ field, fieldState, formState }) => (
+            <>
+              <SingleSelectField
+                field={field}
+                fieldState={fieldState}
+                formState={formState}
+                options={countries}
+                placeholder="Select country"
+              />
+              <ErrorMessage error={fieldState.error} />
+            </>
+          )}
         />
       </div>
 
-      <div className="flex items-center">
-        <input type="checkbox" {...register("saveInfo")} className="mr-2" />
-        <label className="text-sm text-gray-600">
-          Save the information for the next time
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          {...register("isDefault")}
+          id="isDefault"
+          className="h-4 w-4"
+        />
+        <label htmlFor="isDefault" className="text-sm font-medium">
+          Set as default address
         </label>
       </div>
 
-      <Button
-        type="submit"
-        className=" bg-scarlet-red text-white px-3 py-2 rounded-md hover:bg-scarlet-red-600 transition duration-200 font-semibold"
-      >
-        Continue to shipping
-      </Button>
+      <div className="flex justify-end pt-2">
+        <Button type="submit" disabled={isSubmitting} variant="authBtn">
+          {isSubmitting ? (
+            <>
+              <Spinner /> Saving...
+            </>
+          ) : (
+            "Add Address"
+          )}
+        </Button>
+      </div>
     </form>
   );
-}
+};
+
+export default CheckoutAddressForm;

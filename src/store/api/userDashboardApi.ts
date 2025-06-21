@@ -43,23 +43,20 @@ export const userDashboardApi = apiSlice.injectEndpoints({
     }),
 
     addShippingAddress: builder.mutation({
-      query: ({ data, token }: { data: AddressFormValues; token: string }) => ({
+      query: (data: AddressFormValues) => ({
         url: "api/user/address/add",
         method: "POST",
         body: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
+
+      invalidatesTags: ["ShippingAddress"],
     }),
-    getShippingAddress: builder.query<AddressApiResponse, { token: string }>({
-      query: ({ token }) => ({
+    getShippingAddress: builder.query<AddressApiResponse, void>({
+      query: () => ({
         url: "api/user/address",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
+      providesTags: ["ShippingAddress"],
     }),
     updateShippingAddress: builder.mutation({
       query: ({

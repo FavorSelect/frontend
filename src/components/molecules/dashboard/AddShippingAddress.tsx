@@ -9,9 +9,7 @@ import DrawerContainer from "../global/Drawer";
 import { useGetShippingAddressQuery } from "@/store/api/userDashboardApi";
 
 const AddShippingAddress = ({ token }: { token: string }) => {
-  const { data, refetch } = useGetShippingAddressQuery({
-    token,
-  });
+  const { data, refetch } = useGetShippingAddressQuery();
   const [isOpen, setIsOpen] = useState(false);
   const [editAddress, setEditAddress] = useState<AddressFormValues | null>(
     null

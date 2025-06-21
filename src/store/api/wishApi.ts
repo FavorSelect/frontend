@@ -4,7 +4,7 @@ import { apiSlice } from "./api";
 
 export const wishApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // ✅ Add to wishlist
+    // Add to wishlist
     addToWishlist: builder.mutation<any, { productId: number }>({
       query: (body) => ({
         url: "/api/user/wishlist/add",
@@ -14,7 +14,7 @@ export const wishApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Wishlist"],
     }),
 
-    // ✅ Get wishlist items
+    // Get wishlist items
     getWishlist: builder.query<WishlistResponse, void>({
       query: () => ({
         url: "/api/user/wishlist",
@@ -22,7 +22,7 @@ export const wishApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Wishlist"],
     }),
-
+    // remove from wishlist
     removeFromWishlist: builder.mutation<any, { wishlistIds: number[] }>({
       query: (body) => ({
         url: `/api/user/wishlist/remove`,

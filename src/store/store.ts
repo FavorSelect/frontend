@@ -13,13 +13,13 @@ import {
 } from "redux-persist";
 
 import searchReducer from "@/store/slices/search-results/searchSlice";
-
 import hamburgerReducer from "@/store/slices/humburger/hamburgerSlice";
 import resetPasswordReducer from "@/store/slices/user/resetPasswordSlice";
 import setPasswordReducer from "@/store/slices/user/setPasswordSlice";
 import productColorSelectorReducer from "@/store/slices/product-details/productColorSelectorSlice";
 import productSizeSelectorReducer from "@/store/slices/product-details/productSizeSelectorSlice";
 import productQuantityReducer from "@/store/slices/product-details/productQuantitySlice";
+import productSetIdReducer from "@/store/slices/product-details/productSetIdSlice";
 import productReviewReducer from "@/store/slices/product-details/productReviewSlice";
 import cartReducer from "@/store/slices/cart/cartSlices";
 import productViewReducer from "@/store/slices/product-view/productViewSlice";
@@ -63,6 +63,7 @@ const rootReducer = {
   productColorSelector: productColorSelectorReducer,
   productSizeSelector: productSizeSelectorReducer,
   productQuantity: productQuantityReducer,
+  productId: productSetIdReducer,
   productReview: productReviewReducer,
   cartR: cartReducer,
   productView: productViewReducer,

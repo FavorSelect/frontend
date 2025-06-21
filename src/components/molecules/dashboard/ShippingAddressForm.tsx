@@ -75,7 +75,7 @@ const ShippingAddressForm = ({
     try {
       const response = isUpdate
         ? await updateShippingAddress({ data, token, id }).unwrap()
-        : await addShippingAddress({ data, token }).unwrap();
+        : await addShippingAddress(data).unwrap();
 
       console.log("Shipping Address Response:", response);
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductDetailsApiResponse } from "@/types/real.product";
 import { apiSlice } from "./api";
+import { DeliveryDateApiResponse } from "@/types/deliveryDate";
 
 export const productDetailsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +12,13 @@ export const productDetailsApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
       providesTags: (result, error, id) => [{ type: "ProductDetails", id }],
+    }),
+
+    getEstimatedDelivery: builder.query<DeliveryDateApiResponse, string>({
+      query: (productId) => ({
+        url: `/api/user/estimate/${productId}`,
+        method: "GET",
+      }),
     }),
     addReview: builder.mutation<any, { formData: FormData }>({
       query: ({ formData }) => ({
@@ -66,6 +74,7 @@ export const productDetailsApi = apiSlice.injectEndpoints({
 export const {
   useGetProductDetailsQuery,
   useAddReviewMutation,
+  useGetEstimatedDeliveryQuery,
   useUpdateReviewMutation,
   useDeleteReviewMutation,
   useLikeReviewToggleMutation,

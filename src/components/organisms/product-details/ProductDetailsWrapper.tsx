@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
@@ -18,7 +18,10 @@ import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { RootState } from "@/store/store";
 import { Tab, Tabs } from "@/components/molecules/global/Tab";
 import { setProductDetailsTab } from "@/store/slices/tab/tabsSlice";
-import { useAddReviewMutation } from "@/store/api/productDetailsApi";
+import {
+  useAddReviewMutation,
+  useGetEstimatedDeliveryQuery,
+} from "@/store/api/productDetailsApi";
 import ReviewForm from "@/components/molecules/global/ReviewForm";
 import { useGetProductDetailsQuery } from "@/store/api/productDetailsApi";
 import Pagination from "@/components/molecules/global/Pagination";
@@ -26,6 +29,8 @@ import ReactPlayer from "react-player";
 import SkeletonProductImageGallery from "@/components/molecules/product-details/SkeletonProductImageGallery";
 import SkeletonProductDetailsSidebar from "@/components/molecules/product-details/SkeletonProductDetailsSidebar";
 import SkeletonTabs from "@/components/molecules/global/SkeletonTabs";
+import EstimateDeliveryDate from "@/components/molecules/product-details/EstimateDeliveryDate";
+import { setProductId } from "@/store/slices/product-details/productSetIdSlice";
 
 interface ProductDetailsWrapperProps {
   token: string | undefined;
@@ -41,12 +46,25 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
     (state: RootState) => state.tabs.productDetailsTab
   );
   const { data, isLoading, isError } = useGetProductDetailsQuery(id);
+  const {
+    data: deliveryData,
+    isLoading: isDeliveryLoading,
+    isError: isDeliveryError,
+  } = useGetEstimatedDeliveryQuery(id);
+  const shouldRenderDeliveryDate =
+    deliveryData && !isDeliveryLoading && !isDeliveryError;
   const [currentPage, setCurrentPage] = useState(1);
   const [addReview] = useAddReviewMutation();
 
   const product = data?.product;
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!product?.id) return;
+    dispatch(setProductId(product.id));
+  }, [dispatch, product?.id]);
+
+  // skeleton loader for product details
+  if (isLoading || isDeliveryLoading) {
     return (
       <Section>
         <MaxWidthWrapper className="space-y-6">
@@ -141,7 +159,13 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
               {product.productSizes && (
                 <ProductSizeSelector sizes={productSizes} />
               )}
-              <QuantitySelector />
+              <QuantitySelector
+                productInStock={product.availableStockQuantity}
+              />
+              {shouldRenderDeliveryDate && (
+                <EstimateDeliveryDate {...deliveryData} />
+              )}
+
               <ProductActionBtn />
             </div>
           </div>

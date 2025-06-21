@@ -1,7 +1,6 @@
 import { Button } from "@/components/atoms/Button";
 import { setSelectedSize } from "@/store/slices/product-details/productSizeSelectorSlice";
 import { RootState } from "@/store/store";
-import Link from "next/link";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -47,13 +46,6 @@ const ProductSizeSelector = ({ sizes }: Props) => {
           </Button>
         ))}
       </div>
-
-      <Link
-        href="#"
-        className="text-scarlet-red text-xs mt-3 inline-block underline hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
-      >
-        Find Your Size
-      </Link>
     </div>
   );
 };

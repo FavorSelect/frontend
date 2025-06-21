@@ -6,11 +6,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 interface IncrementDecrementProps {
-  maximumRoomLength?: number;
+  productInStock: number;
 }
 
 const QuantitySelector: React.FC<IncrementDecrementProps> = ({
-  maximumRoomLength = 10,
+  productInStock,
 }) => {
   const dispatch = useDispatch();
   const quantity = useSelector(
@@ -18,7 +18,7 @@ const QuantitySelector: React.FC<IncrementDecrementProps> = ({
   );
 
   const handleIncrement = () => {
-    if (quantity < maximumRoomLength) {
+    if (quantity < productInStock) {
       dispatch(setQuantity(quantity + 1));
     }
   };
