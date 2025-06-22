@@ -4,13 +4,16 @@ import React from "react";
 import { useFinalizeStripeOrderQuery } from "@/store/api/checkoutApi";
 import { OrderSuccessResponse } from "@/types/orderSuccess";
 import SkeletonOrderPlaced from "@/components/molecules/order-success/SkeletonOrderPlaced";
-import OrderPlacedComponent from "@/components/molecules/order-success/OrderPlacedComponent";
+import Section from "@/components/atoms/Section";
+import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
+import ContainerBox from "@/components/layout/ContainerBox";
+import PlaceOrder from "@/components/molecules/order-success/PlaceOrder";
 
 interface Props {
   sessionId?: string;
 }
 
-const PlaceOrder: React.FC<Props> = ({ sessionId }) => {
+const PlaceOrderWrapper: React.FC<Props> = ({ sessionId }) => {
   const { data, isLoading, isError, isSuccess } = useFinalizeStripeOrderQuery({
     session_id: sessionId!,
   });
@@ -32,12 +35,22 @@ const PlaceOrder: React.FC<Props> = ({ sessionId }) => {
   // Handle successful response
   if (isSuccess) {
     const { message, order, orderItem }: OrderSuccessResponse = data;
+
     return (
-      <OrderPlacedComponent
-        message={message}
-        order={order}
-        orderItem={orderItem}
-      />
+      <Section>
+        <MaxWidthWrapper>
+          <ContainerBox
+            hasBackground={true}
+            className="flex flex-col items-center justify-center"
+          >
+            <PlaceOrder
+              message={message}
+              order={order}
+              orderItem={Array.isArray(orderItem) ? orderItem : [orderItem]}
+            />
+          </ContainerBox>
+        </MaxWidthWrapper>
+      </Section>
     );
   }
 
@@ -45,4 +58,4 @@ const PlaceOrder: React.FC<Props> = ({ sessionId }) => {
   return null;
 };
 
-export default PlaceOrder;
+export default PlaceOrderWrapper;

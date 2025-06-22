@@ -15,6 +15,7 @@ export default function middleware(request: NextRequest) {
     "/cart",
     "/checkout",
     "/order-success",
+    "/order-cancel",
   ];
 
   if (!token && protectedRoutes.some((route) => pathname.startsWith(route))) {
@@ -35,5 +36,6 @@ export const config = {
     "/cart",
     "/checkout",
     "/order-success",
+    "/order-cancel",
   ],
 };

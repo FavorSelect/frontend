@@ -13,7 +13,7 @@ const SkeletonOrderPlaced: FC = () => {
         ))}
       </div>
 
-      <hr className="my-4" />
+      <hr className="my-4 h-0.5 border-0 bg-gray-200" />
 
       {/* Product Details Skeleton */}
       <div className="flex gap-4 items-center">

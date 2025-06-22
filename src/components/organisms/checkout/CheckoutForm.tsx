@@ -9,7 +9,6 @@ import AddressForm from "@/components/molecules/checkout/CheckoutAddressForm";
 import CheckoutAddressSkeleton from "@/components/molecules/checkout/CheckoutAddressSkeleton";
 import DrawerContainer from "@/components/molecules/global/Drawer";
 import { useGetShippingAddressQuery } from "@/store/api/userDashboardApi";
-import toast from "react-hot-toast";
 import { RootState } from "@/store/store";
 import { Lock, Plus } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
@@ -44,16 +43,12 @@ const CheckoutForm = () => {
   }, [addresses]);
 
   const handleCheckout = async () => {
-    console.log("CheckoutForm - Product ID:", productId);
-    console.log("CheckoutForm - Quantity:", quantity);
-    console.log("CheckoutForm - Selected Address ID:", selectedAddressId);
     try {
       const response = await createCheckout({
         productId: productId,
         quantity: quantity,
         addressId: selectedAddressId!,
       }).unwrap();
-      toast.success("Redirecting to payment...");
       window.location.href = response.url;
     } catch (err) {
       handleApiError(err, "Failed to create checkout session");

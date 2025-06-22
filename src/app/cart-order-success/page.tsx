@@ -1,4 +1,4 @@
-import PlaceOrder from "@/components/organisms/order-success/PlaceOrderWrapper";
+import CartOrderSuccessWrappeer from "@/components/organisms/cart-order-success/CartOrderSuccessWrappeer";
 import React from "react";
 
 interface ResolvedSearchParams {
@@ -14,5 +14,5 @@ export default async function Page({
 }) {
   const { session_id } = await searchParams;
 
-  return <PlaceOrder sessionId={session_id} />;
+  return <CartOrderSuccessWrappeer sessionId={session_id} />;
 }

@@ -1,9 +1,14 @@
 import { OrderSuccessResponse } from "@/types/orderSuccess";
 import { apiSlice } from "./api";
+import { CartOrderSuccessResponse } from "@/types/cartOrderSuccess";
 
 export interface StripeCheckoutPayload {
   productId: number;
   quantity: number;
+  addressId: number;
+}
+
+export interface StripeCartCheckoutPayload {
   addressId: number;
 }
 
@@ -14,7 +19,6 @@ export interface StripeCheckoutResponse {
 
 export const checkoutApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // Create Stripe Checkout Session
     createStripeCheckout: builder.mutation<
       StripeCheckoutResponse,
       StripeCheckoutPayload
@@ -25,8 +29,16 @@ export const checkoutApi = apiSlice.injectEndpoints({
         body,
       }),
     }),
-
-    // Finalize Stripe Checkout (Place Order)
+    createCartStripeCheckout: builder.mutation<
+      StripeCheckoutResponse,
+      StripeCartCheckoutPayload
+    >({
+      query: (body) => ({
+        url: "/api/user/cart/checkout",
+        method: "POST",
+        body,
+      }),
+    }),
     finalizeStripeOrder: builder.query<
       OrderSuccessResponse,
       { session_id: string }
@@ -36,9 +48,24 @@ export const checkoutApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    // Finalize Stripe Checkout (Place Order)
+    finalizeCartStripeOrder: builder.query<
+      CartOrderSuccessResponse,
+      { session_id: string }
+    >({
+      query: ({ session_id }) => ({
+        url: `/api/user/cart/finalize?session_id=${session_id}`,
+        method: "GET",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateStripeCheckoutMutation, useFinalizeStripeOrderQuery } =
-  checkoutApi;
+export const {
+  useCreateStripeCheckoutMutation,
+  useCreateCartStripeCheckoutMutation,
+  useFinalizeStripeOrderQuery,
+  useFinalizeCartStripeOrderQuery,
+} = checkoutApi;

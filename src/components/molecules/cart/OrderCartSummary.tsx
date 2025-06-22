@@ -3,7 +3,8 @@ import { PromoCodeInput } from "./PromoCodeInput";
 import Span from "@/components/atoms/Span";
 import Image from "next/image";
 import { Lock } from "lucide-react";
-import Link from "next/link";
+import { Button } from "@/components/atoms/Button";
+import Spinner from "../global/Spinner";
 
 const paymentIconFilenames = [
   "visa",
@@ -25,6 +26,9 @@ type OrderSummaryProps = {
   taxTotal: number;
   total: number;
   onApplyPromo: (code: string) => void;
+  onCheckout: () => void;
+  isCheckoutLoading?: boolean;
+  selectedAddressId: number | null;
 };
 
 export const OrderSummary: React.FC<OrderSummaryProps> = ({
@@ -34,6 +38,9 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   taxTotal,
   total,
   onApplyPromo,
+  onCheckout,
+  isCheckoutLoading,
+  selectedAddressId,
 }) => {
   return (
     <div className="py-3 px-4 rounded-lg border border-gray-200 w-full">
@@ -66,13 +73,24 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 
       <PromoCodeInput onApply={onApplyPromo} />
 
-      <Link
-        href="/checkout"
-        className="mt-6 w-full flex gap-x-2 justify-center items-center bg-scarlet-red text-white py-3 rounded-lg font-semibold"
-      >
-        <Lock className="w-5 h-5" /> Secure Checkout
-      </Link>
-
+      {selectedAddressId && (
+        <Button
+          onClick={onCheckout}
+          className="mt-6 w-full flex gap-x-2 justify-center items-center bg-scarlet-red text-white py-3 rounded-lg font-semibold"
+        >
+          {isCheckoutLoading ? (
+            <>
+              <Spinner />
+              Processing...
+            </>
+          ) : (
+            <>
+              <Lock className="w-5 h-5" />
+              Secure Checkout
+            </>
+          )}
+        </Button>
+      )}
       <div className="mt-5">
         <h4 className="mb-2 font-semibold text-lg">We Accept</h4>
         <div className="flex flex-wrap gap-4">

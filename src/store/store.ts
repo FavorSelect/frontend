@@ -52,6 +52,7 @@ const persistConfig = {
     "getShippingAddress",
     "getUserPersonalInfo",
     "accountDeletionStatus",
+    "productSetId",
   ],
 };
 
