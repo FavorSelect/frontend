@@ -7,6 +7,7 @@ import { Banner } from "@/types/banner";
 import React from "react";
 
 const HeroWrapper = ({ banners }: { banners: Banner[] }) => {
+  if (!banners || banners.length === 0) return null;
   return (
     <Section>
       <MaxWidthWrapper>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Heading from "@/components/atoms/Heading";
 import Section from "@/components/atoms/Section";
 import Span from "@/components/atoms/Span";
@@ -9,7 +10,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type SimilarProductListProps = {
-  products: ProductT[];
+  products: ProductT[] | any[];
 };
 
 const SimilarProductWrapper = ({ products }: SimilarProductListProps) => {

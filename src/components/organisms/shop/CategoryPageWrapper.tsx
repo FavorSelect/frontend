@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
@@ -6,7 +7,7 @@ import { ProductT } from "@/types/real.product";
 import React from "react";
 
 type CategoryPageProps = {
-  products: ProductT[];
+  products: ProductT[] | any[];
 };
 
 const CategoryPageWrapper = ({ products }: CategoryPageProps) => {

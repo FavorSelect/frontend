@@ -4,6 +4,7 @@ import {
   getPopularProduct as getAllProduct,
 } from "@/actions/getProduct";
 import ShopPageWrapper from "@/components/organisms/shop/ShopPageWrapper";
+import { ProductT } from "@/types/real.product";
 import { transformCategoriesToCarouselData } from "@/utils/categoryHelpers";
 import { colorHexMap } from "@/utils/color";
 
@@ -24,7 +25,7 @@ export default async function Shop({
 }: {
   searchParams: SearchParams;
 }) {
-  const allProducts = await getAllProduct();
+  const allProducts = (await getAllProduct()) as ProductT[];
   const cate = await getCategories();
   const categoryCarouselData = transformCategoriesToCarouselData(cate);
 
@@ -50,7 +51,7 @@ export default async function Shop({
 
   const filteredProducts =
     Object.keys(queryParams).length > 0
-      ? await getProductByCategoriesAndBrands(queryParams)
+      ? ((await getProductByCategoriesAndBrands(queryParams)) as ProductT[])
       : allProducts;
 
   const categorySet = new Set(

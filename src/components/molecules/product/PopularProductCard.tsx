@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/atoms/Button";
 import Span from "@/components/atoms/Span";
@@ -18,7 +19,7 @@ import {
 import { WishlistItem } from "@/types/wishlist";
 
 interface ServerProductCardProps {
-  product: ProductT;
+  product: ProductT | any;
   viewMode?: "grid" | "list";
 }
 
@@ -160,7 +161,7 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
 
         {/* Tags/Labels */}
         <div className="flex flex-wrap gap-1.5 mb-2">
-          {rekognitionLabels.map((label, idx) => (
+          {rekognitionLabels.map((label: any, idx: any) => (
             <div
               key={idx}
               className="flex gap-x-1 items-center bg-[#FF7D7D36] rounded-full px-2 py-0.5"

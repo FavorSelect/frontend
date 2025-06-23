@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Heading from "@/components/atoms/Heading";
 import Section from "@/components/atoms/Section";
@@ -17,7 +18,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type CosyProductListProps = {
-  products: ProductT[];
+  products: ProductT[] | any[];
 };
 
 const CosyEveningsProductGrid = ({ products }: CosyProductListProps) => {

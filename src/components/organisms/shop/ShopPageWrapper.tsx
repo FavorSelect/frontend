@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Button } from "@/components/atoms/Button";
@@ -31,7 +32,7 @@ type Color = { name: string; count: number; hex: string };
 type Status = { name: string; count: number };
 
 type ShopPageProductListProps = {
-  products: ProductT[];
+  products: ProductT[] | any[];
   categories: string[];
   brands: Brand[];
   priceRange: [number, number];

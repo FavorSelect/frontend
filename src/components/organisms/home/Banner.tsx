@@ -11,6 +11,7 @@ type BannerPropTypes = {
 };
 
 const Banner = ({ banners }: BannerPropTypes) => {
+  if (!banners || banners.length === 0) return null;
   const brandBanner = banners[0];
   return (
     <Section>

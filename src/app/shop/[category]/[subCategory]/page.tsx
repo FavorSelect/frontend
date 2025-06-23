@@ -5,12 +5,20 @@ import { notFound } from "next/navigation";
 import CategoryPageWrapper from "@/components/organisms/shop/CategoryPageWrapper";
 import { Subcategory } from "@/types/category";
 
+interface ResolvedSearchParams {
+  category?: string;
+  subCategory?: string;
+}
+
+type SearchParams = Promise<ResolvedSearchParams>;
+
 export default async function SubCategoryPage({
-  params,
+  searchParams,
 }: {
-  params: { category: string; subCategory: string };
+  searchParams: SearchParams;
 }) {
-  const { category: categorySlug, subCategory: subCategorySlug } = await params;
+  const { category: categorySlug, subCategory: subCategorySlug } =
+    await searchParams;
 
   const categories = await getCategories();
 

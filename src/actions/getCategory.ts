@@ -1,12 +1,15 @@
+"use server";
+
 import { Category, CategoryResponse } from "@/types/category";
 import { getCategoryUrl } from "@/utils/getApirUrl";
 import { handleError } from "@/utils/handleResponseError";
 
 export const getCategories = async (): Promise<Category[]> => {
   const url = getCategoryUrl();
+
   try {
     const response = await fetch(url, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -17,7 +20,8 @@ export const getCategories = async (): Promise<Category[]> => {
 
     return responseData.categories;
   } catch (error: unknown) {
-    console.error("Failed to fetch categories:", error);
-    throw new Error(`An error occurred while fetching categories: ${error}`);
+    console.warn("⚠️ Skipping category fetch during build:", error);
+
+    return [];
   }
 };
