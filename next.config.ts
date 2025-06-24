@@ -5,10 +5,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.dummyjson.com",
-      },
-      {
-        protocol: "https",
         hostname: "database-1.cn2s286amw68.eu-north-1.rds.amazonaws.com",
       },
       {
