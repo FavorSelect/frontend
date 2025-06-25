@@ -16,7 +16,7 @@ export type RaiseTicketFormValues = {
   image: FileList;
 };
 
-const RaiseTicketForm = ({ token }: { token: string }) => {
+const RaiseTicketForm = () => {
   const {
     register,
     handleSubmit,
@@ -42,7 +42,6 @@ const RaiseTicketForm = ({ token }: { token: string }) => {
     try {
       const response = await raiseSupportTicket({
         formData,
-        token,
       }).unwrap();
       console.log(response);
       toast.success(response.message || "Ticket raised successfully!");

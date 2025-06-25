@@ -8,14 +8,12 @@ import { Edit, Trash } from "lucide-react";
 import { Address } from "@/types/addresses";
 
 type ShippingAddressListProps = {
-  token: string;
   onEdit: (address: AddressFormValues) => void;
   addresses: Address[];
   refetch: () => void;
 };
 
 const ShippingAddressList = ({
-  token,
   onEdit,
   addresses,
   refetch,
@@ -31,7 +29,7 @@ const ShippingAddressList = ({
 
     setDeletingId(id);
     try {
-      const response = await deleteShippingAddress({ token, id }).unwrap();
+      const response = await deleteShippingAddress(id).unwrap();
       toast.success(response.message || "Address deleted successfully!");
       refetch();
     } catch (err) {

@@ -23,14 +23,13 @@ const tabs: { label: string; value: OrderFilter }[] = [
   { label: "Cancelled", value: "cancelled" },
 ];
 
-const MyOrders = ({ token }: { token: string }) => {
+const MyOrders = () => {
   const dispatch = useAppDispatch();
   const activeFilter = useSelector(
     (state: RootState) => state.orderFilter.filter
   );
 
   const { data, isLoading, isFetching } = useGetFilteredOrdersQuery({
-    token,
     status: activeFilter === "all" ? undefined : activeFilter,
   });
 

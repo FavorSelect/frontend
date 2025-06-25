@@ -36,12 +36,10 @@ const cities = [
 ];
 
 const ShippingAddressForm = ({
-  token,
   setIsOpen,
   updateAdd,
   refetch,
 }: {
-  token: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   updateAdd?: AddressFormValues | null;
   refetch: () => void;
@@ -74,7 +72,7 @@ const ShippingAddressForm = ({
 
     try {
       const response = isUpdate
-        ? await updateShippingAddress({ data, token, id }).unwrap()
+        ? await updateShippingAddress({ data, id }).unwrap()
         : await addShippingAddress(data).unwrap();
 
       console.log("Shipping Address Response:", response);

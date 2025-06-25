@@ -3,8 +3,8 @@ import React from "react";
 import { UserCardSkeleton as MyReviewCardSkeleton } from "@/components/molecules/dashboard/UserCardSkeleton";
 import { useGetReviewsQuery } from "@/store/api/userDashboardApi";
 
-const MyReviews = ({ token }: { token: string }) => {
-  const { data, isLoading, isFetching } = useGetReviewsQuery(token);
+const MyReviews = () => {
+  const { data, isLoading, isFetching } = useGetReviewsQuery();
 
   if (isLoading || isFetching) {
     return <MyReviewCardSkeleton />;

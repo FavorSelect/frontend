@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PersonalFormValues } from "@/components/molecules/dashboard/PersonalInformation";
 import { apiSlice } from "./api";
 import { AddressFormValues } from "@/components/molecules/dashboard/ShippingAddressForm";
@@ -7,38 +8,26 @@ import { AddressApiResponse, AddressDeleteResponse } from "@/types/addresses";
 export const userDashboardApi = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getFilteredOrders: builder.query<
-      OrdersResponse,
-      { token: string; status?: string }
-    >({
-      query: ({ token, status }) => ({
+    getFilteredOrders: builder.query<OrdersResponse, { status?: string }>({
+      query: ({ status }) => ({
         url: status
           ? `api/user/my-orders?status=${status}`
           : `api/user/my-orders`,
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    getOrdersById: builder.query({
-      query: ({ id, token }: { id: string; token: string }) => ({
+    getOrdersById: builder.query<any, string>({
+      query: (id) => ({
         url: `api/user/my-orders/${id}`,
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    getReviews: builder.query<ReviewsResponse, string>({
-      query: (token: string) => ({
+    getReviews: builder.query<ReviewsResponse, void>({
+      query: () => ({
         url: "api/user/my-reviews",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
@@ -61,99 +50,64 @@ export const userDashboardApi = apiSlice.injectEndpoints({
     updateShippingAddress: builder.mutation({
       query: ({
         data,
-        token,
         id,
       }: {
         data: AddressFormValues;
-        token: string;
+
         id: number;
       }) => ({
         url: `api/user/address/${id}`,
         method: "PUT",
         body: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    deleteShippingAddress: builder.mutation<
-      AddressDeleteResponse,
-      { token: string; id: number }
-    >({
-      query: ({ token, id }) => ({
+    deleteShippingAddress: builder.mutation<AddressDeleteResponse, number>({
+      query: (id) => ({
         url: `api/user/address/${id}`,
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    getPersonalInformation: builder.query({
-      query: ({ token }: { token: string }) => ({
+    getPersonalInformation: builder.query<any, void>({
+      query: () => ({
         url: "api/user",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
     updatePersonalInformation: builder.mutation({
-      query: ({
-        data,
-        token,
-        id,
-      }: {
-        data: PersonalFormValues;
-        token: string;
-        id: number;
-      }) => ({
+      query: ({ data, id }: { data: PersonalFormValues; id: number }) => ({
         url: `api/user/edit/profile/${id}`,
         method: "PUT",
         body: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
     changePassword: builder.mutation({
       query: ({
         data,
-        token,
       }: {
         data: { currentPassword: string; newPassword: string };
-        token: string;
       }) => ({
         url: `api/user/edit/change-password`,
         method: "PUT",
         body: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
     enableTwoFactorAuth: builder.mutation({
-      query: ({ enable, token }: { enable: boolean; token: string }) => ({
+      query: ({ enable }: { enable: boolean }) => ({
         url: "api/user/two-factor-auth",
         method: "PATCH",
         body: { enable },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    getTwoFactorAuthStatus: builder.query({
-      query: ({ token }: { token: string }) => ({
+    getTwoFactorAuthStatus: builder.query<any, void>({
+      query: () => ({
         url: "api/user/two-factor-status",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
@@ -166,44 +120,32 @@ export const userDashboardApi = apiSlice.injectEndpoints({
     }),
 
     requestAccountDeletion: builder.mutation({
-      query: ({ token, reason }: { token: string; reason: string }) => ({
+      query: ({ reason }: { reason: string }) => ({
         url: "api/support/deletion-request",
         method: "POST",
         body: { reason: reason },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    getAccountDeletionStatus: builder.query({
-      query: ({ token }: { token: string }) => ({
+    getAccountDeletionStatus: builder.query<any, void>({
+      query: () => ({
         url: "api/support/account-deletion/status",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
     raiseSupportTicket: builder.mutation({
-      query: ({ formData, token }: { formData: FormData; token: string }) => ({
+      query: ({ formData }: { formData: FormData }) => ({
         url: "api/support/user/raise-ticket",
         method: "POST",
         body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
 
-    getOpenTicket: builder.query({
-      query: ({ token }: { token: string }) => ({
+    getOpenTicket: builder.query<any, void>({
+      query: () => ({
         url: "api/support/user/my-tickets",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
   }),

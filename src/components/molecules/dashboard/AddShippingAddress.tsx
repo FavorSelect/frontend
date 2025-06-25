@@ -8,7 +8,7 @@ import ShippingAddressList from "./ShippingAddressList";
 import DrawerContainer from "../global/Drawer";
 import { useGetShippingAddressQuery } from "@/store/api/userDashboardApi";
 
-const AddShippingAddress = ({ token }: { token: string }) => {
+const AddShippingAddress = () => {
   const { data, refetch } = useGetShippingAddressQuery();
   const [isOpen, setIsOpen] = useState(false);
   const [editAddress, setEditAddress] = useState<AddressFormValues | null>(
@@ -40,7 +40,6 @@ const AddShippingAddress = ({ token }: { token: string }) => {
           {data?.addresses.length !== 0 ? (
             <>
               <ShippingAddressList
-                token={token}
                 onEdit={openForEdit}
                 addresses={data?.addresses || []}
                 refetch={refetch}
@@ -77,7 +76,6 @@ const AddShippingAddress = ({ token }: { token: string }) => {
       {/* Drawer for add/edit */}
       <DrawerContainer isOpen={isOpen} setIsOpen={setIsOpen}>
         <ShippingAddressForm
-          token={token}
           setIsOpen={setIsOpen}
           updateAdd={editAddress}
           refetch={refetch}

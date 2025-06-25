@@ -9,7 +9,7 @@ import OpenTicket from "@/components/molecules/dashboard/OpenTicket";
 import { useRouter } from "next/navigation";
 import { MoveLeft } from "lucide-react";
 
-const SupportWrapper = ({ token }: { token: string }) => {
+const SupportWrapper = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const activeTab = useSelector(
@@ -43,8 +43,8 @@ const SupportWrapper = ({ token }: { token: string }) => {
 
       {/* Tab Content */}
       <div>
-        {activeTab === "Raise Ticket" && <RaiseTicketForm token={token} />}
-        {activeTab === "Open Tickets" && <OpenTicket token={token} />}
+        {activeTab === "Raise Ticket" && <RaiseTicketForm />}
+        {activeTab === "Open Tickets" && <OpenTicket />}
       </div>
     </div>
   );

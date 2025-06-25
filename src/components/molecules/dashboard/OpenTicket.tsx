@@ -5,12 +5,10 @@ import { RootState } from "@/store/store";
 import { setOpenTickets } from "@/store/slices/dashboard/openTicketSlice";
 import Image from "next/image";
 
-const OpenTicket = ({ token }: { token: string }) => {
+const OpenTicket = () => {
   const dispatch = useDispatch();
   const { data, isLoading: isFetchingOpenTicket } = useGetOpenTicketQuery(
-    {
-      token,
-    },
+    undefined,
     { refetchOnMountOrArgChange: true }
   );
 

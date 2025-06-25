@@ -31,7 +31,7 @@ const reasons = [
 
 const reasonOptions = reasons.map((r) => ({ label: r, value: r }));
 
-function DeleteAccount({ token }: { token: string }) {
+function DeleteAccount() {
   const dispatch = useDispatch();
 
   const [selectedReason, setSelectedReason] = useState<{
@@ -43,7 +43,7 @@ function DeleteAccount({ token }: { token: string }) {
     useRequestAccountDeletionMutation();
 
   const { data, isLoading: isFetchingStatus } =
-    useGetAccountDeletionStatusQuery({ token });
+    useGetAccountDeletionStatusQuery();
   console.log(data);
   const reduxDeletionStatus = useSelector(
     (state: RootState) => state.acccountDeletionStatus.hasRequestedDeletion
@@ -71,7 +71,6 @@ function DeleteAccount({ token }: { token: string }) {
 
     try {
       const res = await requestAccountDeletion({
-        token,
         reason: selectedReason.value,
       }).unwrap();
 

@@ -2,8 +2,8 @@
 import React from "react";
 import MyReviews from "@/components/molecules/dashboard/MyReviews";
 
-const ReviewsWrapper = ({ token }: { token: string }) => {
-  return <MyReviews token={token} />;
+const ReviewsWrapper = () => {
+  return <MyReviews />;
 };
 
 export default ReviewsWrapper;

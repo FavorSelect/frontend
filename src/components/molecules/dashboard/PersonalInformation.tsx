@@ -33,10 +33,8 @@ const country = [
   { value: "tr", label: "Turkey" },
 ];
 
-const PersonalInformation = ({ token }: { token: string }) => {
-  const { data, isLoading, refetch } = useGetPersonalInformationQuery({
-    token,
-  });
+const PersonalInformation = () => {
+  const { data, isLoading, refetch } = useGetPersonalInformationQuery();
   const [updatePersonalInformation] = useUpdatePersonalInformationMutation();
 
   const {
@@ -71,7 +69,6 @@ const PersonalInformation = ({ token }: { token: string }) => {
     try {
       const response = await updatePersonalInformation({
         data: formData,
-        token,
         id: userId,
       }).unwrap();
       toast.success(response?.message || "Profile updated successfully.");

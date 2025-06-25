@@ -6,9 +6,9 @@ import { RootState } from "@/store/store";
 import { setOrderDetails } from "@/store/slices/dashboard/orderDetailsSlice";
 import Image from "next/image";
 
-const OrderDetails = ({ id, token }: { id: string; token: string }) => {
+const OrderDetails = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetOrdersByIdQuery({ id, token });
+  const { data, isLoading } = useGetOrdersByIdQuery(id);
   const order = useSelector((state: RootState) => state.orderDetails.order);
 
   useEffect(() => {

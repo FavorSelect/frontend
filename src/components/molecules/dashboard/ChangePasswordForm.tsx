@@ -12,7 +12,7 @@ type PasswordFormValues = {
   confirmPassword: string;
 };
 
-const ChangePasswordForm = ({ token }: { token: string }) => {
+const ChangePasswordForm = () => {
   const [changePassword] = useChangePasswordMutation();
   const {
     register,
@@ -29,7 +29,6 @@ const ChangePasswordForm = ({ token }: { token: string }) => {
           currentPassword: data.currentPassword,
           newPassword: data.newPassword,
         },
-        token,
       }).unwrap();
 
       toast.success(response.message || "Password changed successfully.");

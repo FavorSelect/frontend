@@ -8,9 +8,9 @@ import {
 import toast from "react-hot-toast";
 import Spinner from "../global/Spinner";
 
-const TwoFactorSection = ({ token }: { token: string }) => {
+const TwoFactorSection = () => {
   const [enableTwoFactorAuth, { isLoading }] = useEnableTwoFactorAuthMutation();
-  const { data, refetch } = useGetTwoFactorAuthStatusQuery({ token });
+  const { data, refetch } = useGetTwoFactorAuthStatusQuery();
 
   const isTwoFactorEnabled = data?.isTwoFactorAuthEnable ?? false;
 
@@ -19,7 +19,6 @@ const TwoFactorSection = ({ token }: { token: string }) => {
     try {
       const response = await enableTwoFactorAuth({
         enable: newStatus,
-        token,
       }).unwrap();
 
       toast.success(response.message || "2FA status updated.", {

@@ -3,7 +3,7 @@ import ChangePasswordForm from "./ChangePasswordForm";
 import TwoFactorSection from "./TwoFactorSection";
 import { Button } from "@/components/atoms/Button";
 
-const SecuritySection = ({ token }: { token: string }) => {
+const SecuritySection = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
   return (
@@ -21,11 +21,11 @@ const SecuritySection = ({ token }: { token: string }) => {
           </Button>
         </div>
 
-        {showChangePassword && <ChangePasswordForm token={token} />}
+        {showChangePassword && <ChangePasswordForm />}
       </div>
 
       {/* Two-Factor Section */}
-      <TwoFactorSection token={token} />
+      <TwoFactorSection />
     </div>
   );
 };
