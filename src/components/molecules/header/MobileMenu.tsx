@@ -4,28 +4,49 @@ import React, { useState } from "react";
 import { ChevronDown, X, LucideIcon, Shirt } from "lucide-react";
 import { Drawer } from "vaul";
 import Link from "next/link";
-import Span from "@/components/atoms/Span";
 import Logo from "./Logo";
 import { Button } from "@/components/atoms/Button";
 import { categoryListIconMap } from "@/utils/iconMaps";
 import type { Category } from "@/types/category";
+import { RootState } from "@/store/store";
+import { useAppSelector } from "@/store/hook";
+import { slugify } from "@/utils/slugify";
+import { usePathname } from "next/navigation";
+import { cn } from "@/utils/cn";
 
 const MobileMenu = ({ categories }: { categories: Category[] }) => {
-  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  const [expanded, setExpanded] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const user = useAppSelector((state: RootState) => state.user.userInfo);
+  const isLoggedIn = useAppSelector(
+    (state: RootState) => state.user.isLoggedIn
+  );
+  const pathName = usePathname();
+  const parts = pathName.split("/shop/")[1]?.split("/") || [];
+  const currentCategory = parts[0];
+  const currentSubcategory = parts[1];
 
   const toggleDropdown = (label: string) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [label]: !prev[label],
-    }));
+    setExpanded((prev) => (prev === label ? null : label));
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      setScrollY(window.scrollY);
+    } else {
+      setTimeout(() => {
+        window.scrollTo(0, scrollY);
+      }, 0);
+    }
+    setIsOpen(open);
   };
 
   return (
     <Drawer.Root
-      dismissible={false}
+      dismissible={true}
       open={isOpen}
-      onOpenChange={setIsOpen}
+      onOpenChange={handleOpenChange}
       direction="left"
     >
       <Drawer.Trigger className="xl:hidden space-y-1 cursor-pointer">
@@ -52,7 +73,7 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
           <Drawer.Title className="sr-only" />
           <div className="bg-white h-full w-full grow flex flex-col gap-3 overflow-y-auto">
             <div className="border-b border-scarlet-red px-3 py-2.5 flex justify-between items-center">
-              <Logo />
+              <Logo handler={() => setIsOpen(false)} />
               <Button
                 onClick={() => setIsOpen(false)}
                 className="cursor-pointer"
@@ -63,29 +84,41 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
 
             <ul>
               {categories.map((category, index) => {
-                const isExpanded = expanded[category.categoryName] || false;
+                const isExpanded = expanded === category.categoryName;
                 const Icon: LucideIcon =
                   categoryListIconMap[category.categoryName] || Shirt;
                 const hasSubcategories = category.subcategories.length > 0;
 
                 return (
-                  <li key={index} className="mb-2">
+                  <li key={index} className="mb-3">
                     {hasSubcategories ? (
                       <>
-                        <div
-                          className="flex items-center gap-2 cursor-pointer pl-4 pr-3"
-                          onClick={() => toggleDropdown(category.categoryName)}
-                        >
+                        <div className="flex items-center gap-2 cursor-pointer pl-4 pr-3">
                           <Icon className="w-5 h-5" />
-                          <Span className="text-sm font-medium">
+                          <Link
+                            href={`/shop/${slugify(category.categoryName)}`}
+                            className={cn(
+                              "text-sm font-medium text-eerie-black hover:text-scarlet-red transition-colors duration-150 ease-in-out",
+                              currentCategory === slugify(category.categoryName)
+                                ? "text-scarlet-red font-semibold"
+                                : "text-eerie-black hover:text-scarlet-red"
+                            )}
+                            onClick={() => setIsOpen(false)}
+                          >
                             {category.categoryName}
-                          </Span>
+                          </Link>
                           <div
                             className={`ml-auto w-5 h-5 transform transition-transform duration-300 ${
                               isExpanded ? "rotate-180" : "rotate-0"
                             }`}
                           >
-                            <ChevronDown className="w-5 h-5" />
+                            <Button
+                              onClick={() =>
+                                toggleDropdown(category.categoryName)
+                              }
+                            >
+                              <ChevronDown className="w-5 h-5" />
+                            </Button>
                           </div>
                         </div>
 
@@ -103,7 +136,7 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                             {category.subcategories.map((subcategory) => (
                               <li
                                 key={subcategory.id}
-                                className="text-sm text-scarlet-red mb-1"
+                                className="text-sm hover:text-scarlet-red transition-colors duration-150 ease-in-out mb-1"
                                 style={{
                                   opacity: isExpanded ? 1 : 0,
                                   transform: isExpanded
@@ -112,7 +145,20 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                                   transition: "opacity 300ms, transform 300ms",
                                 }}
                               >
-                                <Link href="#">{subcategory.categoryName}</Link>
+                                <Link
+                                  href={`/shop/${slugify(
+                                    category.categoryName
+                                  )}/${slugify(subcategory.categoryName)}`}
+                                  onClick={() => setIsOpen(false)}
+                                  className={cn(
+                                    currentSubcategory ===
+                                      slugify(subcategory.categoryName)
+                                      ? "text-scarlet-red font-semibold"
+                                      : "text-gray-700 hover:text-scarlet-red"
+                                  )}
+                                >
+                                  {subcategory.categoryName}
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -120,8 +166,14 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                       </>
                     ) : (
                       <Link
-                        href="#"
-                        className="flex items-center gap-2 pl-4 pr-3 text-sm font-medium text-eerie-black hover:text-scarlet-red transition"
+                        href={`/shop/${slugify(category.categoryName)}`}
+                        onClick={() => setIsOpen(false)}
+                        className={cn(
+                          "flex items-center gap-2 pl-4 pr-3 text-sm font-medium text-eerie-black hover:text-scarlet-red transition",
+                          currentCategory === slugify(category.categoryName)
+                            ? "text-scarlet-red font-semibold"
+                            : "text-eerie-black hover:text-scarlet-red"
+                        )}
                       >
                         <Icon className="w-5 h-5" />
                         {category.categoryName}
@@ -132,23 +184,25 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
               })}
             </ul>
 
-            <div className="w-full absolute flex justify-center items-center bottom-0 gap-2 bg-white border-t border-scarlet-red py-2 px-3">
-              <Link
-                href="/login"
-                onClick={() => setIsOpen(false)}
-                className="text-sm font-semibold"
-              >
-                Sign In
-              </Link>
-              <span className="text-scarlet-red">|</span>
-              <Link
-                href="/signup"
-                onClick={() => setIsOpen(false)}
-                className="text-sm font-semibold"
-              >
-                Sign Up
-              </Link>
-            </div>
+            {!isLoggedIn && !user && (
+              <div className="w-full absolute flex justify-center items-center bottom-0 gap-2 bg-white border-t border-scarlet-red py-2 px-3">
+                <Link
+                  href="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="text-sm font-semibold"
+                >
+                  Sign In
+                </Link>
+                <span className="text-scarlet-red">|</span>
+                <Link
+                  href="/signup"
+                  onClick={() => setIsOpen(false)}
+                  className="text-sm font-semibold"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
         </Drawer.Content>
       </Drawer.Portal>

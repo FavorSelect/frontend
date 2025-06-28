@@ -14,7 +14,7 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { handleApiError } from "@/utils/handleApiError";
-import { Plus, ShoppingCart, Trash } from "lucide-react";
+import { MoveRight, Plus, ShoppingCart, Trash } from "lucide-react";
 import Spinner from "@/components/molecules/global/Spinner";
 import SkeletonCartItem from "@/components/molecules/cart/SkeletonCartItem";
 import SkeletonOrderSummary from "@/components/molecules/cart/SkeletonOrderSummary";
@@ -25,6 +25,7 @@ import DrawerContainer from "@/components/molecules/global/Drawer";
 import CheckoutAddressForm from "@/components/molecules/checkout/CheckoutAddressForm";
 import CheckoutAddressSkeleton from "@/components/molecules/checkout/CheckoutAddressSkeleton";
 import { useCreateCartStripeCheckoutMutation } from "@/store/api/checkoutApi";
+import Link from "next/link";
 
 const CartWrapper: React.FC = () => {
   const {
@@ -149,7 +150,7 @@ const CartWrapper: React.FC = () => {
   return (
     <Section className="py-8">
       <MaxWidthWrapper>
-        <ContainerBox className="py-8 px-5 bg-white shadow-sm rounded-md">
+        <ContainerBox className="bg-white shadow-sm rounded-md">
           {cart.length > 0 && (
             <div className="space-y-5">
               <div className="space-y-4">
@@ -284,7 +285,23 @@ const CartWrapper: React.FC = () => {
           ) : isCartError ? (
             <p className="text-center text-red-500">Failed to load cart.</p>
           ) : cart.length === 0 ? (
-            <p className="text-center text-gray-600">Your cart is empty.</p>
+            <div className="flex flex-col items-center justify-center">
+              <ShoppingCart className="w-12 h-12 text-gray-400 mb-2" />
+
+              <h2 className="text-lg font-semibold text-gray-800">
+                Your cart is empty
+              </h2>
+              <p className="text-sm text-gray-600 mt-1 text-center">
+                Looks like you haven&apos;t added anything to your cart yet.
+                Start shopping to fill it up!
+              </p>
+              <Link
+                href="/shop/all"
+                className="mt-4 inline-flex gap-x-2 items-center px-4 py-2 bg-scarlet-red hover:bg-red-600 transition-colors text-white text-sm font-medium rounded"
+              >
+                Shop Now <MoveRight />
+              </Link>
+            </div>
           ) : (
             <>
               <div className="border-b border-b-gray-200 mb-4 pb-2 flex gap-x-2 items-center">

@@ -61,11 +61,15 @@ const ColorFilter = ({
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h3 className="font-semibold text-lg">Filter by color</h3>
-        {selectedColors.length > 0 && !isPending && (
-          <Button onClick={handleResetColorFilter} variant="resetBtn">
-            Reset
-          </Button>
-        )}
+        <Button
+          onClick={handleResetColorFilter}
+          variant="resetBtn"
+          className={
+            selectedColors.length > 0 && !isPending ? "block" : "hidden"
+          }
+        >
+          Reset
+        </Button>
       </div>
       <ul className="space-y-3">
         {colors.map(({ name, hex, count }) => {

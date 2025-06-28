@@ -46,11 +46,13 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
     (state: RootState) => state.tabs.productDetailsTab
   );
   const { data, isLoading, isError } = useGetProductDetailsQuery(id);
+
   const {
     data: deliveryData,
     isLoading: isDeliveryLoading,
     isError: isDeliveryError,
   } = useGetEstimatedDeliveryQuery(id);
+
   const shouldRenderDeliveryDate =
     deliveryData && !isDeliveryLoading && !isDeliveryError;
   const [currentPage, setCurrentPage] = useState(1);

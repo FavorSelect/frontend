@@ -67,24 +67,22 @@ const BrandFilter = ({ brands }: { brands: Brand[] }) => {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h3 className="font-semibold text-base">Filter by brands</h3>
-        {selectedBrands.length > 0 && !isPending && (
-          <Button onClick={handleResetBrandFilter} variant="resetBtn">
-            Reset Brand Filter
-          </Button>
-        )}
+        <Button
+          onClick={handleResetBrandFilter}
+          variant="resetBtn"
+          className={
+            selectedBrands.length > 0 && !isPending ? "block" : "hidden"
+          }
+        >
+          Reset
+        </Button>
       </div>
       <ul className="space-y-3">
         {brands.map(({ name, count }) => {
           const isChecked = selectedBrands.includes(name);
           return (
             <li key={name}>
-              <label
-                className="flex items-center justify-between gap-2 cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleToggle(name, !isChecked);
-                }}
-              >
+              <label className="flex items-center justify-between gap-2 cursor-pointer">
                 <div className="flex items-center gap-2">
                   <Checkbox
                     checked={isChecked}

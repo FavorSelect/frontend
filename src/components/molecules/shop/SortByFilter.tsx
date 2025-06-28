@@ -58,6 +58,11 @@ const SortByFilter = () => {
 
   return (
     <div className="flex gap-2 items-center">
+      {sortBy !== "latest" && !isPending && (
+        <Button onClick={handleResetSort} variant="resetBtn">
+          Reset
+        </Button>
+      )}
       <Select
         value={sortOptions.find((opt) => opt.value === sortBy)}
         onChange={handleChange}
@@ -65,11 +70,6 @@ const SortByFilter = () => {
         placeholder="Sort by"
         className="text-sm w-44"
       />
-      {sortBy !== "latest" && !isPending && (
-        <Button onClick={handleResetSort} variant="resetBtn">
-          Reset
-        </Button>
-      )}
     </div>
   );
 };

@@ -5,11 +5,13 @@ import { Button } from "@/components/atoms/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import Link from "next/link";
 
 type Category = {
   icon: string;
   name: string;
   count: number;
+  productByCategory: string;
 };
 
 const CategoryCarousel: React.FC<{ category: Category[] }> = ({ category }) => {
@@ -49,19 +51,22 @@ const CategoryCarousel: React.FC<{ category: Category[] }> = ({ category }) => {
               key={index}
               className="flex-[0_0_auto] min-w-[100px] pr-2 text-center select-none"
             >
-              <div className="flex flex-col items-center gap-2">
+              <Link
+                href={`/shop/${category.productByCategory}`}
+                className="flex flex-col items-center gap-2"
+              >
                 <Image
                   src={category.icon}
                   alt={category.name}
-                  width={50}
-                  height={50}
-                  className="aspect-square w-8 sm:w-12 md:w-14 object-contain"
+                  width={100}
+                  height={100}
+                  className="aspect-square w-16 sm:w-20 object-covers"
                 />
                 <p className="text-sm font-semibold">{category.name}</p>
                 <p className="text-xs text-gray-500">
                   {category.count} Product{category.count !== 1 ? "s" : ""}
                 </p>
-              </div>
+              </Link>
             </div>
           ))}
         </div>

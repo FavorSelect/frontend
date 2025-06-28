@@ -47,12 +47,12 @@ const DualRangeSlider = React.forwardRef<
         onValueChange={handleValueChange}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-3 w-full grow overflow-hidden rounded-full bg-scarlet-red">
-          <SliderPrimitive.Range className="absolute h-full bg-blue-gradient dark:bg-darkPrimaryBg" />
+        <SliderPrimitive.Track className="relative h-3 w-full grow overflow-hidden rounded-full bg-[#fff1f1]">
+          <SliderPrimitive.Range className="absolute h-full bg-scarlet-red" />
         </SliderPrimitive.Track>
         {value.map((val, index) => (
           <React.Fragment key={index}>
-            <SliderPrimitive.Thumb className="relative block h-6 w-6 rounded-full bg-white shadow-md transition-colors focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border border-blue-500">
+            <SliderPrimitive.Thumb className="relative block h-6 w-6 rounded-full bg-[#fff1f1] shadow-md transition-colors focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border border-scarlet-red">
               {label && (
                 <span
                   className={cn(

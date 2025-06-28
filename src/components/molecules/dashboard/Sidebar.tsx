@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
 import Span from "@/components/atoms/Span";
+import { useAppDispatch } from "@/store/hook";
+import { setMenu } from "@/store/slices/humburger/hamburgerSlice";
 
 interface Tab {
   label: string;
@@ -18,8 +20,8 @@ interface TabNavigationProps {
 
 const Sidebar: React.FC<TabNavigationProps> = ({ tabs, defaultTab }) => {
   const pathname = usePathname();
-
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   return (
     <nav className="flex items-center w-full">
@@ -33,6 +35,7 @@ const Sidebar: React.FC<TabNavigationProps> = ({ tabs, defaultTab }) => {
             <Link
               key={index}
               href={tab.href}
+              onClick={() => dispatch(setMenu(false))}
               className={cn(
                 "relative text-sm text-center font-medium rounded-lg flex gap-x-2 items-center whitespace-nowrap px-2.5 py-3",
                 isActive ? "bg-[#fff1f1] text-scarlet-red" : "text-black"

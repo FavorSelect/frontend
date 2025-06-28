@@ -63,19 +63,25 @@ const ProductPriceRangeFilter = ({ min, max, valueType = "$" }: Props) => {
     params.delete("maxPrice");
 
     startTransition(() => {
-      router.push(`?${params.toString()}`);
+      router.push(`?${params.toString()}`, { scroll: false });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   };
 
+  const isPriceFilterActive =
+    (localRange[0] > min || localRange[1] < max) && !isPending;
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div>
+      <div className="flex justify-between items-center mb-10">
         <h3 className="font-semibold text-base">Filter by Price</h3>
-        {localRange[1] < max && !isPending && (
-          <Button onClick={handleResetPriceFilter} variant="resetBtn">
-            Reset
-          </Button>
-        )}
+        <Button
+          onClick={handleResetPriceFilter}
+          variant="resetBtn"
+          className={isPriceFilterActive ? "block" : "hidden"}
+        >
+          Reset
+        </Button>
       </div>
       <div className="transform translate-y-3">
         <DualRangeSlider

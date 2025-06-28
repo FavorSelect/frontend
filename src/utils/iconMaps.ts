@@ -1,14 +1,13 @@
 export const categoryIconMap: Record<string, string> = {
-  Medicine: "/icons/007-pills.svg",
-  Nutrition: "/icons/016-notepad.svg",
-  "Cough, Cold, Fever": "/icons/006-nose.svg",
-  Dietary: "/icons/030-pills.svg",
-  Cosmetics: "/icons/004-cream.svg",
-  Health: "/icons/023-briefcase.svg",
-  Protection: "/icons/008-liposuction.svg",
-  Medication: "/icons/013-syringe.svg",
-  "Mouth & Teeth": "/icons/027-brush.svg",
-  Allergies: "/icons/006-test-tube.svg",
+  Electronics: "/category-image/electronics.jpg",
+  HomeKitchen: "/category-image/home-kitchen.jpg",
+  Health: "/category-image/best-deals.jpg",
+  HealthAndService: "/category-image/health-services.jpg",
+  ElectronicsAndGoods: "/category-image/furniture.jpg",
+  PepsiAndCode: "/category-image/pepsi.jpg",
+  WireAndCables: "/category-image/wire-cables.jpg",
+  LimkaAndColdDrinks: "/category-image/pepsi.jpg",
+  Lotion: "/category-image/lotion.jpg",
 };
 
 import {

@@ -2,9 +2,10 @@ import React, { FC } from "react";
 import Link from "next/link";
 import Span from "@/components/atoms/Span";
 import { cn } from "@/utils/cn";
-import { Bell, ShoppingBag, ShoppingCart } from "lucide-react";
+import { ShoppingBag, ShoppingCart } from "lucide-react";
 import ProfileDropdown from "./ProfileDropdown";
 import { useGetCartSummaryQuery } from "@/store/api/cartApi";
+import NotificationDropdown from "./NotificationDropdown";
 
 interface MainHeaderNavbarProps {
   className?: string;
@@ -23,13 +24,7 @@ const MainHeaderNavbar: FC<MainHeaderNavbarProps> = ({ className, style }) => {
       )}
       style={style}
     >
-      <Link
-        href="/notification"
-        className="hidden xl:flex flex-col items-center"
-      >
-        <Bell className="w-6 h-6" />
-        <Span className="mt-1">Notifications</Span>
-      </Link>
+      <NotificationDropdown />
 
       <Link
         href="/shop/all"

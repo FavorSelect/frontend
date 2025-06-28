@@ -66,24 +66,22 @@ const ProductCategoryFilter = ({ categories }: Props) => {
     <div className="space-y-4">
       <div className="flex justify-between item-center">
         <h3 className="font-semibold text-base">Product Categories</h3>
-        {selectedCategories.length > 0 && !isPending && (
-          <Button onClick={handleResetCategoryFilter} variant="resetBtn">
-            Reset
-          </Button>
-        )}
+        <Button
+          onClick={handleResetCategoryFilter}
+          variant="resetBtn"
+          className={
+            selectedCategories.length > 0 && !isPending ? "block" : "hidden"
+          }
+        >
+          Reset
+        </Button>
       </div>
       <ul className="space-y-3">
         {categories.map((category) => {
           const isChecked = selectedCategories.includes(category);
           return (
             <li key={category}>
-              <label
-                className="flex items-center gap-2 cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCheckboxChange(category, !isChecked);
-                }}
-              >
+              <label className="flex items-center gap-2 cursor-pointer">
                 <Checkbox
                   checked={isChecked}
                   onChange={(checked) =>

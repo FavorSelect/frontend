@@ -5,7 +5,7 @@ import Section from "@/components/atoms/Section";
 import Span from "@/components/atoms/Span";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
-import PopularProductCard from "@/components/molecules/product/PopularProductCard";
+import ProductCard from "@/components/molecules/product/ProductCard";
 import {
   Carousel,
   CarouselContent,
@@ -47,7 +47,7 @@ const CosyEveningsProductGrid = ({ products }: CosyProductListProps) => {
   mx-1
 "
                   >
-                    <PopularProductCard key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

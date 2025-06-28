@@ -23,7 +23,6 @@ import productSetIdReducer from "@/store/slices/product-details/productSetIdSlic
 import productReviewReducer from "@/store/slices/product-details/productReviewSlice";
 import cartReducer from "@/store/slices/cart/cartSlices";
 import productViewReducer from "@/store/slices/product-view/productViewSlice";
-import checkoutReducer from "@/store/slices/checkout/checkoutSlice";
 import orderFilterReducer from "@/store/slices/dashboard/orderFilterSlice";
 import reviewFilterReducer from "@/store/slices/dashboard/reviewFilterSlice";
 import authReducer from "@/store/slices/user/userSlice";
@@ -68,7 +67,6 @@ const rootReducer = {
   productReview: productReviewReducer,
   cartR: cartReducer,
   productView: productViewReducer,
-  checkout: checkoutReducer,
   orderFilter: orderFilterReducer,
   reviewFilter: reviewFilterReducer,
   hamburger: hamburgerReducer,

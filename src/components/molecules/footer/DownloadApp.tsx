@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { cn } from "@/utils/cn";
 import Subtitle from "@/components/atoms/Subtitles";
-import { Facebook, Instagram, X, Youtube } from "@/assets/icon";
+import { Facebook, Instagram, Linkedin, X, Youtube } from "@/assets/icon";
 
 interface DownloadAppProps {
   className?: string;
@@ -47,23 +47,48 @@ const DownloadApp: FC<DownloadAppProps> = ({ className, style }) => {
       </div>
       <ul className="flex gap-x-4 items-center text-white justify-center py-2">
         <li>
-          <Link href="#">
-            <X />
+          <Link
+            href="https://instagram.com/FavorSelect"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Instagram className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
-          <Link href="#">
-            <Instagram />
+          <Link
+            href="https://youtube.com/@FavorSelect"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Youtube className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
-          <Link href="#">
-            <Youtube />
+          <Link
+            href="https://facebook.com/favorselectofficial"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Facebook className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
-          <Link href="#">
-            <Facebook />
+          <Link
+            href="https://x.com/@FavorSelect"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <X className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://linkedin.com/company/favorselect"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Linkedin className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
       </ul>

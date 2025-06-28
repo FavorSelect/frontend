@@ -14,7 +14,7 @@ const StarRating = ({ rating, onRatingChange }: StarRatingProps) => {
           key={star}
           size={24}
           onClick={() => onRatingChange(star)}
-          className={`cursor-pointer ${
+          className={`cursor-pointer hover:fill-yellow-500 hover:text-yellow-500 transition-all duration-150 ease-in-out ${
             star <= rating ? "fill-yellow-500 text-yellow-500" : "text-gray-300"
           }`}
         />

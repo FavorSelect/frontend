@@ -4,7 +4,7 @@ import Section from "@/components/atoms/Section";
 import Span from "@/components/atoms/Span";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
-import PopularProductCard from "@/components/molecules/product/PopularProductCard";
+import ProductCard from "@/components/molecules/product/ProductCard";
 import { ProductT } from "@/types/real.product";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -30,7 +30,7 @@ const SimilarProductWrapper = ({ products }: SimilarProductListProps) => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {products.map((product) => (
-              <PopularProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </ContainerBox>

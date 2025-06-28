@@ -27,6 +27,7 @@ export default async function Shop({
 }) {
   const allProducts = (await getAllProduct()) as ProductT[];
   const cate = await getCategories();
+
   const categoryCarouselData = transformCategoriesToCarouselData(cate);
 
   const {

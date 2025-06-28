@@ -56,7 +56,8 @@ const ProductStatusFilter = ({
     params.delete("inventoryStatus");
 
     startTransition(() => {
-      router.push(`?${params.toString()}`);
+      router.push(`?${params.toString()}`, { scroll: false });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   };
 
@@ -64,11 +65,15 @@ const ProductStatusFilter = ({
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h3 className="font-semibold text-lg">Product Status</h3>
-        {selectedStatuses.length > 0 && !isPending && (
-          <Button onClick={handleResetStatusFilter} variant="resetBtn">
-            Reset Status Filter
-          </Button>
-        )}
+        <Button
+          onClick={handleResetStatusFilter}
+          variant="resetBtn"
+          className={
+            selectedStatuses.length > 0 && !isPending ? "block" : "hidden"
+          }
+        >
+          Reset
+        </Button>
       </div>
       <ul className="space-y-3">
         {statuses.map(({ name, count }) => {
