@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Span from "@/components/atoms/Span";
 import { ProductT } from "@/types/real.product";
-import PopularProductCard from "@/components/molecules/product/PopularProductCard";
+import ProductCard from "@/components/molecules/product/ProductCard";
 
 type TopProductListProps = {
   recommendedProducts: ProductT[] | any[];
@@ -30,7 +30,7 @@ const TopPickProductGrid = ({ recommendedProducts }: TopProductListProps) => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
             {recommendedProducts.map((product) => (
-              <PopularProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </ContainerBox>

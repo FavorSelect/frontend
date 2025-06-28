@@ -6,19 +6,18 @@ import CategoryPageWrapper from "@/components/organisms/shop/CategoryPageWrapper
 import { Subcategory } from "@/types/category";
 
 interface ResolvedSearchParams {
-  category?: string;
-  subCategory?: string;
+  category: string;
+  subCategory: string;
 }
 
 type SearchParams = Promise<ResolvedSearchParams>;
 
 export default async function SubCategoryPage({
-  searchParams,
+  params,
 }: {
-  searchParams: SearchParams;
+  params: SearchParams;
 }) {
-  const { category: categorySlug, subCategory: subCategorySlug } =
-    await searchParams;
+  const { category: categorySlug, subCategory: subCategorySlug } = await params;
 
   const categories = await getCategories();
 

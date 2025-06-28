@@ -25,6 +25,7 @@ type CategoryCarouselType = {
   icon: string;
   name: string;
   count: number;
+  productByCategory: string;
 };
 
 type Brand = { name: string; count: number };
@@ -105,21 +106,8 @@ const ShopPageWrapper = ({
       <MaxWidthWrapper>
         <ContainerBox hasBackground={true} className="space-y-8">
           <CategoryCarousel category={categoryCarouselData} />
-          <div className="flex gap-3 items-center">
-            {appliedFilterCount > 0 && (
-              <span className="text-sm font-medium text-gray-700">
-                {appliedFilterCount} filter{appliedFilterCount !== 1 ? "s" : ""}{" "}
-                applied
-              </span>
-            )}
-            {appliedFilterCount > 0 && !isPending && (
-              <Button onClick={handleResetFilters} variant="resetBtn">
-                Reset All Filters
-              </Button>
-            )}
-          </div>
           <div className="flex gap-6">
-            <div className="w-1/4 space-y-8 hidden lg:block">
+            <aside className="w-1/4 px-3 hidden lg:block space-y-8 sticky top-[175px] max-h-screen overflow-y-auto overflow-x-hidden no-scrollbar">
               <ProductCategoryFilter categories={categories} />
               <ProductPriceRangeFilter
                 min={backendRange[0]}
@@ -128,9 +116,9 @@ const ShopPageWrapper = ({
               <BrandFilter brands={brands} />
               <ColorFilter colors={colors} />
               <ProductStatusFilter statuses={statuses} />
-            </div>
+            </aside>
             <div className="w-full lg:w-3/4 space-y-5">
-              <div className="flex items-center no-scrollbar space-x-2 md:space-y-0 pb-3 md:pb-0">
+              <div className="flex justify-between items-center no-scrollbar space-x-2 md:space-y-0 pb-3 md:pb-0">
                 <ShopMobileFilter>
                   <div className="flex gap-3 items-center">
                     {appliedFilterCount > 0 && (
@@ -154,6 +142,29 @@ const ShopPageWrapper = ({
                   <ColorFilter colors={colors} />
                   <ProductStatusFilter statuses={statuses} />
                 </ShopMobileFilter>
+
+                <div className="flex gap-x-2 items-center">
+                  <Button
+                    onClick={handleResetFilters}
+                    variant="resetBtn"
+                    className={
+                      appliedFilterCount > 0 && !isPending ? "block" : "hidden"
+                    }
+                  >
+                    Reset All
+                  </Button>
+                  <span
+                    className={
+                      appliedFilterCount > 0 && !isPending
+                        ? "block text-sm font-medium text-gray-700 whitespace-nowrap"
+                        : "hidden w-full"
+                    }
+                  >
+                    {appliedFilterCount} filter
+                    {appliedFilterCount !== 1 ? "s" : ""} applied
+                  </span>
+                </div>
+
                 <ShopToolBar />
               </div>
               <ShopProductList products={products} viewMode={productViewMode} />

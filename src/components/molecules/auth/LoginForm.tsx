@@ -42,7 +42,6 @@ export default function LoginForm() {
         router.push(`/login/verify-otp`);
         return;
       }
-      console.log(response);
       // Normal user
       dispatch(
         setUser({

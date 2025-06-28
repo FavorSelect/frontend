@@ -7,6 +7,7 @@ interface FooterColumnProps {
   links: { name: string; href: string }[];
   className?: string;
   style?: React.CSSProperties;
+  onLogout?: () => void;
 }
 
 const FooterColumn = ({
@@ -14,15 +15,23 @@ const FooterColumn = ({
   links,
   className,
   style,
+  onLogout,
 }: FooterColumnProps) => (
   <div className={cn("font-montserrat space-y-4", className)} style={style}>
     <Subtitle title={title} />
     <ul className="text-base space-y-2 text-[#C2C2C2] font-normal">
       {links.map((link) => (
-        <li key={link.name}>
-          <Link className="text-sm sm:text-base" href={link.href}>
-            {link.name}
-          </Link>
+        <li
+          key={link.name}
+          className="text-sm sm:text-base hover:text-blue-500 transition-colors duration-150 ease-in-out"
+        >
+          {link.name === "Logout" ? (
+            <button type="button" onClick={onLogout} className="cursor-pointer">
+              {link.name}
+            </button>
+          ) : (
+            <Link href={link.href}>{link.name}</Link>
+          )}
         </li>
       ))}
     </ul>

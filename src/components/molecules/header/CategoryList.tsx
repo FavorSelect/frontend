@@ -8,6 +8,7 @@ import Span from "@/components/atoms/Span";
 import { Category } from "@/types/category";
 import { categoryListIconMap } from "@/utils/iconMaps";
 import { slugify } from "@/utils/slugify";
+import { usePathname } from "next/navigation";
 
 // Receive categories from props
 const CategoryList = ({
@@ -20,6 +21,10 @@ const CategoryList = ({
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const pathName = usePathname();
+  const parts = pathName.split("/shop/")[1]?.split("/") || [];
+  const currentCategory = parts[0];
+  const currentSubcategory = parts[1];
 
   // Close on outside click
   useEffect(() => {
@@ -67,6 +72,7 @@ const CategoryList = ({
         {/* Category List */}
         <ul className="w-1/3 border-r border-[#ffdcdc]">
           {categories.map((category) => {
+            const slug = slugify(category.categoryName);
             const Icon = categoryListIconMap[category.categoryName] || Menu;
             return (
               <li
@@ -78,7 +84,12 @@ const CategoryList = ({
               >
                 <Link
                   href={`/shop/${slugify(category.categoryName)}`}
-                  className="flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
+                  className={cn(
+                    "flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors duration-150 ease-in-out",
+                    currentCategory === slug
+                      ? "text-scarlet-red font-semibold"
+                      : "text-eerie-black"
+                  )}
                 >
                   <Span className="flex gap-x-2 items-center">
                     <Icon className="w-5 h-5" />
@@ -103,13 +114,18 @@ const CategoryList = ({
                 {cat.subcategories.map((sub) => (
                   <li
                     key={sub.id}
-                    className="text-gray-700 py-1 hover:text-scarlet-red cursor-pointer"
+                    className="text-gray-700 py-1 hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer"
                     onClick={() => setIsOpen(false)}
                   >
                     <Link
                       href={`/shop/${slugify(cat.categoryName)}/${slugify(
                         sub.categoryName
                       )}`}
+                      className={cn(
+                        currentSubcategory === slugify(sub.categoryName)
+                          ? "text-scarlet-red font-semibold"
+                          : "text-gray-700 hover:text-scarlet-red"
+                      )}
                     >
                       {sub.categoryName}
                     </Link>
@@ -120,15 +136,24 @@ const CategoryList = ({
         </div>
       </div>
 
-      {categories.map((category) => (
-        <Link
-          key={category.id}
-          href={`/shop/${slugify(category.categoryName)}`}
-          className="flex items-center font-medium text-sm text-eerie-black hover:text-scarlet-red transition-colors duration-200 ease-in-out cursor-pointer"
-        >
-          {category.categoryName}
-        </Link>
-      ))}
+      {categories.map((category) => {
+        const slug = slugify(category.categoryName);
+
+        return (
+          <Link
+            key={category.id}
+            href={`/shop/${slug}`}
+            className={cn(
+              "flex items-center font-medium text-sm text-eerie-black hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer",
+              currentCategory === slug
+                ? "text-scarlet-red font-semibold"
+                : "text-eerie-black hover:text-scarlet-red"
+            )}
+          >
+            {category.categoryName}
+          </Link>
+        );
+      })}
     </div>
   );
 };

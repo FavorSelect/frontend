@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface HamburgerState {
   isOpen: boolean;
@@ -15,14 +15,11 @@ const hamburgerSlice = createSlice({
     toggleMenu: (state) => {
       state.isOpen = !state.isOpen;
     },
-    closeMenu: (state) => {
-      state.isOpen = false;
-    },
-    openMenu: (state) => {
-      state.isOpen = true;
+    setMenu: (state, action: PayloadAction<boolean>) => {
+      state.isOpen = action.payload;
     },
   },
 });
 
-export const { toggleMenu, closeMenu, openMenu } = hamburgerSlice.actions;
+export const { toggleMenu, setMenu } = hamburgerSlice.actions;
 export default hamburgerSlice.reducer;

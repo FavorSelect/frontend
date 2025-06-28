@@ -28,6 +28,7 @@ const MyOrders = () => {
   const activeFilter = useSelector(
     (state: RootState) => state.orderFilter.filter
   );
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
   const { data, isLoading, isFetching } = useGetFilteredOrdersQuery({
     status: activeFilter === "all" ? undefined : activeFilter,
@@ -40,7 +41,10 @@ const MyOrders = () => {
       <h2 className="text-xl font-bold text-scarlet-red mb-6">My Orders</h2>
 
       {/* Tabs */}
-      <div className="flex space-x-3.5 mb-8">
+      <div
+        ref={scrollContainerRef}
+        className="flex flex-wrap gap-3.5 mb-8 overflow-x-scroll whitespace-nowrap px-4"
+      >
         {tabs.map((tab) => (
           <Button
             key={tab.value}

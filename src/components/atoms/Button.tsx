@@ -14,7 +14,7 @@ const buttonVariants = cva(
         subtle:
           "border border-input bg-accent/20 hover:bg-white/10 hover:text-accent-foreground",
         resetBtn:
-          "text-sm font-medium bg-scarlet-red text-white  px-2 py-1.5 rounded-md",
+          "text-xs px-2 py-1 bg-scarlet-red font-medium text-white rounded",
       },
       size: {
         default: "h-10 px-4 py-2",

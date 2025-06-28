@@ -2,7 +2,7 @@
 import React from "react";
 import { RootState } from "@/store/store";
 import SkeletonProductCard from "@/components/molecules/product/SkeletonProductCard";
-import PopularProductCard from "../../molecules/product/PopularProductCard";
+import PopularProductCard from "../../molecules/product/ProductCard";
 import Section from "../../atoms/Section";
 import MaxWidthWrapper from "../../layout/MaxWidthWrapper";
 import ContainerBox from "../../layout/ContainerBox";

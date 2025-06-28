@@ -10,7 +10,7 @@ import Image from "next/image";
 import Span from "@/components/atoms/Span";
 import { Banner } from "@/types/banner";
 import { ProductT } from "@/types/real.product";
-import PopularProductCard from "@/components/molecules/product/PopularProductCard";
+import ProductCard from "@/components/molecules/product/ProductCard";
 
 type TopProductListProps = {
   products: ProductT[] | any[];
@@ -56,7 +56,7 @@ const PopularProductGrid = ({ products, banners }: TopProductListProps) => {
             {hasProducts && (
               <div className="flex-1 xl:flex-4/5 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
                 {products.map((product) => (
-                  <PopularProductCard key={product.id} product={product} />
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}

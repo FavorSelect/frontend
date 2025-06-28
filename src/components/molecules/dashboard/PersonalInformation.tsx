@@ -257,7 +257,7 @@ const PersonalInformation = () => {
             <Button
               disabled={isSubmitting}
               type="submit"
-              className="bg-scarlet-red text-white mt-3 px-4 py-2 rounded-md hover:bg-scarlet-red-600 transition duration-200 font-semibold text-sm flex items-center gap-2"
+              className="bg-scarlet-red hover:bg-red-600 transition-colors text-white mt-3 px-4 py-2 rounded-md duration-200 font-semibold text-sm flex items-center gap-2"
             >
               {isSubmitting && <Spinner />}
               {isSubmitting ? "Saving..." : "Save Changes"}

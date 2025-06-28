@@ -2,7 +2,7 @@
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
-import PopularProductCard from "@/components/molecules/product/PopularProductCard";
+import ProductCard from "@/components/molecules/product/ProductCard";
 import { ProductT } from "@/types/real.product";
 import React from "react";
 
@@ -39,7 +39,7 @@ const CategoryPageWrapper = ({ products }: CategoryPageProps) => {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
               {products.map((product) => (
-                <PopularProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}

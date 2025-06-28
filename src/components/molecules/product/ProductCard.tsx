@@ -23,7 +23,7 @@ interface ServerProductCardProps {
   viewMode?: "grid" | "list";
 }
 
-const PopularProductCard: FC<ServerProductCardProps> = ({
+const ProductCard: FC<ServerProductCardProps> = ({
   product,
   viewMode = "grid",
 }) => {
@@ -205,4 +205,4 @@ const PopularProductCard: FC<ServerProductCardProps> = ({
   );
 };
 
-export default PopularProductCard;
+export default ProductCard;

@@ -15,8 +15,12 @@ const BrandInfo: FC<BrandInfoProps> = ({ className, style }) => {
       <div className="text-sm sm:text-base space-y-2 text-[#C2C2C2] font-normal">
         <Paragraph>Address</Paragraph>
         <Paragraph>Dellas, United States</Paragraph>
-        <Paragraph>support@favorselect.com</Paragraph>
-        <Paragraph>+1-88888-9999</Paragraph>
+        <Paragraph>
+          <a href="mailto:support@favorselect.com">support@favorselect.com</a>
+        </Paragraph>
+        <Paragraph>
+          <a href="tel:+1888889999">+1-88888-9999</a>
+        </Paragraph>
       </div>
     </div>
   );
