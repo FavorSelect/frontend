@@ -73,7 +73,7 @@ const CheckoutAddressForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-2">
       <h2 className="text-lg font-semibold">Shipping Address</h2>
       <div className="space-y-1">
         <label className="inline-block font-semibold text-sm">

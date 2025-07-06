@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
@@ -9,11 +9,11 @@ import ProductColorSelector from "@/components/molecules/product-details/Product
 import ProductSizeSelector from "@/components/molecules/product-details/ProductSizeSelector";
 import QuantitySelector from "@/components/molecules/product-details/QuantitySelector";
 import ProductActionBtn from "@/components/molecules/product-details/ProductActionBtn";
-import PhotoReviewSlider from "@/components/molecules/product-details/PhotoReviewSlider";
-import ProductReviewCard from "@/components/molecules/product-details/ProductReviewCard";
+// import PhotoReviewSlider from "@/components/molecules/product-details/PhotoReviewSlider";
+// import ProductReviewCard from "@/components/molecules/product-details/ProductReviewCard";
 import SpecRow from "@/components/molecules/product-details/SpecRow";
-import RatingDistribution from "@/components/molecules/product-details/RatingDistribution";
-import { calculateRatingDistribution } from "@/utils/calculateRatingDistribution";
+// import RatingDistribution from "@/components/molecules/product-details/RatingDistribution";
+// import { calculateRatingDistribution } from "@/utils/calculateRatingDistribution";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { RootState } from "@/store/store";
 import { Tab, Tabs } from "@/components/molecules/global/Tab";
@@ -24,7 +24,7 @@ import {
 } from "@/store/api/productDetailsApi";
 import ReviewForm from "@/components/molecules/global/ReviewForm";
 import { useGetProductDetailsQuery } from "@/store/api/productDetailsApi";
-import Pagination from "@/components/molecules/global/Pagination";
+// import Pagination from "@/components/molecules/global/Pagination";
 import ReactPlayer from "react-player";
 import SkeletonProductImageGallery from "@/components/molecules/product-details/SkeletonProductImageGallery";
 import SkeletonProductDetailsSidebar from "@/components/molecules/product-details/SkeletonProductDetailsSidebar";
@@ -55,7 +55,7 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
 
   const shouldRenderDeliveryDate =
     deliveryData && !isDeliveryLoading && !isDeliveryError;
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [addReview] = useAddReviewMutation();
 
   const product = data?.product;
@@ -114,21 +114,21 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
     !!product.productWarrantyInfo ||
     !!product.productReturnPolicy;
 
-  const ratingDistribution = calculateRatingDistribution(product.reviews || []);
+  // const ratingDistribution = calculateRatingDistribution(product.reviews || []);
 
-  const reviewPhotos = product.reviews
-    .map((review) => review.reviewPhoto)
-    .filter((photo): photo is string => Boolean(photo));
+  // const reviewPhotos = product.reviews
+  //   .map((review) => review.reviewPhoto)
+  //   .filter((photo): photo is string => Boolean(photo));
 
-  const REVIEWS_PER_PAGE = 3;
+  // const REVIEWS_PER_PAGE = 3;
 
-  const totalReviews = product.reviews.length;
-  const totalPages = Math.ceil(totalReviews / REVIEWS_PER_PAGE);
+  // const totalReviews = product.reviews.length;
+  // const totalPages = Math.ceil(totalReviews / REVIEWS_PER_PAGE);
 
-  const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
-  const endIndex = startIndex + REVIEWS_PER_PAGE;
+  // const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
+  // const endIndex = startIndex + REVIEWS_PER_PAGE;
 
-  const paginatedReviews = product.reviews.slice(startIndex, endIndex);
+  // const paginatedReviews = product.reviews.slice(startIndex, endIndex);
 
   return (
     <Section>
@@ -251,7 +251,7 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
               )}
             </Tab>
             <Tab label="Review">
-              {product.reviews?.length > 0 && (
+              {/* {product.reviews?.length > 0 && (
                 <div className="space-y-3">
                   {reviewPhotos.length > 0 && (
                     <div className="mt-5">
@@ -285,7 +285,7 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
               <h2 className="text-xl font-bold mb-2 text-left">Add Review</h2>
               <ReviewForm
                 productId={product.id}

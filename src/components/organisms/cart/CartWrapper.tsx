@@ -21,11 +21,11 @@ import SkeletonOrderSummary from "@/components/molecules/cart/SkeletonOrderSumma
 import SkeletonCartHeader from "@/components/molecules/cart/SkeletonCartHeader";
 import SkeletonCartTitle from "@/components/molecules/cart/SkeletonCartTitle";
 import { useGetShippingAddressQuery } from "@/store/api/userDashboardApi";
-import DrawerContainer from "@/components/molecules/global/Drawer";
 import CheckoutAddressForm from "@/components/molecules/checkout/CheckoutAddressForm";
 import CheckoutAddressSkeleton from "@/components/molecules/checkout/CheckoutAddressSkeleton";
 import { useCreateCartStripeCheckoutMutation } from "@/store/api/checkoutApi";
 import Link from "next/link";
+import { Modal } from "@/components/molecules/global/Modal";
 
 const CartWrapper: React.FC = () => {
   const {
@@ -42,7 +42,7 @@ const CartWrapper: React.FC = () => {
   const [deleteSelectedCartItems, { isLoading: isBulkDeleting }] =
     useDeleteSelectedCartItemsMutation();
   const [deleteSingleItem] = useDeleteSelectedCartItemsMutation();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     data: addressData,
     isLoading: isAddressLoading,
@@ -247,7 +247,7 @@ const CartWrapper: React.FC = () => {
               {!isAddressLoading && (
                 <div className="flex justify-end gap-3 sm:gap-4">
                   <Button
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setIsModalOpen(true)}
                     variant="authBtn"
                     className="w-full max-w-54"
                   >
@@ -256,13 +256,13 @@ const CartWrapper: React.FC = () => {
                 </div>
               )}
 
-              <DrawerContainer
-                dismissible={false}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
+              <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                className="bg-white rounded-lg p-6 max-w-lg w-full relative"
               >
-                <CheckoutAddressForm setIsOpen={setIsOpen} />
-              </DrawerContainer>
+                <CheckoutAddressForm setIsOpen={setIsModalOpen} />
+              </Modal>
             </div>
           )}
           {isCartLoading ? (

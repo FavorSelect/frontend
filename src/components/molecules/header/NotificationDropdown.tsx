@@ -41,7 +41,7 @@ export default function NotificationDropdown() {
       {/* Dropdown */}
       <div
         className={cn(
-          "absolute top-full right-0 mt-2 w-80 z-50 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 transform",
+          "absolute top-full right-0 mt-2 w-fit sm:w-80 z-50 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 transform",
           isOpen
             ? "opacity-100 translate-y-1 pointer-events-auto"
             : "opacity-0 translate-y-0 pointer-events-none"
@@ -71,7 +71,7 @@ export default function NotificationDropdown() {
               {notifications.map((note) => (
                 <li
                   key={note.id}
-                  className="border border-gray-100 rounded-md p-3 flex gap-3 hover:bg-gray-50 transition-colors"
+                  className="border border-none sm:border-gray-100 rounded-md sm:p-3 flex flex-col sm:flex-row gap-3 sm:hover:bg-gray-50 transition-colors"
                 >
                   <div className="w-16 h-16 relative flex-shrink-0">
                     <Image

@@ -1,9 +1,10 @@
+import { cn } from "@/utils/cn";
 import Image from "next/image";
 
 interface UserProfileProps {
   name: string;
   membership: string;
-  profileImage: string;
+  profileImage: string | undefined;
   verified?: boolean;
 }
 
@@ -16,9 +17,14 @@ const UserProfile: React.FC<UserProfileProps> = ({
   return (
     <div className="flex items-center space-x-3">
       {/* Profile Image */}
-      <div className="relative w-16 h-16 rounded-full overflow-hidden border border-gray-300">
+      <div
+        className={cn(
+          "relative w-16 h-16 rounded-full overflow-hidden border border-gray-300",
+          !profileImage && "border-none w-14 h-14"
+        )}
+      >
         <Image
-          src={profileImage || "/profile-placeholder.png"}
+          src={profileImage || "/user-icon/user-icon-1.jpg"}
           alt={name}
           fill
           className="object-cover"

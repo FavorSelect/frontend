@@ -3,7 +3,7 @@ import Paragraph from "@/components/atoms/Paragraph";
 
 const Copyright = () => {
   return (
-    <Paragraph className="text-[#F2F2F2] font-montserrat text-base font-normal">
+    <Paragraph className="text-[#F2F2F2] font-montserrat text-sm md:text-base font-normal">
       © Copyright FavorSelect 2025. All right reserved
     </Paragraph>
   );

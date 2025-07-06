@@ -42,7 +42,6 @@ const TwoFactorOtpVerificationForm = () => {
 
       const response = await verifyTwoFactor(otp).unwrap();
 
-      console.log(response);
       toast.success(response.message || "OTP verified successfully!");
       dispatch(
         setUser({

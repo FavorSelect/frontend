@@ -6,12 +6,17 @@ import Subtitle from "@/components/atoms/Subtitles";
 interface BrandInfoProps {
   className?: string;
   style?: React.CSSProperties;
+  isTitle?: boolean;
 }
 
-const BrandInfo: FC<BrandInfoProps> = ({ className, style }) => {
+const BrandInfo: FC<BrandInfoProps> = ({
+  className,
+  style,
+  isTitle = true,
+}) => {
   return (
     <div className={cn("font-montserrat space-y-4", className)} style={style}>
-      <Subtitle title="Support" />
+      {isTitle && <Subtitle title="Support" />}
       <div className="text-sm sm:text-base space-y-2 text-[#C2C2C2] font-normal">
         <Paragraph>Address</Paragraph>
         <Paragraph>Dellas, United States</Paragraph>

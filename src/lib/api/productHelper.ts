@@ -9,6 +9,8 @@ export async function safeProductFetch<T>(
 ): Promise<T[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`;
 
+  console.log(url);
+
   try {
     const response = await fetch(url, {
       next: { revalidate: 60 },
@@ -20,7 +22,7 @@ export async function safeProductFetch<T>(
     }
 
     const data = await response.json();
-    return data[key] ?? [];
+    return data[key] ?? data.product;
   } catch (error) {
     console.warn(`⚠️ Failed to fetch ${key} from ${endpoint}:`, error);
     return [];

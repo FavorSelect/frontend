@@ -12,7 +12,7 @@ import { Category } from "@/types/category";
 
 const HeaderWrapper = ({ categories }: { categories: Category[] }) => {
   return (
-    <header className="space-y-3 xl:space-y-2 mb-4 backdrop-blur-sm xl:mb-8 sticky w-full top-0 no-scrollbar z-30 bg-white  xl:shadow-sm">
+    <header className="space-y-3 xl:space-y-2 mb-4 backdrop-blur-sm xl:mb-8 fixed w-full top-0 no-scrollbar z-30 bg-white  xl:shadow-sm">
       <MaxWidthWrapper>
         <ContainerBox
           className="space-y-3 px-0 py-0 xl:py-1.5 xl:px-0

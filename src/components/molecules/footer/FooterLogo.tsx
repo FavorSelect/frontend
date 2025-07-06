@@ -13,7 +13,7 @@ const FooterLogo: FC<FooterLogoProps> = ({ className, style }) => {
     <div className={cn("text-white", className)} style={style}>
       <Link href="/" className="flex md:justify-center">
         <Image
-          src="/footer-logo.svg"
+          src="/footer-new-logo.jpg"
           alt="logo"
           width={198}
           height={118}

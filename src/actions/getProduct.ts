@@ -3,6 +3,9 @@ import { safeProductFetch } from "@/lib/api/productHelper";
 export const getPopularProduct = () =>
   safeProductFetch("api/general/products", "products");
 
+export const getPopularProductDetails = (id: string) =>
+  safeProductFetch(`api/general/products/${id}`, "products");
+
 export const getCozyEveningProduct = () =>
   safeProductFetch("api/general/products/category/lotion", "products");
 

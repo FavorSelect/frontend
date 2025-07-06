@@ -31,9 +31,8 @@ export default function LoginForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await login(data).unwrap();
-      console.log(response);
       const is2FA = response.isTwoFactorAuthEnable;
-      console.log(is2FA);
+
       // 2fa user
       if (is2FA) {
         toast.success(response.message, {
@@ -42,6 +41,7 @@ export default function LoginForm() {
         router.push(`/login/verify-otp`);
         return;
       }
+
       // Normal user
       dispatch(
         setUser({

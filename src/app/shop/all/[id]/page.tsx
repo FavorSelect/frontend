@@ -8,7 +8,7 @@ type Params = Promise<{ id: string }>;
 export default async function ProductDetails({ params }: { params: Params }) {
   const { id } = await params;
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get("token_middleware")?.value;
   const similarProducts = await getSimilarProducts();
 
   return (

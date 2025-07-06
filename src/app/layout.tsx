@@ -33,13 +33,13 @@ export default async function RootLayout({
   const cate = await getCategories();
 
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth overflow-x-hidden">
       <body
-        className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray overflow-x-hidden font-montserrat min-h-screen flex flex-col`}
+        className={`${montserrat.variable} ${roboto.variable} antialiased bg-light-gray font-montserrat min-h-screen flex flex-col`}
       >
         <ReduxProvider>
           <HeaderWrapper categories={cate} />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow pt-36 xl:pt-47">{children}</main>
           <Toaster position="top-center" reverseOrder={false} />
           <FooterWrapper />
           <BackToTop />

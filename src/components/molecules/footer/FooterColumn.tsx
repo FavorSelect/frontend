@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn";
 import Link from "next/link";
 
 interface FooterColumnProps {
-  title: string;
+  title?: string;
   links: { name: string; href: string }[];
   className?: string;
   style?: React.CSSProperties;
@@ -18,7 +18,7 @@ const FooterColumn = ({
   onLogout,
 }: FooterColumnProps) => (
   <div className={cn("font-montserrat space-y-4", className)} style={style}>
-    <Subtitle title={title} />
+    {title && <Subtitle title={title} />}
     <ul className="text-base space-y-2 text-[#C2C2C2] font-normal">
       {links.map((link) => (
         <li
