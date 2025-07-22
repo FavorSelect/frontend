@@ -92,11 +92,11 @@ export default function ProfileDropdown() {
         {isLoggedIn && user ? (
           <>
             <Image
-              src={user.profileImage || "/user.jpg"}
+              src={user.profileImage || "/user-icon/user-icon-1.jpg"}
               alt="User Avatar"
-              className="w-6 h-6 rounded-full object-cover"
-              width={40}
-              height={40}
+              className="w-7 h-7 rounded-full object-cover"
+              width={60}
+              height={60}
             />
             <Span className="mt-1 hidden xl:block">{user.name}</Span>
           </>

@@ -20,14 +20,15 @@ const UserProfile: React.FC<UserProfileProps> = ({
       <div
         className={cn(
           "relative w-16 h-16 rounded-full overflow-hidden border border-gray-300",
-          !profileImage && "border-none w-14 h-14"
+          !profileImage && "border-none w-15 h-15"
         )}
       >
         <Image
           src={profileImage || "/user-icon/user-icon-1.jpg"}
           alt={name}
-          fill
           className="object-cover"
+          width={64}
+          height={64}
         />
       </div>
 

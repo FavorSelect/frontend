@@ -3,11 +3,11 @@ import React from "react";
 import { Facebook, Google, X } from "@/assets/icon";
 import { Button } from "@/components/atoms/Button";
 import SignupForm from "@/components/molecules/auth/SignupForm";
-import { ChevronDown } from "lucide-react";
 import FormHeader from "@/components/molecules/auth/FormHeader";
 import FormText from "@/components/molecules/auth/FormText";
+import { Location } from "@/actions/getLocation";
 
-const SignupWrapper = () => {
+const SignupWrapper = ({ location }: { location: Location }) => {
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
@@ -68,9 +68,12 @@ const SignupWrapper = () => {
         </Button>
       </div>
 
-      <p className="flex justify-center items-center text-xs text-gray-500 mt-4">
-        Location: <span className="font-semibold text-[#333333]">Turkey</span>
-        <ChevronDown className="w-4 h-4 cursor-pointer" />
+      <p className="flex justify-center items-center text-xs text-gray-500 mt-4 gap-1">
+        Location:{" "}
+        <span className="font-semibold text-[#333333] ml-0.5">
+          {location.country}
+        </span>
+        <span className="ml-0.5 text-sm">{location.flag.emoji}</span>
       </p>
     </div>
   );

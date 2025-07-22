@@ -55,7 +55,7 @@ const Accordion = ({
         </svg>
       </Button>
       <div
-        className={`grid overflow-hidden transition-all px-2 duration-300 ease-in-out text-slate-600 text-sm ${
+        className={`grid overflow-hidden transition-all px-2 duration-300 ease-in-out font-semibold text-black text-sm ${
           accordionOpen
             ? "grid-rows-[1fr] opacity-100 pb-2"
             : "grid-rows-[0fr] opacity-0"

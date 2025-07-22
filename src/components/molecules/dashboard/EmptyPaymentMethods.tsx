@@ -12,7 +12,7 @@ const EmptyPaymentMethods = () => {
         <Span className="text-sm text-gray-500 hover:text-gray-700">
           Manage your saved payment methods
         </Span>
-        <Button className="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition">
+        <Button className="flex items-center gap-2 px-3 py-2 bg-scarlet-red text-white rounded-md text-sm hover:bg-red-500 transition">
           <Plus className="w-4 h-4" /> Add Card
         </Button>
       </div>
@@ -27,7 +27,7 @@ const EmptyPaymentMethods = () => {
           <p className="text-sm text-gray-500 mb-4">
             Add a payment method to make checkout faster
           </p>
-          <Button className="px-6 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-100 transition">
+          <Button className="px-6 py-2 bg-scarlet-red text-white rounded-md text-sm hover:bg-red-500 transition">
             Add Payment Method
           </Button>
         </div>

@@ -13,9 +13,10 @@ const ContainerBox = ({
   return (
     <div
       className={cn(
-        "py-4 px-4 xl:py-8 xl:px-5",
+        "p-0 sm:py-4 sm:px-4 xl:py-8 xl:px-5",
         className,
-        hasBackground && "bg-white rounded-lg shadow-sm font-montserrat"
+        hasBackground &&
+          "bg-transparent sm:bg-white sm:rounded-lg shadow-none sm:shadow-sm font-montserrat"
       )}
     >
       {children}

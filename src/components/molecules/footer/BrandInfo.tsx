@@ -18,12 +18,16 @@ const BrandInfo: FC<BrandInfoProps> = ({
     <div className={cn("font-montserrat space-y-4", className)} style={style}>
       {isTitle && <Subtitle title="Support" />}
       <div className="text-sm sm:text-base space-y-2 text-[#C2C2C2] font-normal">
-        <Paragraph>Address</Paragraph>
-        <Paragraph>Dellas, United States</Paragraph>
-        <Paragraph>
+        <Paragraph className="hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer">
+          Address
+        </Paragraph>
+        <Paragraph className="hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer">
+          Dellas, United States
+        </Paragraph>
+        <Paragraph className="hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer">
           <a href="mailto:support@favorselect.com">support@favorselect.com</a>
         </Paragraph>
-        <Paragraph>
+        <Paragraph className="hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer">
           <a href="tel:+1888889999">+1-88888-9999</a>
         </Paragraph>
       </div>

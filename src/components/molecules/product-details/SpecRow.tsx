@@ -1,5 +1,5 @@
 const SpecRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex justify-between py-2">
+  <div className="flex justify-between py-2 text-sm">
     <span className="font-medium text-eerie-black">{label}</span>
     <span>{value}</span>
   </div>

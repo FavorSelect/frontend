@@ -13,6 +13,7 @@ import { UserCardSkeleton as MyOrderCardSkeleton } from "@/components/molecules/
 import { cn } from "@/utils/cn";
 import { useGetFilteredOrdersQuery } from "@/store/api/userDashboardApi";
 import Link from "next/link";
+import EmptyOrders from "./EmptyOrders";
 
 const tabs: { label: string; value: OrderFilter }[] = [
   { label: "All", value: "all" },
@@ -22,6 +23,34 @@ const tabs: { label: string; value: OrderFilter }[] = [
   { label: "Delivered", value: "delivered" },
   { label: "Cancelled", value: "cancelled" },
 ];
+const emptyMessages: Record<OrderFilter, { title: string; subtext: string }> = {
+  all: {
+    title: "No orders found.",
+    subtext:
+      "You haven’t placed any orders yet. Explore our shop and get started!",
+  },
+  pending: {
+    title: "No pending orders yet.",
+    subtext: "Once you place an order, it will show up here as pending.",
+  },
+  processing: {
+    title: "No processing orders yet.",
+    subtext: "Orders being prepared will appear here.",
+  },
+  shipped: {
+    title: "No shipped orders yet.",
+    subtext:
+      "You'll see your shipped orders in this tab once they’re on the way.",
+  },
+  delivered: {
+    title: "No delivered orders yet.",
+    subtext: "Delivered orders will show up here after successful delivery.",
+  },
+  cancelled: {
+    title: "No cancelled orders yet.",
+    subtext: "If any orders are cancelled, you’ll see them here.",
+  },
+};
 
 const MyOrders = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +63,8 @@ const MyOrders = () => {
     status: activeFilter === "all" ? undefined : activeFilter,
   });
 
+  const { title, subtext } = emptyMessages[activeFilter as OrderFilter];
+
   const orders = data?.orders || [];
 
   return (
@@ -43,7 +74,7 @@ const MyOrders = () => {
       {/* Tabs */}
       <div
         ref={scrollContainerRef}
-        className="flex flex-wrap gap-3.5 mb-8 overflow-x-scroll whitespace-nowrap px-4"
+        className="flex flex-wrap gap-3.5 mb-8 whitespace-nowrap px-4"
       >
         {tabs.map((tab) => (
           <Button
@@ -68,7 +99,7 @@ const MyOrders = () => {
       ) : (
         <div className="space-y-2">
           {orders.length === 0 ? (
-            <p className="text-center text-gray-500">No orders found.</p>
+            <EmptyOrders title={title} subtext={subtext} />
           ) : (
             orders.map((order) => {
               const showReviewButton =

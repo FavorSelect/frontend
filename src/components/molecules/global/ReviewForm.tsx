@@ -51,6 +51,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       : null
   );
 
+  console.log(productId);
   const {
     register,
     handleSubmit,
@@ -123,7 +124,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
       toast.success(response.message || "Review submitted successfully!");
       reset();
-      setPreviewUrl(null); // reset image preview
+      setPreviewUrl(null);
     } catch (error) {
       handleApiError(error, "Failed to submit review");
     }

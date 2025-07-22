@@ -12,6 +12,7 @@ import { useAddToCartMutation } from "@/store/api/cartApi";
 import { handleApiError } from "@/utils/handleApiError";
 import Spinner from "../global/Spinner";
 import { CreditCard, ShoppingCart, Trash2 } from "lucide-react";
+import EmptyWishlist from "./EmptyWishlist";
 
 const MyWishList = () => {
   const { data, isLoading, isFetching } = useGetWishlistQuery();
@@ -26,7 +27,7 @@ const MyWishList = () => {
   }
 
   if (!data || !data.wishlist || data.wishlist.length === 0) {
-    return <p>No items in your wishlist.</p>;
+    return <EmptyWishlist />;
   }
 
   const { wishlistCount, wishlist } = data;

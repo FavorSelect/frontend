@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Heading from "@/components/atoms/Heading";
 import Section from "@/components/atoms/Section";
@@ -18,7 +17,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type CosyProductListProps = {
-  products: ProductT[] | any[];
+  products: ProductT[];
 };
 
 const CosyEveningsProductGrid = ({ products }: CosyProductListProps) => {
@@ -29,7 +28,7 @@ const CosyEveningsProductGrid = ({ products }: CosyProductListProps) => {
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading>For cosy evenings</Heading>
             <Link
-              href="/shop"
+              href="/shop/all/"
               className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
             >
               <Span>All Products</Span>

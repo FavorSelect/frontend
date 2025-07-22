@@ -23,15 +23,7 @@ export type PersonalFormValues = {
   zipCode: string;
   country: string;
 };
-const country = [
-  { value: "us", label: "United States" },
-  { value: "ca", label: "Canada" },
-  { value: "gb", label: "United Kingdom" },
-  { value: "au", label: "Australia" },
-  { value: "de", label: "Germany" },
-  { value: "jp", label: "Japan" },
-  { value: "tr", label: "Turkey" },
-];
+const country = [{ value: "us", label: "United States" }];
 
 const PersonalInformation = () => {
   const { data, isLoading, refetch } = useGetPersonalInformationQuery();
@@ -205,7 +197,7 @@ const PersonalInformation = () => {
                 {...register("state", {
                   required: "State is required",
                 })}
-                placeholder="Enter your zip code"
+                placeholder="Enter your state"
                 className="py-2 px-2 border border-gray-300 font-medium"
               />
               <ErrorMessage error={errors.state} />

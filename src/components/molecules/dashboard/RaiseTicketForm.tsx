@@ -9,11 +9,12 @@ import Spinner from "../global/Spinner";
 import Image from "next/image";
 import { useRaiseSupportTicketMutation } from "@/store/api/userDashboardApi";
 import { Textarea } from "@/components/atoms/Textarea";
+import { X } from "lucide-react";
 
 export type RaiseTicketFormValues = {
   subject: string;
   description: string;
-  image: FileList;
+  image: FileList | null;
 };
 
 const RaiseTicketForm = () => {
@@ -21,6 +22,7 @@ const RaiseTicketForm = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<RaiseTicketFormValues>();
@@ -108,22 +110,41 @@ const RaiseTicketForm = () => {
 
       <div className="space-y-1">
         <label className="text-sm font-semibold">Upload Image (optional)</label>
-        <input
+        <Input
           type="file"
           accept="image/*"
           {...register("image")}
           onChange={handleFileChange}
-          className="text-sm"
+          className="w-full inline-block border border-dashed border-gray-400 py-2 px-3 mt-1 text-sm rounded-md font-medium bg-white cursor-pointer text-gray-700 hover:bg-gray-100 transition"
         />
         {imagePreview && (
-          <div className="mt-2">
+          <div className="mt-2 relative inline-block">
             <Image
               src={imagePreview}
               alt="preview"
-              className="h-20 w-20 object-cover rounded"
-              width={100}
+              width={150}
               height={100}
+              className="w-full h-32 object-cover rounded-md border border-pale-rose"
             />
+            <Button
+              type="button"
+              onClick={() => {
+                setImagePreview(null);
+
+                // Clear file input field in the DOM
+                const fileInput = document.querySelector(
+                  'input[type="file"]'
+                ) as HTMLInputElement;
+                if (fileInput) fileInput.value = "";
+
+                // Clear the value in React Hook Form
+                setValue("image", null);
+              }}
+              className="absolute top-1 right-1 bg-white text-black border border-gray-300 rounded-full p-1 text-xs hover:bg-red-500 hover:text-white transition"
+              title="Remove Image"
+            >
+              <X size={18} />
+            </Button>
           </div>
         )}
       </div>

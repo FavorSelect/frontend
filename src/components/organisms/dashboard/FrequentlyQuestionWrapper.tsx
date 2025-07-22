@@ -46,7 +46,7 @@ const FrequentlyQuestionWrapper = () => {
         />
         <Accordion
           title="When will my order arrive?"
-          answer="You can check your order from the My Orders page. We usually deliver products in week. When your order is out for delivery, you will receive SMS from the cargo company. After your order shipped you can track shipping from the Account->My Orders menu. "
+          answer="You can check your order from the My Orders page. We usually deliver products in week. When your order is out for delivery, you will receive SMS from the cargo company. After your order shipped you can track shipping from the Account > My Orders menu. "
         />
       </div>
     </div>

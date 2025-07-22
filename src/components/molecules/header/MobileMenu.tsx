@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, X, LucideIcon, Shirt } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 import { Drawer } from "vaul";
 import Link from "next/link";
 import Logo from "./Logo";
 import { Button } from "@/components/atoms/Button";
-import { categoryListIconMap } from "@/utils/iconMaps";
+import { categoryIconMap } from "@/utils/iconMaps";
 import type { Category } from "@/types/category";
 import { RootState } from "@/store/store";
 import { useAppSelector } from "@/store/hook";
 import { slugify } from "@/utils/slugify";
 import { usePathname } from "next/navigation";
 import { cn } from "@/utils/cn";
+import { toPascalCase } from "@/utils/toPascal";
+import Image from "next/image";
 
 const MobileMenu = ({ categories }: { categories: Category[] }) => {
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -72,21 +74,22 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
         <Drawer.Content className="left-0 top-0 bottom-0 fixed z-[101] outline-none w-full max-w-[300px] flex h-full select-none font-montserrat">
           <Drawer.Title className="sr-only" />
           <div className="bg-white h-full w-full grow flex flex-col gap-3 overflow-y-auto">
-            <div className="border-b border-scarlet-red px-3 py-2.5 flex justify-between items-center">
+            <div className="border-b border-b-[#eee] px-3 py-2.5 flex justify-between items-center">
               <Logo handler={() => setIsOpen(false)} />
               <Button
                 onClick={() => setIsOpen(false)}
                 className="cursor-pointer"
               >
-                <X className="h-6 w-6 text-scarlet-red" />
+                <X className="h-7 w-7 text-scarlet-red" />
               </Button>
             </div>
 
-            <ul>
+            <ul className="border-b border-b-[#eee] pb-3">
               {categories.map((category, index) => {
                 const isExpanded = expanded === category.categoryName;
-                const Icon: LucideIcon =
-                  categoryListIconMap[category.categoryName] || Shirt;
+                const imageIconSrc =
+                  categoryIconMap[toPascalCase(category.categoryName)] ??
+                  "/category-image/electronics.jpg";
                 const hasSubcategories = category.subcategories.length > 0;
 
                 return (
@@ -94,7 +97,15 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                     {hasSubcategories ? (
                       <>
                         <div className="flex items-center gap-2 cursor-pointer pl-4 pr-3">
-                          <Icon className="w-5 h-5" />
+                          <div className="bg-white shadow-sm rounded-lg px-0.5 py-0.5">
+                            <Image
+                              src={imageIconSrc}
+                              alt={category.categoryName}
+                              className="w-10 h-10 object-contain"
+                              width={50}
+                              height={50}
+                            />
+                          </div>
                           <Link
                             href={`/shop/${slugify(category.categoryName)}`}
                             className={cn(
@@ -109,7 +120,7 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                           </Link>
                           <div
                             className={`ml-auto w-5 h-5 transform transition-transform duration-300 ${
-                              isExpanded ? "rotate-180" : "rotate-0"
+                              isExpanded ? "rotate-90" : "rotate-0"
                             }`}
                           >
                             <Button
@@ -117,14 +128,14 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                                 toggleDropdown(category.categoryName)
                               }
                             >
-                              <ChevronDown className="w-5 h-5" />
+                              <ChevronRight className="w-5 h-5 text-[#888888]" />
                             </Button>
                           </div>
                         </div>
 
                         <div
-                          className={`ml-9 overflow-hidden transition-all duration-300 ${
-                            isExpanded ? "max-h-screen" : "max-h-0"
+                          className={`pl-9 overflow-hidden transition-all duration-300 bg-[#fcfcfc] ${
+                            isExpanded ? "max-h-screen p-1.5" : "max-h-0"
                           }`}
                           style={{
                             maxHeight: isExpanded
@@ -132,11 +143,11 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                               : "0px",
                           }}
                         >
-                          <ul className="mt-1">
+                          <ul className="mt-1 ml-3">
                             {category.subcategories.map((subcategory) => (
                               <li
                                 key={subcategory.id}
-                                className="text-sm hover:text-scarlet-red transition-colors duration-150 ease-in-out mb-1"
+                                className="text-sm hover:text-scarlet-red transition-colors duration-150 ease-in-out mb-3"
                                 style={{
                                   opacity: isExpanded ? 1 : 0,
                                   transform: isExpanded
@@ -175,7 +186,18 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
                             : "text-eerie-black hover:text-scarlet-red"
                         )}
                       >
-                        <Icon className="w-5 h-5" />
+                        <div
+                          className="bg-white shadow-sm rounded-lg px-0.5 py-0.5
+                        "
+                        >
+                          <Image
+                            src={imageIconSrc}
+                            alt={category.categoryName}
+                            className="w-10 h-10 object-contain"
+                            width={50}
+                            height={50}
+                          />
+                        </div>
                         {category.categoryName}
                       </Link>
                     )}
@@ -185,22 +207,44 @@ const MobileMenu = ({ categories }: { categories: Category[] }) => {
             </ul>
 
             {!isLoggedIn && !user && (
-              <div className="w-full absolute flex justify-center items-center bottom-0 gap-2 bg-white border-t border-scarlet-red py-2 px-3">
-                <Link
-                  href="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="text-sm font-semibold"
-                >
-                  Sign In
-                </Link>
-                <span className="text-scarlet-red">|</span>
-                <Link
-                  href="/signup"
-                  onClick={() => setIsOpen(false)}
-                  className="text-sm font-semibold"
-                >
-                  Sign Up
-                </Link>
+              <div className="w-full absolute bottom-0 bg-white border-t border-t-[#eee] py-3 px-4">
+                {/* Support Links */}
+                <ul className="mb-3 space-y-1">
+                  {[
+                    { label: "Support", href: "/support" },
+                    { label: "Warranty", href: "/warranty" },
+                    { label: "Campaigns", href: "/campaigns" },
+                    { label: "Privacy Policy", href: "/privacy-policy" },
+                  ].map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className="text-sm text-gray-700 hover:text-scarlet-red transition-colors duration-150 ease-in-out"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Auth Buttons */}
+                <div className="flex gap-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex-1 text-sm font-semibold text-white bg-scarlet-red border border-scarlet-red rounded px-3 py-2 text-center hover:opacity-90"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setIsOpen(false)}
+                    className="flex-1 text-sm font-semibold text-scarlet-red border border-scarlet-red rounded px-3 py-2 text-center hover:bg-scarlet-red/10"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
               </div>
             )}
           </div>

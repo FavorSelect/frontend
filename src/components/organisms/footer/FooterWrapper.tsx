@@ -15,7 +15,9 @@ import { apiSlice } from "@/store/api/api";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import MobileDownloadBanner from "@/components/molecules/footer/MobileDownloadBanner";
+import { Facebook, Instagram, Linkedin, X, Youtube } from "@/assets/icon";
+import Link from "next/link";
+import Image from "next/image";
 
 const FooterWrapper = () => {
   const [logoutApi] = useLogoutMutation();
@@ -62,7 +64,7 @@ const FooterWrapper = () => {
   };
 
   return (
-    <footer className="bg-[#161616] mt-4 xl:mt-8 text-white">
+    <footer className="bg-[#0d0d0d] mt-4 xl:mt-8 text-white">
       <MaxWidthWrapper>
         <ContainerBox>
           {/* Desktop View */}
@@ -91,11 +93,55 @@ const FooterWrapper = () => {
       </MaxWidthWrapper>
       {/* Mobile View */}
       <div className="flex flex-col md:hidden divide-y divide-gray-700">
-        <div className="px-[17px] pb-3 border-b">
-          <MobileDownloadBanner />
-        </div>
-        <div className="px-[17px] py-4 border-b border-gray-700">
+        <div className="py-6 border-b border-[#2a2a2a] flex flex-col items-center gap-y-6">
           <FooterLogo />
+          <ul className="flex gap-x-3 items-center text-white justify-center">
+            <li>
+              <Link
+                href="https://instagram.com/FavorSelect"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://youtube.com/@FavorSelect"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Youtube className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://facebook.com/favorselectofficial"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://x.com/@FavorSelect"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <X className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://linkedin.com/company/favorselect"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin className="hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
+              </Link>
+            </li>
+          </ul>
         </div>
 
         {[
@@ -130,10 +176,25 @@ const FooterWrapper = () => {
               />
             ),
           },
+          {
+            id: "favorselectBlog",
+            title: "FavorSelect blog",
+            content: (
+              <FooterColumn
+                links={[
+                  { name: "Privacy Policy", href: "/privacy-policy" },
+                  { name: "Terms Of Use", href: "/terms" },
+                  { name: "Blog", href: "/blog" },
+                  { name: "Contact", href: "/contact" },
+                ]}
+                className="pl-2 pb-2"
+              />
+            ),
+          },
         ].map((section) => (
-          <div key={section.id} className="px-[17px] border-b border-gray-700">
+          <div key={section.id} className="px-[17px] border-b border-[#2a2a2a]">
             <button
-              className="w-full flex justify-between items-center cursor-pointer py-4"
+              className="w-full flex justify-between items-center cursor-pointer py-4 text-sm uppercase"
               onClick={() => toggleSection(section.id)}
               aria-expanded={openSection === section.id}
             >
@@ -150,12 +211,52 @@ const FooterWrapper = () => {
                 openSection === section.id ? "open" : ""
               }`}
             >
-              <div className="pb-3">{section.content}</div>
+              <div className="py-3 px-2.5 bg-black">{section.content}</div>
             </div>
           </div>
         ))}
       </div>
-      <div className="md:border-t border-gray-600 flex items-center justify-center py-5 px-4 sm:px-0">
+      <div className="block md:hidden text-white py-8 px-4 text-center">
+        {/* Title */}
+        <h2 className="text-sm font-bold uppercase mb-4 tracking-wide">
+          Our Partners
+        </h2>
+
+        {/* Sponsors */}
+        <div className="flex justify-center gap-6 mb-4 text-sm">
+          <span>Sponsor 1</span>
+          <span>Sponsor 2</span>
+          <span>Sponsor 3</span>
+        </div>
+
+        {/* 18+ Badge with Name */}
+        <div className="flex justify-center items-center gap-2 mb-6">
+          <div className="bg-scarlet-red text-white text-xs font-bold rounded-full px-2 py-0.5">
+            18+
+          </div>
+          <span className="text-sm">John S</span>
+        </div>
+
+        {/* Logos */}
+        <div className="flex justify-center items-center gap-8">
+          <Image
+            src="/images/powered-by-favor.png"
+            alt="Powered by Favor"
+            className="h-6 object-contain"
+            width={100}
+            height={100}
+          />
+          <Image
+            src="/images/ssl-badge.png"
+            alt="SSL Secure"
+            className="h-10 object-contain"
+            width={100}
+            height={100}
+          />
+        </div>
+      </div>
+
+      <div className="border-t border-[#2a2a2a] flex items-center justify-center py-5 px-4 sm:px-0">
         <Copyright />
       </div>
     </footer>

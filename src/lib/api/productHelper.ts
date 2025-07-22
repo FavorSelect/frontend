@@ -9,8 +9,6 @@ export async function safeProductFetch<T>(
 ): Promise<T[]> {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`;
 
-  console.log(url);
-
   try {
     const response = await fetch(url, {
       next: { revalidate: 60 },

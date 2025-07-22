@@ -2,21 +2,39 @@ export interface Category {
   categoryName: string;
 }
 
+export interface ReviewUser {
+  id: number;
+  firstName: string;
+  email: string;
+}
+
+export interface ReviewProduct {
+  id: number;
+  productName: string;
+  productPrice: number;
+  coverImageUrl: string;
+}
+
 export interface Review {
   id: number;
-  likeCount: number;
+  userId: number;
   productId: number;
   rating: number;
+  reviewText: string;
+  reviewPhoto: string;
   reviewDate: string;
   reviewLike: number;
-  reviewPhoto: string;
-  reviewText: string;
-  user: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    id: number;
-  };
+  createdAt: string;
+  updatedAt: string;
+  likes: [];
+  user: ReviewUser;
+  product: ReviewProduct;
+}
+
+export interface ReviewResponse {
+  success: boolean;
+  totalReviews: number;
+  reviews: Review[];
 }
 export interface ProductT {
   id: number;
@@ -45,7 +63,6 @@ export interface ProductT {
   productReturnPolicy?: string | null;
   productSizes: string;
   productTags: string;
-  reviews: Review[];
   productVideoUrl: string;
   productViewCount: number;
   productWarrantyInfo?: string | null;

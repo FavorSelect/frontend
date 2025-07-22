@@ -10,7 +10,7 @@ import { ProductT } from "@/types/real.product";
 import ProductCard from "@/components/molecules/product/ProductCard";
 
 type TopProductListProps = {
-  recommendedProducts: ProductT[] | any[];
+  recommendedProducts: ProductT[];
 };
 
 const TopPickProductGrid = ({ recommendedProducts }: TopProductListProps) => {
@@ -21,7 +21,7 @@ const TopPickProductGrid = ({ recommendedProducts }: TopProductListProps) => {
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading className="text-xl">Our top picks just for you</Heading>
             <Link
-              href="/shop"
+              href="/shop/all/"
               className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
             >
               <Span>All Products</Span>

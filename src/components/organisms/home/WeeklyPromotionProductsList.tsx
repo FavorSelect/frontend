@@ -23,7 +23,7 @@ const WeeklyPromotionProductsList = ({ banners }: { banners: Banner[] }) => {
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading>Weekly promotion</Heading>
             <Link
-              href="/shop"
+              href="/shop/all/"
               className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
             >
               <Span>All Products</Span>

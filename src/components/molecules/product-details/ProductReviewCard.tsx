@@ -25,10 +25,8 @@ type ReviewCardProps = {
     rating: number;
     reviewDate: string;
     reviewLike: number;
-    likeCount: number;
     user: {
       firstName: string;
-      lastName: string;
       id: number;
     };
   };
@@ -89,9 +87,7 @@ const ProductReviewCard: React.FC<ReviewCardProps> = ({ review, token }) => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="font-semibold text-gray-800 flex gap-x-2 items-center">
-            <span className="text-lg">
-              {user.firstName} {user.lastName}
-            </span>
+            <span className="text-lg">{user.firstName}</span>
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star

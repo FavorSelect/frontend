@@ -23,7 +23,7 @@ const FooterColumn = ({
       {links.map((link) => (
         <li
           key={link.name}
-          className="text-sm sm:text-base hover:text-blue-500 transition-colors duration-150 ease-in-out"
+          className="text-sm sm:text-base hover:text-scarlet-red transition-colors duration-150 ease-in-out"
         >
           {link.name === "Logout" ? (
             <button type="button" onClick={onLogout} className="cursor-pointer">

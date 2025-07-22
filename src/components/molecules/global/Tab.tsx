@@ -30,7 +30,7 @@ export const Tabs: React.FC<TabsProps> = ({
 
   return (
     <div className={`space-y-3 ${className}`}>
-      <div className="flex gap-3" role="tablist">
+      <div className="flex gap-3 overflow-x-scroll no-scrollbar" role="tablist">
         {tabsArray.map((tab) => (
           <Button
             key={tab.props.label}

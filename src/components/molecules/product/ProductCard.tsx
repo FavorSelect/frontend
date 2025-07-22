@@ -2,7 +2,7 @@
 "use client";
 import { Button } from "@/components/atoms/Button";
 import Span from "@/components/atoms/Span";
-import { Flame, Heart, ShoppingCart, Star, View } from "lucide-react";
+import { Eye, Heart, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
@@ -38,11 +38,11 @@ const ProductCard: FC<ServerProductCardProps> = ({
   const {
     id,
     productName,
+    productDescription,
     productPrice,
     productDiscountPercentage = 0,
     averageCustomerRating = 0,
     coverImageUrl,
-    rekognitionLabels = [],
   } = product;
 
   const isInWishlist = wishlistData?.wishlist.some(
@@ -99,10 +99,10 @@ const ProductCard: FC<ServerProductCardProps> = ({
     >
       {/* Image + Wishlist + Discount */}
       <div
-        className={`relative overflow-hidden rounded-lg border border-[#fee1e1] bg-white ${
+        className={`relative overflow-hidden rounded-md border border-gray-200 bg-[#f3f4f6] ${
           isListView
             ? "w-36 h-36 flex-shrink-0"
-            : "h-48 flex justify-center items-center"
+            : "h-36 sm:h-48 flex justify-center items-center"
         }`}
       >
         {discount && (
@@ -139,6 +139,9 @@ const ProductCard: FC<ServerProductCardProps> = ({
         <h3 className="text-base font-semibold text-gray-900 mb-1 line-clamp-2">
           {productName.slice(0, 18)}
         </h3>
+        <p className="text-sm font-normal mb-1 line-clamp-2">
+          {productDescription !== undefined && productDescription.slice(0, 18)}
+        </p>
 
         {/* Price + Rating */}
         <div className="flex items-center justify-between mb-2">
@@ -159,26 +162,11 @@ const ProductCard: FC<ServerProductCardProps> = ({
           </div>
         </div>
 
-        {/* Tags/Labels */}
-        <div className="flex flex-wrap gap-1.5 mb-2">
-          {rekognitionLabels.map((label: any, idx: any) => (
-            <div
-              key={idx}
-              className="flex gap-x-1 items-center bg-[#FF7D7D36] rounded-full px-2 py-0.5"
-            >
-              {label.toLowerCase().includes("best") && (
-                <Flame className="text-[#FE8800] w-3.5 h-3.5" />
-              )}
-              <Span className="text-xs text-gray-700">{label}</Span>
-            </div>
-          ))}
-        </div>
-
         <div className="space-y-2.5">
           <Button
             onClick={handleAddToCart}
             disabled={isAdding}
-            className="w-full py-1.5 flex justify-center items-center gap-x-2 transition-colors bg-scarlet-red hover:bg-red-600 text-white text-sm font-medium rounded disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full py-2 flex justify-center items-center gap-x-2 rounded-md transition-colors duration-200 bg-scarlet-red hover:bg-red-600 text-white text-sm font-medium disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-scarlet-red"
           >
             {isAdding ? (
               <>
@@ -188,16 +176,16 @@ const ProductCard: FC<ServerProductCardProps> = ({
             ) : (
               <>
                 <ShoppingCart className="w-4 h-4" />
-                Add to Cart
+                <span className="hidden sm:block">Add to Cart</span>
               </>
             )}
           </Button>
           <Link
             href={`/shop/all/${id}`}
-            className="w-full py-1.5 flex justify-center items-center gap-x-2 bg-gray-900 transition-colors hover:bg-gray-800 text-white text-sm font-medium rounded"
+            className="w-full py-1.5 flex justify-center items-center gap-x-2 border border-gray-300 transition-colors text-black text-sm font-medium rounded"
           >
-            <View className="w-4 h-4" />
-            View Product
+            <Eye className="w-4 h-4" />
+            <span className="hidden sm:block">View Product</span>
           </Link>
         </div>
       </div>

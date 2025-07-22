@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Section from "@/components/atoms/Section";
 import ContainerBox from "@/components/layout/ContainerBox";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
@@ -9,92 +9,48 @@ import ProductColorSelector from "@/components/molecules/product-details/Product
 import ProductSizeSelector from "@/components/molecules/product-details/ProductSizeSelector";
 import QuantitySelector from "@/components/molecules/product-details/QuantitySelector";
 import ProductActionBtn from "@/components/molecules/product-details/ProductActionBtn";
-// import PhotoReviewSlider from "@/components/molecules/product-details/PhotoReviewSlider";
-// import ProductReviewCard from "@/components/molecules/product-details/ProductReviewCard";
-import SpecRow from "@/components/molecules/product-details/SpecRow";
-// import RatingDistribution from "@/components/molecules/product-details/RatingDistribution";
-// import { calculateRatingDistribution } from "@/utils/calculateRatingDistribution";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { RootState } from "@/store/store";
+import { ProductT } from "@/types/real.product";
 import { Tab, Tabs } from "@/components/molecules/global/Tab";
 import { setProductDetailsTab } from "@/store/slices/tab/tabsSlice";
+import SpecRow from "@/components/molecules/product-details/SpecRow";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { RootState } from "@/store/store";
+import ReactPlayer from "react-player";
+import PhotoReviewSlider from "@/components/molecules/product-details/PhotoReviewSlider";
+import RatingDistribution from "@/components/molecules/product-details/RatingDistribution";
+import ProductReviewCard from "@/components/molecules/product-details/ProductReviewCard";
+import Pagination from "@/components/molecules/global/Pagination";
+import { calculateRatingDistribution } from "@/utils/calculateRatingDistribution";
 import {
   useAddReviewMutation,
-  useGetEstimatedDeliveryQuery,
+  useGetProductReviewsQuery,
 } from "@/store/api/productDetailsApi";
 import ReviewForm from "@/components/molecules/global/ReviewForm";
-import { useGetProductDetailsQuery } from "@/store/api/productDetailsApi";
-// import Pagination from "@/components/molecules/global/Pagination";
-import ReactPlayer from "react-player";
-import SkeletonProductImageGallery from "@/components/molecules/product-details/SkeletonProductImageGallery";
-import SkeletonProductDetailsSidebar from "@/components/molecules/product-details/SkeletonProductDetailsSidebar";
-import SkeletonTabs from "@/components/molecules/global/SkeletonTabs";
-import EstimateDeliveryDate from "@/components/molecules/product-details/EstimateDeliveryDate";
-import { setProductId } from "@/store/slices/product-details/productSetIdSlice";
+import Spinner from "@/components/molecules/global/Spinner";
 
 interface ProductDetailsWrapperProps {
+  product: ProductT;
   token: string | undefined;
-  id: string;
 }
 
 const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
+  product,
   token,
-  id,
 }) => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector(
     (state: RootState) => state.tabs.productDetailsTab
   );
-  const { data, isLoading, isError } = useGetProductDetailsQuery(id);
+  const { data: reviews, isLoading } = useGetProductReviewsQuery(
+    product.id.toString()
+  );
 
-  const {
-    data: deliveryData,
-    isLoading: isDeliveryLoading,
-    isError: isDeliveryError,
-  } = useGetEstimatedDeliveryQuery(id);
-
-  const shouldRenderDeliveryDate =
-    deliveryData && !isDeliveryLoading && !isDeliveryError;
-  // const [currentPage, setCurrentPage] = useState(1);
+  console.log(product.totalCustomerReviews);
   const [addReview] = useAddReviewMutation();
 
-  const product = data?.product;
+  const reviewList = reviews?.reviews ?? [];
 
-  useEffect(() => {
-    if (!product?.id) return;
-    dispatch(setProductId(product.id));
-  }, [dispatch, product?.id]);
-
-  // skeleton loader for product details
-  if (isLoading || isDeliveryLoading) {
-    return (
-      <Section>
-        <MaxWidthWrapper className="space-y-6">
-          <ContainerBox hasBackground={true}>
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="basis-3/5">
-                <SkeletonProductImageGallery />
-              </div>
-              <SkeletonProductDetailsSidebar />
-            </div>
-          </ContainerBox>
-
-          <ContainerBox className="py-8 px-4 font-montserrat bg-white shadow-sm rounded-md">
-            <SkeletonTabs tabCount={4} activeIndex={0} />
-          </ContainerBox>
-        </MaxWidthWrapper>
-      </Section>
-    );
-  }
-
-  if (isError) {
-    return <div>Error loading product details.</div>;
-  }
-
-  if (!product) {
-    return <div>Product not found.</div>;
-  }
-
+  const [currentPage, setCurrentPage] = useState(1);
   const productSizes = product.productSizes
     ? product.productSizes.split(", ")
     : [];
@@ -114,21 +70,21 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
     !!product.productWarrantyInfo ||
     !!product.productReturnPolicy;
 
-  // const ratingDistribution = calculateRatingDistribution(product.reviews || []);
+  const ratingDistribution = calculateRatingDistribution(reviewList);
 
-  // const reviewPhotos = product.reviews
-  //   .map((review) => review.reviewPhoto)
-  //   .filter((photo): photo is string => Boolean(photo));
+  const reviewPhotos = reviewList
+    .map((review) => review.reviewPhoto)
+    .filter((photo): photo is string => Boolean(photo));
 
-  // const REVIEWS_PER_PAGE = 3;
+  const REVIEWS_PER_PAGE = 3;
 
-  // const totalReviews = product.reviews.length;
-  // const totalPages = Math.ceil(totalReviews / REVIEWS_PER_PAGE);
+  const totalReviews = reviewList.length;
+  const totalPages = Math.ceil(totalReviews / REVIEWS_PER_PAGE);
 
-  // const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
-  // const endIndex = startIndex + REVIEWS_PER_PAGE;
+  const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
+  const endIndex = startIndex + REVIEWS_PER_PAGE;
 
-  // const paginatedReviews = product.reviews.slice(startIndex, endIndex);
+  const paginatedReviews = reviewList.slice(startIndex, endIndex);
 
   return (
     <Section>
@@ -146,7 +102,7 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
                 title={product.productName}
                 price={product.productPrice}
                 originalPrice={product.productDiscountPercentage ?? undefined}
-                reviews={product.reviews?.length ?? 0}
+                reviews={reviewList.length ?? 0}
                 description={product.productDescription}
                 tag={
                   product.productBestSaleTag?.slice(
@@ -164,9 +120,6 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
               <QuantitySelector
                 productInStock={product.availableStockQuantity}
               />
-              {shouldRenderDeliveryDate && (
-                <EstimateDeliveryDate {...deliveryData} />
-              )}
 
               <ProductActionBtn />
             </div>
@@ -251,7 +204,12 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
               )}
             </Tab>
             <Tab label="Review">
-              {/* {product.reviews?.length > 0 && (
+              {isLoading ? (
+                <div className="py-10 text-center">
+                  <Spinner className="mx-auto text-scarlet-red" />
+                  <p className="text-gray-500 mt-2">Loading reviews...</p>
+                </div>
+              ) : reviewList?.length > 0 ? (
                 <div className="space-y-3">
                   {reviewPhotos.length > 0 && (
                     <div className="mt-5">
@@ -285,7 +243,10 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
                     )}
                   </div>
                 </div>
-              )} */}
+              ) : (
+                <p className="text-sm text-gray-500 py-4">No reviews yet.</p>
+              )}
+
               <h2 className="text-xl font-bold mb-2 text-left">Add Review</h2>
               <ReviewForm
                 productId={product.id}

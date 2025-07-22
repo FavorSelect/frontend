@@ -82,6 +82,7 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
     <div
       className={cn(
         "flex items-center bg-[#fff1f1] font-roboto rounded-xl border border-[#F5282814] relative",
+        mode === "mobile" ? "h-11 xs:h-12" : "h-12",
         className
       )}
       style={style}
@@ -100,8 +101,9 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
           onChange={handleChange}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          className="relative z-10 bg-transparent text-scarlet-red placeholder-transparent text-sm flex-1 outline-none border-none h-12 font-normal placeholder:[letter-spacing:0.05em] transition-all duration-500 w-full"
-          placeholder=" "
+          className={cn(
+            "relative z-10 bg-transparent text-scarlet-red placeholder-transparent text-sm flex-1 outline-none border-none font-normal h-full placeholder:[letter-spacing:0.05em] transition-all duration-500 w-full"
+          )}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleManualSearch();
           }}

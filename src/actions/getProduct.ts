@@ -1,19 +1,24 @@
 import { safeProductFetch } from "@/lib/api/productHelper";
+import { ProductT } from "@/types/real.product";
 
 export const getPopularProduct = () =>
-  safeProductFetch("api/general/products", "products");
-
-export const getPopularProductDetails = (id: string) =>
-  safeProductFetch(`api/general/products/${id}`, "products");
+  safeProductFetch<ProductT>("api/general/products", "products");
 
 export const getCozyEveningProduct = () =>
-  safeProductFetch("api/general/products/category/lotion", "products");
+  safeProductFetch<ProductT>(
+    "api/general/products/category/lotion",
+    "products"
+  );
 
 export const getRecommendationProduct = () =>
-  safeProductFetch("api/recommendation", "recommended", true);
+  safeProductFetch<ProductT>("api/recommendation", "recommended", true);
 
 export const getSimilarProducts = () =>
-  safeProductFetch("api/general/products/similar/79", "similarProducts", true);
+  safeProductFetch<ProductT>(
+    "api/general/products/similar/79",
+    "similarProducts",
+    true
+  );
 
 export const getProductByCategoriesAndBrands = async (
   queryParams: Record<string, string>

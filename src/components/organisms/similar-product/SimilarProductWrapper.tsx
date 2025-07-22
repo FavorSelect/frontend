@@ -10,18 +10,18 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 type SimilarProductListProps = {
-  products: ProductT[] | any[];
+  products: ProductT[];
 };
 
 const SimilarProductWrapper = ({ products }: SimilarProductListProps) => {
   return (
     <Section>
       <MaxWidthWrapper>
-        <ContainerBox className="py-8 px-5 bg-white shadow-sm rounded-md space-y-4">
+        <ContainerBox className="sm:bg-white sm:shadow-sm sm:rounded-md space-y-4">
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading>Similar Products</Heading>
             <Link
-              href="/shop"
+              href="/shop/all/"
               className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
             >
               <Span>All Products</Span>

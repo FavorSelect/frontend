@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import { Button } from "@/components/atoms/Button";
 import Paragraph from "@/components/atoms/Paragraph";
@@ -15,6 +15,7 @@ import { setAccountDeletionStatus } from "@/store/slices/user/accountDeletionSta
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import SkeletonDeleteAccount from "./SkeletonDeleteAccount";
+import { Textarea } from "@/components/atoms/Textarea";
 
 const reasons = [
   "Concerned about data privacy and security",
@@ -29,10 +30,13 @@ const reasons = [
   "Other (please specify)",
 ];
 
-const reasonOptions = reasons.map((r) => ({ label: r, value: r }));
-
 function DeleteAccount() {
+  const reasonOptions = useMemo(
+    () => reasons.map((r) => ({ label: r, value: r })),
+    []
+  );
   const dispatch = useDispatch();
+  const [customReason, setCustomReason] = useState("");
 
   const [selectedReason, setSelectedReason] = useState<{
     value: string;
@@ -64,14 +68,25 @@ function DeleteAccount() {
   }, [data, dispatch]);
 
   const handleDelete = async () => {
-    if (!selectedReason) {
-      toast.error("Please select a reason", { duration: 4000 });
+    const isOtherSelected = selectedReason?.value === "Other (please specify)";
+    const reasonToSend =
+      isOtherSelected && customReason.trim() !== ""
+        ? customReason.trim()
+        : selectedReason?.value;
+
+    if (!reasonToSend) {
+      toast.error(
+        isOtherSelected
+          ? "Please specify your reason in the text area"
+          : "Please select a reason",
+        { duration: 4000 }
+      );
       return;
     }
 
     try {
       const res = await requestAccountDeletion({
-        reason: selectedReason.value,
+        reason: reasonToSend,
       }).unwrap();
 
       if (res?.request?.uniqueAccountDeletedId) {
@@ -83,6 +98,7 @@ function DeleteAccount() {
           })
         );
         setSelectedReason(null);
+        setCustomReason("");
       }
 
       toast.success(res.message || "Account deletion requested", {
@@ -94,6 +110,8 @@ function DeleteAccount() {
       });
     }
   };
+
+  const isOtherSelected = selectedReason?.value === "Other (please specify)";
 
   if (isFetchingStatus) {
     return <SkeletonDeleteAccount />;
@@ -118,7 +136,15 @@ function DeleteAccount() {
         isDisabled={isLoading || reduxDeletionStatus}
         className="mb-4 text-sm"
       />
-
+      {isOtherSelected && (
+        <Textarea
+          value={customReason}
+          onChange={(e) => setCustomReason(e.target.value)}
+          placeholder="Please specify your reason..."
+          className="w-full mb-4 border border-gray-300 rounded-md p-2 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-scarlet-red"
+          rows={4}
+        />
+      )}
       <Button
         onClick={handleDelete}
         disabled={isLoading || reduxDeletionStatus}

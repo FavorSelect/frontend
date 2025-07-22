@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Section from "@/components/atoms/Section";
 import MaxWidthWrapper from "@/components/layout/MaxWidthWrapper";
@@ -13,7 +12,7 @@ import { ProductT } from "@/types/real.product";
 import ProductCard from "@/components/molecules/product/ProductCard";
 
 type TopProductListProps = {
-  products: ProductT[] | any[];
+  products: ProductT[];
   banners: Banner[];
 };
 
@@ -32,7 +31,7 @@ const PopularProductGrid = ({ products, banners }: TopProductListProps) => {
           <div className="flex justify-between items-center font-montserrat font-semibold text-[#2E2C2C]">
             <Heading className="text-xl">The populars</Heading>
             <Link
-              href="/shop"
+              href="/shop/all/"
               className="flex items-center gap-x-1 text-xs xs:text-sm sm:text-base px-2 py-1.5 font-semibold"
             >
               <Span>All Products</Span>

@@ -13,7 +13,7 @@ const SocialLinks = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Instagram className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700" />
+            <Instagram className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700 hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
@@ -22,7 +22,7 @@ const SocialLinks = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Youtube className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700" />
+            <Youtube className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700 hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
@@ -31,7 +31,7 @@ const SocialLinks = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Facebook className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700" />
+            <Facebook className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700 hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
@@ -40,7 +40,7 @@ const SocialLinks = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <X className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700" />
+            <X className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700 hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
         <li>
@@ -49,7 +49,7 @@ const SocialLinks = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Linkedin className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700" />
+            <Linkedin className="w-3.5 h-3.5 md:w-4 xl:h-4 text-gray-700 hover:text-scarlet-red transition-colors duration-150 ease-in-out" />
           </Link>
         </li>
       </ul>

@@ -54,7 +54,7 @@ const tabs = [
     href: "/dashboard/payment-method",
   },
   {
-    label: "Account Setting",
+    label: "Account Settings",
     icon: <Settings className="w-5 h-5" />,
     href: "/dashboard/account-setting",
   },
