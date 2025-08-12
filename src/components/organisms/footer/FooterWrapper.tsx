@@ -240,7 +240,7 @@ const FooterWrapper = () => {
         {/* Logos */}
         <div className="flex justify-center items-center gap-8">
           <Image
-            src="powered-by-favor.png"
+            src="/powered-by-favor.png"
             alt="Powered by Favor"
             className="h-6 object-contain"
             width={100}
