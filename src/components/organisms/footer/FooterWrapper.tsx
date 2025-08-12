@@ -157,7 +157,7 @@ const FooterWrapper = () => {
               <FooterColumn
                 links={accountLinks}
                 onLogout={handleLogout}
-                className="pl-2 pb-2"
+                className=""
               />
             ),
           },
@@ -192,7 +192,7 @@ const FooterWrapper = () => {
             ),
           },
         ].map((section) => (
-          <div key={section.id} className="px-[17px] border-b border-[#2a2a2a]">
+          <div key={section.id} className="border-b border-[#2a2a2a]">
             <button
               className="w-full flex justify-between items-center cursor-pointer py-4 text-sm uppercase"
               onClick={() => toggleSection(section.id)}
