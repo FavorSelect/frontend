@@ -211,7 +211,7 @@ const FooterWrapper = () => {
                 openSection === section.id ? "open" : ""
               }`}
             >
-              <div className="pl-[9px] pr-[17px] py-2 bg-[#0d0d0d] overflow-x-hidden text-left w-full"> {section.content}</div>
+              <div className="pl-[5px] pr-[17px] py-2 bg-[#0d0d0d] overflow-x-hidden text-left w-full"> {section.content}</div>
             </div>
           </div>
         ))}
