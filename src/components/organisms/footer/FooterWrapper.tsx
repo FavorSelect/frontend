@@ -244,11 +244,7 @@ const FooterWrapper = () => {
     alt="Powered by Favor"
     width={100}
     height={24}
-    className="object-contain"
-    style={{
-      filter: 'brightness(0) invert(1)',
-      opacity: 1
-    }}
+    className="h-6 w-auto object-contain brightness-0 invert"
   />
   <Image
     src="/ssl-certificate.png"
