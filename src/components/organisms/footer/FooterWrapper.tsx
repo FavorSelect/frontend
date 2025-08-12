@@ -242,13 +242,11 @@ const FooterWrapper = () => {
  <Image
   src="/powered-by-favor.png"
   alt="Powered by Favor"
-  width={100}
-  height={24}
   className="object-contain"
   style={{
     filter: 'brightness(0) invert(1)',
-    height: '24px',
-    width: 'auto'
+    height: '40px',
+    width: '100'
   }}
 />
   <Image
