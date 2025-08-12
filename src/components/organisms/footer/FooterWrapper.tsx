@@ -242,18 +242,20 @@ const FooterWrapper = () => {
  <Image
   src="/powered-by-favor.png"
   alt="Powered by Favor"
+  width={120}
+  height={60}
   className="object-contain"
   style={{
     filter: 'brightness(0) invert(1)',
-    height: '40px',
-    width: '100'
+    height: '60px',
+    width: 'auto'
   }}
 />
   <Image
     src="/ssl-certificate.png"
     alt="SSL Secure"
-    width={100}
-    height={20}
+    width={120}
+    height={60}
     className="object-contain"
   />
 </div>
