@@ -93,7 +93,7 @@ const FooterWrapper = () => {
       </MaxWidthWrapper>
       {/* Mobile View */}
       <div className="flex flex-col md:hidden divide-y divide-gray-700">
-        <div className="py-6 border-b border-[#2a2a2a] flex flex-col items-center gap-y-6">
+        <div className="py-6 border-b border-[#0d0d0d] flex flex-col items-center gap-y-6">
           <FooterLogo />
           <ul className="flex gap-x-3 items-center text-white justify-center">
             <li>
