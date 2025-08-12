@@ -253,7 +253,7 @@ const FooterWrapper = () => {
     src="/ssl-certificate.png"
     alt="SSL Secure"
     width={100}
-    height={40}
+    height={20}
     className="object-contain"
   />
 </div>
