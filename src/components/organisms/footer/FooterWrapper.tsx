@@ -254,7 +254,8 @@ const FooterWrapper = () => {
     className="object-contain"
   />
 </div>
-        
+</div>
+      
       <div className="border-t border-[#2a2a2a] flex items-center justify-center py-5 px-4 sm:px-0">
         <Copyright />
       </div>
