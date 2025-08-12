@@ -172,7 +172,7 @@ const FooterWrapper = () => {
                   { name: "Blog", href: "/blog" },
                   { name: "Contact", href: "/contact" },
                 ]}
-                className="pl-2 pb-2"
+                className=""
               />
             ),
           },
@@ -187,7 +187,7 @@ const FooterWrapper = () => {
                   { name: "Blog", href: "/blog" },
                   { name: "Contact", href: "/contact" },
                 ]}
-                className="pl-2 pb-2"
+                className=""
               />
             ),
           },
