@@ -19,7 +19,7 @@ const FooterColumn = ({
 }: FooterColumnProps) => (
   <div className={cn("font-montserrat space-y-4", className)} style={style}>
     {title && <Subtitle title={title} />}
-    <ul className="text-base space-y-2 text-[#C2C2C2] font-normal">
+    <ul className="text-base space-y-2 text-[#8E90A7] font-normal">
       {links.map((link) => (
         <li
           key={link.name}
