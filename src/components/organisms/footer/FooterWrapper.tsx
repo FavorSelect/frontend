@@ -182,10 +182,10 @@ const FooterWrapper = () => {
             content: (
               <FooterColumn
                 links={[
-                  { name: "Privacy Policy", href: "/privacy-policy" },
-                  { name: "Terms Of Use", href: "/terms" },
-                  { name: "Blog", href: "/blog" },
-                  { name: "Contact", href: "/contact" },
+                  { name: "Forum Subjects", href: "/forum-subjects" },
+                  { name: "Latest Announcements", href: "/announcements" },
+                  { name: "Campaigns", href: "/campaigns" },
+                  { name: "Become a seller", href: "/seller" },
                 ]}
                 className=""
               />
@@ -211,7 +211,7 @@ const FooterWrapper = () => {
                 openSection === section.id ? "open" : ""
               }`}
             >
-              <div className="pl-0 pr-[17px] py-2 bg-[#0D0D0D] overflow-x-hidden text-left w-full !text-[#8E90A7]"> {section.content}</div>
+              <div className="pl-0 pr-[17px] py-2 bg-[#0D0D0D] overflow-x-hidden text-left w-full"> {section.content}</div>
             </div>
           </div>
         ))}
