@@ -257,6 +257,10 @@ const FooterWrapper = () => {
     width={120}
     height={60}
     className="object-contain"
+    style={{
+      height: '60px',
+      width: 'auto'
+    }}
   />
 </div>
 </div>
