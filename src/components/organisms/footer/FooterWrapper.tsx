@@ -148,7 +148,7 @@ const FooterWrapper = () => {
           {
             id: "support",
             title: "Support",
-            content: <BrandInfo isTitle={false} className="pl-2 pb-2" />,
+            content: <BrandInfo isTitle={false} />,
           },
           {
             id: "account",
