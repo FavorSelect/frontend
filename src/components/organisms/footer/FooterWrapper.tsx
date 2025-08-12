@@ -246,8 +246,8 @@ const FooterWrapper = () => {
     height={24}
     className="object-contain"
     style={{
-      filter: 'brightness(1.5) invert(1)',
-      opacity: 0.9
+      filter: 'brightness(0) invert(1)',
+      opacity: 1
     }}
   />
   <Image
