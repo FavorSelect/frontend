@@ -211,7 +211,7 @@ const FooterWrapper = () => {
                 openSection === section.id ? "open" : ""
               }`}
             >
-              <div className="py-3 px-2.5 bg-black">{section.content}</div>
+              <div className="py-3 px-2.5 bg-[#0d0d0d]">{section.content}</div>
             </div>
           </div>
         ))}
