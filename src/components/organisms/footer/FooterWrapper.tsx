@@ -239,13 +239,18 @@ const FooterWrapper = () => {
 
         {/* Logos */}
        <div className="flex justify-center items-center gap-8 flex-wrap">
-  <Image
-    src="/powered-by-favor.png"
-    alt="Powered by Favor"
-    width={100}
-    height={24}
-    className="h-6 w-auto object-contain brightness-0 invert"
-  />
+ <Image
+  src="/powered-by-favor.png"
+  alt="Powered by Favor"
+  width={100}
+  height={24}
+  className="object-contain"
+  style={{
+    filter: 'brightness(0) invert(1)',
+    height: '24px',
+    width: 'auto'
+  }}
+/>
   <Image
     src="/ssl-certificate.png"
     alt="SSL Secure"
