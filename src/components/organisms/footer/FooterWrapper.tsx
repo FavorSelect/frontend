@@ -238,7 +238,7 @@ const FooterWrapper = () => {
         </div>
 
         {/* Logos */}
-       <div className="flex justify-center items-center gap-8 flex-wrap">
+       <div className="flex justify-center items-center gap-12 flex-wrap">
  <Image
   src="/powered-by-favor.png"
   alt="Powered by Favor"
