@@ -192,7 +192,7 @@ const FooterWrapper = () => {
             ),
           },
         ].map((section) => (
-          <div key={section.id} className="px-[17px] border-b border-[#2a2a2a]">
+          <div key={section.id} className="border-b border-[#2a2a2a]">
             <button
               className="w-full flex justify-between items-center cursor-pointer py-4 text-sm uppercase"
               onClick={() => toggleSection(section.id)}
@@ -211,7 +211,7 @@ const FooterWrapper = () => {
                 openSection === section.id ? "open" : ""
               }`}
             >
-              <div className="py-3 px-2.5 bg-[#0d0d0d]">{section.content}</div>
+              <div className="px-[17px] py-2 bg-[#0d0d0d]">{section.content}</div>
             </div>
           </div>
         ))}
