@@ -22,9 +22,8 @@ const FooterColumn = ({
     <ul className="text-base space-y-2 text-[#8E90A7] font-normal">
       {links.map((link) => (
         <li
-          key={link.name}
-          className="text-sm sm:text-base hover:text-scarlet-red transition-colors duration-150 ease-in-out"
-        >
+          key={link.name}        
+          >
           {link.name === "Logout" ? (
             <button type="button" onClick={onLogout} className="cursor-pointer">
               {link.name}
