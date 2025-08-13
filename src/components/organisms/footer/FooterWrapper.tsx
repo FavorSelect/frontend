@@ -182,8 +182,8 @@ const FooterWrapper = () => {
             content: (
               <FooterColumn
                 links={[
-                  { name: "Forum Subjects", href: "/forum-subjects" },
-                  { name: "Latest Announcements", href: "/announcements" },
+                  { name: "Help Center", href: "/help-center" },
+                  { name: "Discover Hub", href: "/announcements" },
                   { name: "Campaigns", href: "/campaigns" },
                   { name: "Become a seller", href: "/seller" },
                 ]}
