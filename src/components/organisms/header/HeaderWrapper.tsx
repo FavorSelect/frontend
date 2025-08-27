@@ -21,7 +21,9 @@ const HeaderWrapper = ({ categories }: { categories: Category[] }) => {
           className="space-y-3 px-0 py-0 sm:py-0 sm:px-0 xl:py-1.5 xl:px-0
         "
         >
-          <TopHeader scrollDirection={scrollDirection} />
+          <div className="relative z-32">
+            <TopHeader scrollDirection={scrollDirection} />
+          </div>
           {/* Main Header*/}
           <div className="relative z-30">
             <div

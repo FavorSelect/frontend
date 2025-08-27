@@ -108,18 +108,21 @@ const LanguageSelector = () => {
         )}
       >
         {languages.map((lang, index) => (
-          <li key={lang.code}>
+          <li
+            key={lang.code}
+            role="option"
+            aria-selected={selectedLang === lang.code}
+            className="focus:outline-none"
+          >
             <Button
               ref={(el) => {
                 optionsRef.current[index] = el;
               }}
-              role="option"
-              aria-selected={selectedLang === lang.code}
               onClick={() => handleSelectLanguage(lang.code)}
               onKeyDown={handleKeyDown}
               className={cn(
                 "block w-full text-left px-4 py-2 text-sm cursor-pointer relative z-10 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:ring-offset-1",
-                selectedLang === lang.code && " font-semibold"
+                selectedLang === lang.code && "font-semibold"
               )}
             >
               {lang.label}

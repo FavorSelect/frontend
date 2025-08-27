@@ -87,7 +87,9 @@ export default function ProfileDropdown() {
       <div
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
-        className="flex flex-col items-center group"
+        aria-controls="profile-dropdown"
+        aria-label="Toggle profile menu"
+        className="flex flex-col items-center group cursor-pointer focus:outline-none"
       >
         {isLoggedIn && user ? (
           <>
@@ -107,9 +109,12 @@ export default function ProfileDropdown() {
           </>
         )}
       </div>
-
+      <span id="auth-pages-dropdown" className="sr-only">
+        Profile dropdown menu
+      </span>
       {/* Dropdown Menu */}
       <ul
+        id="profile-dropdown"
         role="listbox"
         aria-labelledby="auth-pages-dropdown"
         className={cn(
@@ -122,7 +127,7 @@ export default function ProfileDropdown() {
       >
         {!isLoggedIn ? (
           <>
-            <li onClick={handleLinkClick}>
+            <li role="option" aria-selected="false" onClick={handleLinkClick}>
               <Link
                 href="/signup"
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
@@ -131,7 +136,7 @@ export default function ProfileDropdown() {
                 Sign Up
               </Link>
             </li>
-            <li onClick={handleLinkClick}>
+            <li role="option" aria-selected="false" onClick={handleLinkClick}>
               <Link
                 href="/login"
                 className="flex items-center px-4 py-2 text-gray-700 hover:bg-scarlet-red hover:text-white transition-colors"
@@ -143,7 +148,7 @@ export default function ProfileDropdown() {
           </>
         ) : (
           <>
-            <li onClick={handleLinkClick}>
+            <li role="option" aria-selected="false" onClick={handleLinkClick}>
               <Link
                 href="/dashboard"
                 className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700 transition-colors"
@@ -152,7 +157,7 @@ export default function ProfileDropdown() {
                 Profile
               </Link>
             </li>
-            <li onClick={handleLogout}>
+            <li role="option" aria-selected="false" onClick={handleLogout}>
               <button className="flex w-full items-center px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700 transition-colors cursor-pointer">
                 <LogOut className="mr-2 w-5 h-5" />
                 Logout

@@ -96,7 +96,11 @@ const MainHeaderSearchBar: FC<MainHeaderSearchBarProps> = ({
 
       {/* Search Input */}
       <div className={cn("relative w-full", searchTerm && "typing-disabled")}>
+        <label htmlFor="main-search" className="sr-only">
+          Search products
+        </label>
         <Input
+          id="main-search"
           value={searchTerm}
           onChange={handleChange}
           onBlur={handleBlur}
