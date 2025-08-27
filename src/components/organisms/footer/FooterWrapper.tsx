@@ -93,7 +93,7 @@ const FooterWrapper = () => {
       </MaxWidthWrapper>
       {/* Mobile View */}
       <div className="flex flex-col md:hidden divide-y divide-gray-700">
-        <div className="py-6 border-b border-[#2a2a2a] flex flex-col items-center gap-y-6">
+        <div className="py-6 border-b border-[#0d0d0d] flex flex-col items-center gap-y-6">
           <FooterLogo />
           <ul className="flex gap-x-3 items-center text-white justify-center">
             <li>
@@ -148,7 +148,7 @@ const FooterWrapper = () => {
           {
             id: "support",
             title: "Support",
-            content: <BrandInfo isTitle={false} className="pl-2 pb-2" />,
+            content: <BrandInfo isTitle={false} />,
           },
           {
             id: "account",
@@ -157,7 +157,7 @@ const FooterWrapper = () => {
               <FooterColumn
                 links={accountLinks}
                 onLogout={handleLogout}
-                className="pl-2 pb-2"
+                className=""
               />
             ),
           },
@@ -172,7 +172,7 @@ const FooterWrapper = () => {
                   { name: "Blog", href: "/blog" },
                   { name: "Contact", href: "/contact" },
                 ]}
-                className="pl-2 pb-2"
+                className=""
               />
             ),
           },
@@ -182,12 +182,12 @@ const FooterWrapper = () => {
             content: (
               <FooterColumn
                 links={[
-                  { name: "Privacy Policy", href: "/privacy-policy" },
-                  { name: "Terms Of Use", href: "/terms" },
-                  { name: "Blog", href: "/blog" },
-                  { name: "Contact", href: "/contact" },
+                  { name: "Help Center", href: "/help-center" },
+                  { name: "Smart Picks", href: "/smartpicks" },
+                  { name: "Campaigns", href: "/campaigns" },
+                  { name: "Become a seller", href: "/seller" },
                 ]}
-                className="pl-2 pb-2"
+                className=""
               />
             ),
           },
@@ -211,7 +211,7 @@ const FooterWrapper = () => {
                 openSection === section.id ? "open" : ""
               }`}
             >
-              <div className="py-3 px-2.5 bg-black">{section.content}</div>
+              <div className="pl-0 pr-[17px] py-2 bg-[#0D0D0D] overflow-x-hidden text-left w-full"> {section.content}</div>
             </div>
           </div>
         ))}
@@ -238,24 +238,33 @@ const FooterWrapper = () => {
         </div>
 
         {/* Logos */}
-        <div className="flex justify-center items-center gap-8">
-          <Image
-            src="/images/powered-by-favor.png"
-            alt="Powered by Favor"
-            className="h-6 object-contain"
-            width={100}
-            height={100}
-          />
-          <Image
-            src="/images/ssl-badge.png"
-            alt="SSL Secure"
-            className="h-10 object-contain"
-            width={100}
-            height={100}
-          />
-        </div>
-      </div>
-
+       <div className="flex justify-center items-center gap-3 flex-wrap">
+ <Image
+  src="/powered-by-favor.png"
+  alt="Powered by Favor"
+  width={120}
+  height={60}
+  className="object-contain"
+  style={{
+    filter: 'brightness(0) invert(1)',
+    height: '60px',
+    width: 'auto'
+  }}
+/>
+  <Image
+    src="/ssl-certificate.png"
+    alt="SSL Secure"
+    width={120}
+    height={60}
+    className="object-contain"
+    style={{
+      height: '60px',
+      width: 'auto'
+    }}
+  />
+</div>
+</div>
+      
       <div className="border-t border-[#2a2a2a] flex items-center justify-center py-5 px-4 sm:px-0">
         <Copyright />
       </div>

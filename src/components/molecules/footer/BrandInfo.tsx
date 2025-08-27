@@ -17,7 +17,7 @@ const BrandInfo: FC<BrandInfoProps> = ({
   return (
     <div className={cn("font-montserrat space-y-4", className)} style={style}>
       {isTitle && <Subtitle title="Support" />}
-      <div className="text-sm sm:text-base space-y-2 text-[#C2C2C2] font-normal">
+      <div className="text-sm sm:text-base space-y-2 text-[#8E90A7] font-normal">
         <Paragraph className="hover:text-scarlet-red transition-colors duration-150 ease-in-out cursor-pointer">
           Address
         </Paragraph>
