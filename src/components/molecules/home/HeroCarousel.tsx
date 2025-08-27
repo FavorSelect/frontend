@@ -98,6 +98,7 @@ const HeroCarousel = ({ banners }: { banners: Banner[] }) => {
         {banners.map((_, index) => (
           <Button
             key={index}
+            aria-label={`Go to slide ${index + 1}`}
             className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
               index === selectedIndex ? "bg-scarlet-red scale-125" : "bg-white"
             }`}

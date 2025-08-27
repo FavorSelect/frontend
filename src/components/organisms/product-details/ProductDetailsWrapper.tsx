@@ -24,9 +24,11 @@ import { calculateRatingDistribution } from "@/utils/calculateRatingDistribution
 import {
   useAddReviewMutation,
   useGetProductReviewsQuery,
+  useGetEstimatedDeliveryQuery,
 } from "@/store/api/productDetailsApi";
 import ReviewForm from "@/components/molecules/global/ReviewForm";
 import Spinner from "@/components/molecules/global/Spinner";
+import EstimateDeliveryDate from "@/components/molecules/product-details/EstimateDeliveryDate";
 
 interface ProductDetailsWrapperProps {
   product: ProductT;
@@ -45,7 +47,15 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
     product.id.toString()
   );
 
-  console.log(product.totalCustomerReviews);
+  const {
+    data: estimatedDeliveryData,
+    isFetching: isEstimating,
+    isError: estimateError,
+  } = useGetEstimatedDeliveryQuery(product.id.toString(), {
+    skip: !product?.id,
+  });
+
+  console.log(estimatedDeliveryData);
   const [addReview] = useAddReviewMutation();
 
   const reviewList = reviews?.reviews ?? [];
@@ -86,6 +96,8 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
 
   const paginatedReviews = reviewList.slice(startIndex, endIndex);
 
+  const estimate = estimatedDeliveryData?.estimate;
+
   return (
     <Section>
       <MaxWidthWrapper className="space-y-6">
@@ -120,7 +132,22 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
               <QuantitySelector
                 productInStock={product.availableStockQuantity}
               />
-
+              {/* ⬇️ Estimated Delivery block */}
+              {isEstimating ? (
+                <div className="border p-2 rounded-md bg-light-gray animate-pulse">
+                  <div className="h-4 w-40 bg-gray-200 rounded mb-2" />
+                  <div className="h-3 w-48 bg-gray-200 rounded mb-1" />
+                  <div className="h-3 w-44 bg-gray-200 rounded mb-1" />
+                  <div className="h-3 w-52 bg-gray-200 rounded" />
+                </div>
+              ) : estimateError ? (
+                <p className="text-xs text-gray-500">
+                  Couldn’t load estimated delivery right now.
+                </p>
+              ) : estimate ? (
+                <EstimateDeliveryDate estimate={estimate} />
+              ) : null}
+              {/* ⬆️ Estimated Delivery block */}
               <ProductActionBtn />
             </div>
           </div>

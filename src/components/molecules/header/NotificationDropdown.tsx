@@ -29,17 +29,20 @@ export default function NotificationDropdown() {
   return (
     <div ref={ref} className="relative text-sm">
       {/* Bell Button */}
-      <div
+      <button
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
-        className="flex flex-col items-center group cursor-pointer"
+        aria-controls="notification-dropdown"
+        aria-label="Toggle notification dropdown"
+        className="flex flex-col items-center group cursor-pointer focus:outline-none"
       >
         <Bell className="w-6 h-6" />
         <Span className="mt-1 hidden xl:block">Notifications</Span>
-      </div>
+      </button>
 
       {/* Dropdown */}
       <div
+        id="notification-dropdown"
         className={cn(
           "absolute top-full right-0 mt-2 w-fit sm:w-80 z-50 bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 transform",
           isOpen
