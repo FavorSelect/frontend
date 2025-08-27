@@ -113,6 +113,13 @@ const ProductCard: FC<ServerProductCardProps> = ({
         <Button
           onClick={handleToggleWishlist}
           disabled={isWishing || isUnwishing}
+          aria-label={
+            isWishing || isUnwishing
+              ? "Updating wishlist"
+              : isInWishlist
+              ? "Remove from wishlist"
+              : "Add to wishlist"
+          }
           className="absolute h-8 w-8 p-1 rounded-full top-2.5 right-2 bg-white shadow disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isWishing || isUnwishing ? (
@@ -176,7 +183,7 @@ const ProductCard: FC<ServerProductCardProps> = ({
             ) : (
               <>
                 <ShoppingCart className="w-4 h-4" />
-                <span className="hidden sm:block">Add to Cart</span>
+                <span className="block">Add to Cart</span>
               </>
             )}
           </Button>
@@ -185,7 +192,7 @@ const ProductCard: FC<ServerProductCardProps> = ({
             className="w-full py-1.5 flex justify-center items-center gap-x-2 border border-gray-300 transition-colors text-black text-sm font-medium rounded"
           >
             <Eye className="w-4 h-4" />
-            <span className="hidden sm:block">View Product</span>
+            <span className="block">View Product</span>
           </Link>
         </div>
       </div>

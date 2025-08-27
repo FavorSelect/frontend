@@ -46,7 +46,7 @@ const WeeklyPromotionProductsList = ({ banners }: { banners: Banner[] }) => {
                       alt={banner.title}
                       width={500}
                       height={445}
-                      className="w-full h-[300px] object-cover"
+                      className="w-full h-[200px] sm:h-[300px] object-cover"
                       priority={index === 0}
                     />
                   </CarouselItem>
