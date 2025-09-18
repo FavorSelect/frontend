@@ -136,7 +136,7 @@ const CategoryList = ({
         </div>
       </div>
 
-      {categories.map((category) => {
+      {categories.slice(0, 8).map((category) => {
         const slug = slugify(category.categoryName);
 
         return (
