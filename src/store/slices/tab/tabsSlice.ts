@@ -5,7 +5,7 @@ interface TabState {
 }
 
 const initialState: TabState = {
-  productDetailsTab: "Review",
+  productDetailsTab: "Description",
 };
 
 const tabSlice = createSlice({

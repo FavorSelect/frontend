@@ -104,9 +104,14 @@ const ProductDetailsWrapper: React.FC<ProductDetailsWrapperProps> = ({
         <ContainerBox hasBackground={true}>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="basis-3/5">
-              {(product.galleryImageUrls?.length ||
-                product.productVideoUrl) && (
-                <ProductImageGallery slides={product.galleryImageUrls} />
+              {(product.galleryImageUrls?.length || product.coverImageUrl) && (
+                <ProductImageGallery
+                  slides={
+                    product.galleryImageUrls?.length
+                      ? product.galleryImageUrls
+                      : [product.coverImageUrl]
+                  }
+                />
               )}
             </div>
             <div className="basis-2/5 flex flex-col space-y-4 md:space-y-6 rounded-lg px-4">

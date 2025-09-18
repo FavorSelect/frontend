@@ -130,14 +130,16 @@ const ProductCard: FC<ServerProductCardProps> = ({
             <Heart className="w-4 h-4 text-scarlet-red" />
           )}
         </Button>
-        <Image
-          src={coverImageUrl}
-          alt={productName}
-          width={160}
-          height={160}
-          className="object-contain max-h-full select-none"
-          loading="lazy"
-        />
+        <Link href={`/shop/all/${id}`} className="block w-full h-full">
+          <Image
+            src={coverImageUrl}
+            alt={productName}
+            width={160}
+            height={160}
+            className="object-contain max-h-full select-none"
+            loading="lazy"
+          />
+        </Link>
       </div>
 
       {/* Product Info */}
